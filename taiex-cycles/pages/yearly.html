@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>尾數年月度比較｜台股週期儀表板</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
+<script src="../js/charts.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #0f172a; color: #e2e8f0; min-height: 100vh; padding: 1.5rem; }
+  nav { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+  nav a { font-size: 0.85rem; color: #64748b; text-decoration: none; }
+  nav a:hover { color: #e2e8f0; }
+  nav span { color: #334155; }
+  h2 { font-size: 1.2rem; font-weight: 500; color: #f1f5f9; }
+  .sub { font-size: 0.82rem; color: #64748b; margin-top: 0.25rem; margin-bottom: 1.25rem; }
+  .controls { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 0.75rem; align-items: center; }
+  .controls label { font-size: 0.8rem; color: #64748b; margin-right: 4px; }
+  button { font-size: 0.8rem; padding: 4px 12px; border-radius: 6px; cursor: pointer;
+    border: 0.5px solid #334155; background: transparent; color: #94a3b8; transition: all 0.15s; min-width: 36px; }
+  button.active { background: #1e3a5f; color: #60a5fa; border-color: #3b82f6; }
+  button:hover:not(.active) { border-color: #64748b; color: #e2e8f0; }
+  .toggle-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 0.5rem; align-items: center; }
+  .toggle-row label { font-size: 0.8rem; color: #64748b; }
+  #chart { width: 100%; height: 460px; }
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 0.75rem; }
+  .leg-item { display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: #64748b; cursor: pointer; }
+  .leg-dot { width: 28px; height: 3px; border-radius: 2px; }
+  .note { margin-top: 1.5rem; font-size: 0.78rem; color: #475569; line-height: 1.8; }
+  #lastUpdated { font-size: 0.75rem; color: #475569; margin-top: 0.5rem; }
+  .digit-btns { display: flex; gap: 4px; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../index.html">← 首頁</a>
+  <span>/</span>
+  <span style="color:#94a3b8">尾數年月度比較</span>
+</nav>
+
+<h2>尾數年月度比較圖</h2>
+<p class="sub">選擇年份尾數，疊加比較各該年度 1–12 月的表現（起始月=100）</p>
+
+<div class="controls">
+  <label>年份尾數：</label>
+  <div class="digit-btns" id="digitBtns"></div>
+</div>
+
+<div class="toggle-row">
+  <label>標準化：</label>
+  <button id="btnNorm" class="active" onclick="setNorm(true)">起始=100</button>
+  <button id="btnRaw" onclick="setNorm(false)">原始點數</button>
+</div>
+
+<div id="chart"></div>
+<div class="legend" id="legend"></div>
+
+<div class="note">
+  Y軸為標準化指數（各年1月=100），可切換為原始點數。<br>
+  點擊圖例可顯示/隱藏特定年份。
+</div>
+<div id="lastUpdated"></div>
+
+<script>
+const COLORS = ['#ef4444','#f59e0b','#3b82f6','#10b981','#a855f7','#ec4899','#14b8a6','#f97316','#06b6d4','#84cc16'];
+
+let chart, allData, selectedDigit = 6, normalized = true;
+const hidden = new Set();
+
+async function init() {
+  allData = await loadData();
+  document.getElementById('lastUpdated').textContent = '數據最後更新：' + allData.lastUpdated;
+  buildDigitButtons();
+  buildLegend();
+  renderChart();
+}
+
+function buildDigitButtons() {
+  const el = document.getElementById('digitBtns');
+  for (let d = 0; d <= 9; d++) {
+    const btn = document.createElement('button');
+    btn.textContent = d;
+    btn.id = 'digit' + d;
+    if (d === selectedDigit) btn.className = 'active';
+    btn.onclick = () => selectDigit(d);
+    el.appendChild(btn);
+  }
+}
+
+function selectDigit(d) {
+  selectedDigit = d;
+  hidden.clear();
+  document.querySelectorAll('.digit-btns button').forEach(b => b.className = '');
+  document.getElementById('digit' + d).className = 'active';
+  buildLegend();
+  renderChart();
+}
+
+function getYearsForDigit(digit) {
+  const years = [];
+  allData.monthly.forEach(d => {
+    if (d.year % 10 === digit && !years.includes(d.year)) years.push(d.year);
+  });
+  return years.sort((a, b) => a - b);
+}
+
+function buildLegend() {
+  const el = document.getElementById('legend');
+  el.innerHTML = '';
+  const years = getYearsForDigit(selectedDigit);
+  years.forEach((yr, i) => {
+    const color = COLORS[i % COLORS.length];
+    const item = document.createElement('div');
+    item.className = 'leg-item';
+    item.innerHTML = `<div class="leg-dot" style="background:${color}"></div><span>${yr}</span>`;
+    item.onclick = () => {
+      if (hidden.has(yr)) hidden.delete(yr);
+      else hidden.add(yr);
+      item.style.opacity = hidden.has(yr) ? '0.35' : '1';
+      renderChart();
+    };
+    el.appendChild(item);
+  });
+}
+
+function renderChart() {
+  if (!chart) chart = echarts.init(document.getElementById('chart'), 'dark');
+
+  const tc = '#64748b', gc = '#1e2533', lc = '#2a3547';
+  const years = getYearsForDigit(selectedDigit);
+
+  const series = years.map((yr, i) => {
+    const color = COLORS[i % COLORS.length];
+    const raw = getMonthlyByYear(allData.monthly, yr);
+    const data = normalized ? normalizeToBase100(raw) : raw;
+    return {
+      name: String(yr),
+      type: 'line',
+      data: data,
+      smooth: 0.2,
+      symbol: 'circle', symbolSize: 5,
+      connectNulls: false,
+      lineStyle: { color, width: 2, opacity: hidden.has(yr) ? 0 : 1 },
+      itemStyle: { color, opacity: hidden.has(yr) ? 0 : 1 },
+    };
+  });
+
+  chart.setOption({
+    backgroundColor: 'transparent',
+    grid: { left: 64, right: 20, top: 20, bottom: 44 },
+    xAxis: {
+      type: 'category', data: MONTH_LABELS,
+      axisLabel: { color: tc, fontSize: 11 },
+      axisLine: { lineStyle: { color: lc } },
+      splitLine: { lineStyle: { color: gc, type: 'dashed' } },
+    },
+    yAxis: {
+      name: normalized ? '起始月=100' : '點數',
+      nameTextStyle: { color: tc, fontSize: 10 },
+      axisLabel: { color: tc, fontSize: 11,
+        formatter: v => v >= 10000 ? (v/1000).toFixed(1)+'K' : v >= 1000 ? (v/1000).toFixed(1)+'K' : v },
+      axisLine: { lineStyle: { color: lc } },
+      splitLine: { lineStyle: { color: gc } },
+    },
+    tooltip: {
+      trigger: 'axis',
+      backgroundColor: '#1a2233', borderColor: '#334155',
+      textStyle: { color: '#e2e8f0', fontSize: 12 },
+      formatter: params => {
+        const mi = params[0].dataIndex;
+        let html = `<b>${MONTH_LABELS[mi]}</b><br/>`;
+        params.forEach(p => {
+          if (p.value == null) return;
+          const val = normalized ? p.value + '' : p.value.toLocaleString();
+          html += `<span style="color:${p.color}">●</span> ${p.seriesName}: <b>${val}</b><br/>`;
+        });
+        return html;
+      }
+    },
+    series
+  }, true);
+}
+
+window.setNorm = function(v) {
+  normalized = v;
+  document.getElementById('btnNorm').className = v ? 'active' : '';
+  document.getElementById('btnRaw').className = !v ? 'active' : '';
+  renderChart();
+};
+
+window.addEventListener('resize', () => chart && chart.resize());
+init();
+</script>
+</body>
+</html>

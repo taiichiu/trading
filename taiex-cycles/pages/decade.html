@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>十年週期疊加｜台股週期儀表板</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
+<script src="../js/charts.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #0f172a; color: #e2e8f0; min-height: 100vh; padding: 1.5rem; }
+  nav { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+  nav a { font-size: 0.85rem; color: #64748b; text-decoration: none; }
+  nav a:hover { color: #e2e8f0; }
+  nav span { color: #334155; }
+  h2 { font-size: 1.2rem; font-weight: 500; color: #f1f5f9; }
+  .sub { font-size: 0.82rem; color: #64748b; margin-top: 0.25rem; margin-bottom: 1.25rem; }
+  .controls { display: flex; gap: 8px; margin-bottom: 1rem; flex-wrap: wrap; align-items: center; }
+  .controls label { font-size: 0.8rem; color: #64748b; }
+  button { font-size: 0.8rem; padding: 4px 14px; border-radius: 6px; cursor: pointer;
+    border: 0.5px solid #334155; background: transparent; color: #94a3b8; transition: all 0.15s; }
+  button.active { background: #1e3a5f; color: #60a5fa; border-color: #3b82f6; }
+  button:hover:not(.active) { border-color: #64748b; color: #e2e8f0; }
+  #chart { width: 100%; height: 460px; }
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 0.75rem; }
+  .leg-item { display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: #64748b; cursor: pointer; }
+  .leg-dot { width: 28px; height: 3px; border-radius: 2px; }
+  .note { margin-top: 1.5rem; font-size: 0.78rem; color: #475569; line-height: 1.8; }
+  #lastUpdated { font-size: 0.75rem; color: #475569; margin-top: 0.5rem; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../index.html">← 首頁</a>
+  <span>/</span>
+  <span style="color:#94a3b8">十年週期疊加</span>
+</nav>
+
+<h2>十年週期疊加圖</h2>
+<p class="sub">各十年起始值標準化為 100，對數尺度比較形狀與押韻區間</p>
+
+<div class="controls">
+  <label>Y軸：</label>
+  <button id="btnLog" class="active" onclick="setScale('log')">對數</button>
+  <button id="btnLinear" onclick="setScale('linear')">線性</button>
+</div>
+
+<div id="chart"></div>
+
+<div class="legend" id="legend"></div>
+
+<div class="note">
+  ▐ <span style="background:rgba(150,150,150,0.15);padding:0 4px;">灰底 Y2–Y3</span> 早期低點壓力區
+  &nbsp;&nbsp;
+  ▐ <span style="background:rgba(255,140,0,0.15);padding:0 4px;">橘底 Y7–Y8</span> 末期震盪區
+  <br>
+  點擊圖例可顯示/隱藏各十年。虛線標記目前2020s所在位置。
+</div>
+<div id="lastUpdated"></div>
+
+<script>
+const DECADES = [
+  { name: '1980s', start: 1980, color: '#ef4444' },
+  { name: '1990s', start: 1990, color: '#f59e0b' },
+  { name: '2000s', start: 2000, color: '#3b82f6' },
+  { name: '2010s', start: 2010, color: '#10b981' },
+  { name: '2020s', start: 2020, color: '#a855f7' },
+];
+
+let chart, allData, currentScale = 'log';
+const hidden = new Set();
+
+async function init() {
+  allData = await loadData();
+  document.getElementById('lastUpdated').textContent = '數據最後更新：' + allData.lastUpdated;
+  buildLegend();
+  renderChart();
+}
+
+function buildLegend() {
+  const el = document.getElementById('legend');
+  DECADES.forEach(d => {
+    const item = document.createElement('div');
+    item.className = 'leg-item';
+    item.innerHTML = `<div class="leg-dot" style="background:${d.color}"></div><span>${d.name}</span>`;
+    item.onclick = () => {
+      if (hidden.has(d.name)) hidden.delete(d.name);
+      else hidden.add(d.name);
+      item.style.opacity = hidden.has(d.name) ? '0.35' : '1';
+      renderChart();
+    };
+    el.appendChild(item);
+  });
+}
+
+function renderChart() {
+  if (!chart) chart = echarts.init(document.getElementById('chart'), 'dark');
+
+  const tc = '#64748b', gc = '#1e2533', lc = '#2a3547';
+  const currentYear = new Date().getFullYear();
+
+  // Find current position in 2020s
+  const pos2020 = currentYear - 2020;
+
+  const series = DECADES.map((d, si) => {
+    const raw = getAnnualByDecade(allData.annual, d.start);
+    const normed = normalizeToBase100(raw);
+    return {
+      name: d.name,
+      type: 'line',
+      data: normed,
+      smooth: 0.25,
+      symbol: 'circle', symbolSize: 5,
+      lineStyle: { color: d.color, width: 2, opacity: hidden.has(d.name) ? 0 : 1 },
+      itemStyle: { color: d.color, opacity: hidden.has(d.name) ? 0 : 1 },
+      markArea: si === 0 ? {
+        silent: true,
+        data: [
+          [{ xAxis: 'Y2', itemStyle: { color: 'rgba(150,150,150,0.07)' },
+             label: { show: true, position: 'insideTopLeft', color: tc, fontSize: 9, formatter: '早期\n低點' } },
+           { xAxis: 'Y3' }],
+          [{ xAxis: 'Y7', itemStyle: { color: 'rgba(255,140,0,0.07)' },
+             label: { show: true, position: 'insideTopLeft', color: tc, fontSize: 9, formatter: '末期\n震盪' } },
+           { xAxis: 'Y8' }],
+        ]
+      } : undefined,
+      markLine: d.name === '2020s' ? {
+        silent: true, symbol: 'none',
+        data: [{ xAxis: `Y${pos2020 + 1}`,
+          lineStyle: { color: '#a855f7', type: 'dashed', width: 1, opacity: 0.6 },
+          label: { show: true, formatter: '現在', color: '#a855f7', fontSize: 9 } }]
+      } : undefined
+    };
+  });
+
+  chart.setOption({
+    backgroundColor: 'transparent',
+    grid: { left: 64, right: 20, top: 20, bottom: 44 },
+    xAxis: {
+      type: 'category', data: YEAR_LABELS,
+      axisLabel: { color: tc, fontSize: 11 },
+      axisLine: { lineStyle: { color: lc } },
+      splitLine: { lineStyle: { color: gc, type: 'dashed' } },
+    },
+    yAxis: {
+      type: currentScale, logBase: 10,
+      name: currentScale === 'log' ? '起始=100（對數）' : '起始=100',
+      nameTextStyle: { color: tc, fontSize: 10 },
+      axisLabel: { color: tc, fontSize: 11, formatter: v => v >= 1000 ? (v/1000).toFixed(1)+'K' : v },
+      axisLine: { lineStyle: { color: lc } },
+      splitLine: { lineStyle: { color: gc } },
+      ...(currentScale === 'log' ? { min: 60, max: 2200 } : { min: 0 }),
+    },
+    tooltip: {
+      trigger: 'axis',
+      backgroundColor: '#1a2233', borderColor: '#334155',
+      textStyle: { color: '#e2e8f0', fontSize: 12 },
+      formatter: params => {
+        const yi = params[0].dataIndex;
+        let html = `<b>${YEAR_LABELS[yi]}</b><br/>`;
+        params.forEach(p => {
+          if (p.value == null) return;
+          const d = DECADES.find(x => x.name === p.seriesName);
+          const actualYear = d ? d.start + yi : '';
+          html += `<span style="color:${p.color}">●</span> ${p.seriesName} <span style="color:${tc};font-size:10px">(${actualYear})</span>: <b>${p.value}</b><br/>`;
+        });
+        return html;
+      }
+    },
+    series
+  }, true);
+}
+
+window.setScale = function(s) {
+  currentScale = s;
+  document.getElementById('btnLog').className = s === 'log' ? 'active' : '';
+  document.getElementById('btnLinear').className = s === 'linear' ? 'active' : '';
+  renderChart();
+};
+
+window.addEventListener('resize', () => chart && chart.resize());
+init();
+</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>台股週期儀表板</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #0f172a; color: #e2e8f0; min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; }
+  h1 { font-size: 1.8rem; font-weight: 500; margin-bottom: 0.5rem; color: #f8fafc; }
+  p.sub { font-size: 0.9rem; color: #64748b; margin-bottom: 3rem; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem; width: 100%; max-width: 800px; }
+  .card { background: #1e293b; border: 0.5px solid #334155; border-radius: 12px;
+    padding: 1.5rem; text-decoration: none; color: inherit; transition: border-color 0.2s, transform 0.2s; }
+  .card:hover { border-color: #3b82f6; transform: translateY(-2px); }
+  .card-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+  .card-title { font-size: 1rem; font-weight: 500; color: #f1f5f9; margin-bottom: 0.4rem; }
+  .card-desc { font-size: 0.82rem; color: #64748b; line-height: 1.6; }
+  .badge { display: inline-block; margin-top: 0.75rem; font-size: 0.72rem;
+    padding: 2px 8px; border-radius: 4px; background: #0f172a; color: #3b82f6;
+    border: 0.5px solid #3b82f6; }
+  #lastUpdated { margin-top: 3rem; font-size: 0.78rem; color: #475569; }
+</style>
+</head>
+<body>
+<h1>台股週期儀表板</h1>
+<p class="sub">Taiwan Stock Cycle Dashboard</p>
+
+<div class="cards">
+  <a class="card" href="pages/decade.html">
+    <div class="card-icon">📊</div>
+    <div class="card-title">十年週期疊加</div>
+    <div class="card-desc">將1980s至今各十年標準化為起始=100，疊加比較週期形狀與押韻區間。</div>
+    <span class="badge">Decade Cycle Overlay</span>
+  </a>
+
+  <a class="card" href="pages/yearly.html">
+    <div class="card-icon">📅</div>
+    <div class="card-title">尾數年月度比較</div>
+    <div class="card-desc">選擇年份尾數（0–9），比較所有相同尾數年份的每月表現，找出季節性規律。</div>
+    <span class="badge">Year-End Digit Monthly</span>
+  </a>
+</div>
+
+<div id="lastUpdated">載入中...</div>
+
+<script>
+fetch('data/taiex.json').then(r => r.json()).then(d => {
+  document.getElementById('lastUpdated').textContent = '數據最後更新：' + d.lastUpdated;
+}).catch(() => {
+  document.getElementById('lastUpdated').textContent = '數據尚未載入，請先執行 GitHub Actions';
+});
+</script>
+</body>
+</html>
