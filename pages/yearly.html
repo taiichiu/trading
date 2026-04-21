@@ -49,6 +49,11 @@
 <p class="sub">選擇年份尾數，疊加比較各該年度 1–12 月的表現（起始月=100）</p>
 
 <div class="controls">
+  <label>指數：</label>
+  <div id="indexBtns" style="display:flex;gap:4px;flex-wrap:wrap;"></div>
+</div>
+
+<div class="controls">
   <label>年份尾數：</label>
   <div class="digit-btns" id="digitBtns"></div>
 </div>
@@ -71,15 +76,42 @@
 <script>
 const COLORS = ['#ef4444','#f59e0b','#3b82f6','#10b981','#a855f7','#ec4899','#14b8a6','#f97316','#06b6d4','#84cc16'];
 
-let chart, allData, selectedDigit = 6, normalized = true;
+let chart, allData, selectedDigit = 6, normalized = true, currentIndex = 'TAIEX';
 const hidden = new Set();
 
 async function init() {
   allData = await loadData();
   document.getElementById('lastUpdated').textContent = '數據最後更新：' + allData.lastUpdated;
+  buildIndexButtons();
   buildDigitButtons();
   buildLegend();
   renderChart();
+}
+
+function buildIndexButtons() {
+  const el = document.getElementById('indexBtns');
+  INDICES.forEach(idx => {
+    const btn = document.createElement('button');
+    btn.textContent = idx.label;
+    btn.id = 'idx-' + idx.key;
+    if (idx.key === currentIndex) btn.className = 'active';
+    btn.onclick = () => selectIndex(idx.key);
+    el.appendChild(btn);
+  });
+}
+
+function selectIndex(key) {
+  currentIndex = key;
+  hidden.clear();
+  INDICES.forEach(i => {
+    document.getElementById('idx-' + i.key).className = i.key === key ? 'active' : '';
+  });
+  buildLegend();
+  renderChart();
+}
+
+function currentMonthly() {
+  return (allData[currentIndex] && allData[currentIndex].monthly) || [];
 }
 
 function buildDigitButtons() {
@@ -105,7 +137,7 @@ function selectDigit(d) {
 
 function getYearsForDigit(digit) {
   const years = [];
-  allData.monthly.forEach(d => {
+  currentMonthly().forEach(d => {
     if (d.year % 10 === digit && !years.includes(d.year)) years.push(d.year);
   });
   return years.sort((a, b) => a - b);
@@ -138,7 +170,7 @@ function renderChart() {
 
   const series = years.map((yr, i) => {
     const color = COLORS[i % COLORS.length];
-    const raw = getMonthlyByYear(allData.monthly, yr);
+    const raw = getMonthlyByYear(currentMonthly(), yr);
     const data = normalized ? normalizeToBase100(raw) : raw;
     return {
       name: String(yr),
