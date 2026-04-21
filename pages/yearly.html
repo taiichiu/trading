@@ -25,6 +25,10 @@
   .toggle-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 0.5rem; align-items: center; }
   .toggle-row label { font-size: 0.8rem; color: #64748b; }
   #chart { width: 100%; height: 460px; }
+  @media (max-width: 640px) {
+    body { padding: 1rem 0.75rem; }
+    #chart { height: 360px; }
+  }
   .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 0.75rem; }
   .leg-item { display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: #64748b; cursor: pointer; }
   .leg-dot { width: 28px; height: 3px; border-radius: 2px; }
@@ -148,19 +152,25 @@ function renderChart() {
     };
   });
 
+  const narrow = window.innerWidth < 640;
+  const gridLeft = narrow ? 44 : 64;
+  const axisFont = narrow ? 10 : 11;
+  const xLabels = narrow ? ['1','2','3','4','5','6','7','8','9','10','11','12'] : MONTH_LABELS;
+
   chart.setOption({
     backgroundColor: 'transparent',
-    grid: { left: 64, right: 20, top: 20, bottom: 44 },
+    grid: { left: gridLeft, right: 12, top: 20, bottom: 40 },
     xAxis: {
-      type: 'category', data: MONTH_LABELS,
-      axisLabel: { color: tc, fontSize: 11 },
+      type: 'category', data: xLabels,
+      axisLabel: { color: tc, fontSize: axisFont, interval: 0 },
       axisLine: { lineStyle: { color: lc } },
       splitLine: { lineStyle: { color: gc, type: 'dashed' } },
     },
     yAxis: {
+      scale: true,
       name: normalized ? '起始月=100' : '點數',
       nameTextStyle: { color: tc, fontSize: 10 },
-      axisLabel: { color: tc, fontSize: 11,
+      axisLabel: { color: tc, fontSize: axisFont,
         formatter: v => v >= 10000 ? (v/1000).toFixed(1)+'K' : v >= 1000 ? (v/1000).toFixed(1)+'K' : v },
       axisLine: { lineStyle: { color: lc } },
       splitLine: { lineStyle: { color: gc } },
@@ -191,7 +201,7 @@ window.setNorm = function(v) {
   renderChart();
 };
 
-window.addEventListener('resize', () => chart && chart.resize());
+window.addEventListener('resize', () => { if (chart) { chart.resize(); renderChart(); } });
 init();
 </script>
 </body>
