@@ -1,11 +1,16 @@
-# 台股週期儀表板 (Taiwan Stock Cycle Dashboard)
+# 股市週期儀表板 (Stock Cycle Dashboard)
 
-純靜態網站，透過 GitHub Pages 部署。資料為 Yahoo Finance `^TWII` 月度歷史，每個交易日（週二–六）台灣時間 16:30 自動更新。
+純靜態網站，透過 GitHub Pages 部署。資料源：Yahoo Finance（近期）＋ stooq.com（早期回推）。每個交易日（週二–六）台灣時間 16:30 自動更新。
+
+## 指數
+
+- **TAIEX** `^TWII`（台股加權指數）
+- **NASDAQ** `^IXIC`（納斯達克綜合指數）
 
 ## 功能
 
-1. **十年週期疊加圖** — 2000s 至今，每個十年起始=100 標準化，支援線性/對數切換
-2. **尾數年月度比較圖** — 選擇年份尾數 0–9，比較該尾數所有年份 1–12 月的表現
+1. **十年週期疊加圖** — 每個十年起始=100 標準化，支援線性/對數切換，可切換 TAIEX / NASDAQ
+2. **尾數年月度比較圖** — 選擇年份尾數 0–9，比較該尾數所有年份 1–12 月的表現，可切換 TAIEX / NASDAQ
 
 ## 檔案結構
 
@@ -14,8 +19,8 @@ index.html                         首頁
 pages/decade.html                  十年週期疊加頁
 pages/yearly.html                  尾數年月度比較頁
 js/charts.js                       共用資料載入與正規化函式
-data/taiex.json                    資料檔（由 GitHub Actions 產生）
-scripts/fetch_data.py              yfinance 抓取腳本
+data/indices.json                  資料檔（由 GitHub Actions 產生）
+scripts/fetch_data.py              yfinance + stooq 抓取腳本
 .github/workflows/update_data.yml  每交易日台灣 16:30 自動更新
 requirements.txt                   Python 相依套件
 ```

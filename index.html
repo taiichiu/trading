@@ -33,14 +33,14 @@
   <a class="card" href="pages/decade.html">
     <div class="card-icon">📊</div>
     <div class="card-title">十年週期疊加</div>
-    <div class="card-desc">將2000s至今各十年標準化為起始=100，疊加比較週期形狀與押韻區間。</div>
+    <div class="card-desc">各十年標準化為起始=100，疊加比較週期形狀與押韻區間。可切換 TAIEX / NASDAQ。</div>
     <span class="badge">Decade Cycle Overlay</span>
   </a>
 
   <a class="card" href="pages/yearly.html">
     <div class="card-icon">📅</div>
     <div class="card-title">尾數年月度比較</div>
-    <div class="card-desc">選擇年份尾數（0–9），比較所有相同尾數年份的每月表現，找出季節性規律。</div>
+    <div class="card-desc">選擇年份尾數（0–9），比較該尾數所有年份的每月表現，找出季節性規律。可切換 TAIEX / NASDAQ。</div>
     <span class="badge">Year-End Digit Monthly</span>
   </a>
 </div>
@@ -48,7 +48,7 @@
 <div id="lastUpdated">載入中...</div>
 
 <script>
-fetch('data/taiex.json').then(r => r.json()).then(d => {
+fetch('data/indices.json').then(r => r.json()).then(d => {
   document.getElementById('lastUpdated').textContent = '數據最後更新：' + d.lastUpdated;
 }).catch(() => {
   document.getElementById('lastUpdated').textContent = '數據尚未載入，請先執行 GitHub Actions';

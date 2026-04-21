@@ -1,0 +1,5 @@
+{
+  "TAIEX": {"monthly": [], "annual": []},
+  "NASDAQ": {"monthly": [], "annual": []},
+  "lastUpdated": "尚未更新，請執行 GitHub Actions"
+}

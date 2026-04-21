@@ -1,4 +1,4 @@
-const DATA_URL = '../data/taiex.json';
+const DATA_URL = '../data/indices.json';
 
 async function loadData() {
   const res = await fetch(DATA_URL);
@@ -29,13 +29,10 @@ function getAnnualByDecade(annual, startYear) {
   return result;
 }
 
-const DECADE_COLORS = {
-  '1980s': '#ef4444',
-  '1990s': '#f59e0b',
-  '2000s': '#3b82f6',
-  '2010s': '#10b981',
-  '2020s': '#a855f7',
-};
+const INDICES = [
+  { key: 'TAIEX', label: '台股 TAIEX' },
+  { key: 'NASDAQ', label: '納指 NASDAQ' },
+];
 
 const MONTH_LABELS = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
 const YEAR_LABELS = ['Y1','Y2','Y3','Y4','Y5','Y6','Y7','Y8','Y9','Y10'];

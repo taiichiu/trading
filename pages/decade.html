@@ -16,13 +16,17 @@
   nav span { color: #334155; }
   h2 { font-size: 1.2rem; font-weight: 500; color: #f1f5f9; }
   .sub { font-size: 0.82rem; color: #64748b; margin-top: 0.25rem; margin-bottom: 1.25rem; }
-  .controls { display: flex; gap: 8px; margin-bottom: 1rem; flex-wrap: wrap; align-items: center; }
+  .controls { display: flex; gap: 8px; margin-bottom: 0.75rem; flex-wrap: wrap; align-items: center; }
   .controls label { font-size: 0.8rem; color: #64748b; }
   button { font-size: 0.8rem; padding: 4px 14px; border-radius: 6px; cursor: pointer;
     border: 0.5px solid #334155; background: transparent; color: #94a3b8; transition: all 0.15s; }
   button.active { background: #1e3a5f; color: #60a5fa; border-color: #3b82f6; }
   button:hover:not(.active) { border-color: #64748b; color: #e2e8f0; }
   #chart { width: 100%; height: 460px; }
+  @media (max-width: 640px) {
+    body { padding: 1rem 0.75rem; }
+    #chart { height: 360px; }
+  }
   .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 0.75rem; }
   .leg-item { display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: #64748b; cursor: pointer; }
   .leg-dot { width: 28px; height: 3px; border-radius: 2px; }
@@ -39,7 +43,12 @@
 </nav>
 
 <h2>十年週期疊加圖</h2>
-<p class="sub">2000s 起各十年起始值標準化為 100，對數尺度比較形狀與押韻區間</p>
+<p class="sub">各十年起始值標準化為 100，疊加比較週期形狀。可切換 TAIEX / NASDAQ。</p>
+
+<div class="controls">
+  <label>指數：</label>
+  <div id="indexBtns" style="display:flex;gap:4px;flex-wrap:wrap;"></div>
+</div>
 
 <div class="controls">
   <label>Y軸：</label>
@@ -56,24 +65,50 @@
   &nbsp;&nbsp;
   ▐ <span style="background:rgba(255,140,0,0.15);padding:0 4px;">橘底 Y7–Y8</span> 末期震盪區
   <br>
-  點擊圖例可顯示/隱藏各十年。虛線標記目前2020s所在位置。
+  點擊圖例可顯示/隱藏各十年。虛線標記目前所在位置。
 </div>
 <div id="lastUpdated"></div>
 
 <script>
 const DECADES = [
+  { name: '1970s', start: 1970, color: '#ec4899' },
+  { name: '1980s', start: 1980, color: '#ef4444' },
+  { name: '1990s', start: 1990, color: '#f59e0b' },
   { name: '2000s', start: 2000, color: '#3b82f6' },
   { name: '2010s', start: 2010, color: '#10b981' },
   { name: '2020s', start: 2020, color: '#a855f7' },
 ];
 
-let chart, allData, currentScale = 'log';
+let chart, allData, currentScale = 'log', currentIndex = 'TAIEX';
 const hidden = new Set();
 
 async function init() {
   allData = await loadData();
   document.getElementById('lastUpdated').textContent = '數據最後更新：' + allData.lastUpdated;
+  buildIndexButtons();
   buildLegend();
+  renderChart();
+}
+
+function buildIndexButtons() {
+  const el = document.getElementById('indexBtns');
+  INDICES.forEach(idx => {
+    const btn = document.createElement('button');
+    btn.textContent = idx.label;
+    btn.id = 'idx-' + idx.key;
+    if (idx.key === currentIndex) btn.className = 'active';
+    btn.onclick = () => selectIndex(idx.key);
+    el.appendChild(btn);
+  });
+}
+
+function selectIndex(key) {
+  currentIndex = key;
+  hidden.clear();
+  INDICES.forEach(i => {
+    document.getElementById('idx-' + i.key).className = i.key === key ? 'active' : '';
+  });
+  document.querySelectorAll('#legend .leg-item').forEach(el => el.style.opacity = '1');
   renderChart();
 }
 
@@ -98,18 +133,18 @@ function renderChart() {
 
   const tc = '#64748b', gc = '#1e2533', lc = '#2a3547';
   const currentYear = new Date().getFullYear();
-
-  // Find current position in 2020s
   const pos2020 = currentYear - 2020;
+  const annual = (allData[currentIndex] && allData[currentIndex].annual) || [];
 
   const series = DECADES.map((d, si) => {
-    const raw = getAnnualByDecade(allData.annual, d.start);
+    const raw = getAnnualByDecade(annual, d.start);
     const normed = normalizeToBase100(raw);
     return {
       name: d.name,
       type: 'line',
       data: normed,
       smooth: 0.25,
+      connectNulls: false,
       symbol: 'circle', symbolSize: 5,
       lineStyle: { color: d.color, width: 2, opacity: hidden.has(d.name) ? 0 : 1 },
       itemStyle: { color: d.color, opacity: hidden.has(d.name) ? 0 : 1 },
@@ -133,12 +168,14 @@ function renderChart() {
     };
   });
 
+  const narrow = window.innerWidth < 640;
+
   chart.setOption({
     backgroundColor: 'transparent',
-    grid: { left: 64, right: 20, top: 20, bottom: 44 },
+    grid: { left: narrow ? 48 : 64, right: 12, top: 20, bottom: 40 },
     xAxis: {
       type: 'category', data: YEAR_LABELS,
-      axisLabel: { color: tc, fontSize: 11 },
+      axisLabel: { color: tc, fontSize: narrow ? 10 : 11 },
       axisLine: { lineStyle: { color: lc } },
       splitLine: { lineStyle: { color: gc, type: 'dashed' } },
     },
@@ -146,10 +183,10 @@ function renderChart() {
       type: currentScale, logBase: 10,
       name: currentScale === 'log' ? '起始=100（對數）' : '起始=100',
       nameTextStyle: { color: tc, fontSize: 10 },
-      axisLabel: { color: tc, fontSize: 11, formatter: v => v >= 1000 ? (v/1000).toFixed(1)+'K' : v },
+      axisLabel: { color: tc, fontSize: narrow ? 10 : 11, formatter: v => v >= 1000 ? (v/1000).toFixed(1)+'K' : v },
       axisLine: { lineStyle: { color: lc } },
       splitLine: { lineStyle: { color: gc } },
-      ...(currentScale === 'log' ? { min: 60, max: 2200 } : { min: 0 }),
+      ...(currentScale === 'log' ? { min: 50, max: 3000 } : { min: 0 }),
     },
     tooltip: {
       trigger: 'axis',
@@ -178,7 +215,7 @@ window.setScale = function(s) {
   renderChart();
 };
 
-window.addEventListener('resize', () => chart && chart.resize());
+window.addEventListener('resize', () => { if (chart) { chart.resize(); renderChart(); } });
 init();
 </script>
 </body>
