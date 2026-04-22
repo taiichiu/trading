@@ -1,0 +1,275 @@
+{
+  "meta": {
+    "name": "市場韻腳資料庫",
+    "description": "歷史不會重複，但是會押韻 — 市場週期規律整理",
+    "version": "0.1.0",
+    "last_updated": "2026-04-22",
+    "market": "台灣加權指數（主）、美股（次）"
+  },
+
+  "rhyme_patterns": [
+    {
+      "id": "annual-bear-cycle",
+      "name": "空頭年週期",
+      "scale": "年度",
+      "market": "台灣加權指數",
+      "description": "空頭年以+3、+4年交替出現，前一年必為上升走勢",
+      "pattern": {
+        "interval_sequence": [3, 4, 3, 4, 3],
+        "confirmed_years": [2008, 2011, 2015, 2018, 2022],
+        "pending_verification": [2025]
+      },
+      "prior_year_pattern": "前一年為大多頭或持續創高",
+      "similar_prior_years": [2007, 2010, 2014, 2017, 2021, 2024],
+      "confidence": "high",
+      "source": "空頭年整理筆記",
+      "notes": "2025待驗證（2022+3）"
+    },
+    {
+      "id": "annual-bull-years",
+      "name": "大多頭年",
+      "scale": "年度",
+      "market": "台灣加權指數",
+      "description": "特定年份出現持續創高的大多頭走勢",
+      "confirmed_years": [2014, 2019, 2021, 2024],
+      "characteristics": "全年趨勢向上，創新高",
+      "confidence": "high",
+      "source": "大多頭年筆記"
+    },
+    {
+      "id": "monthly-entry-timing",
+      "name": "2、5、8月買進定律",
+      "scale": "月度",
+      "market": "台灣加權指數、美股",
+      "description": "年份結尾2、5、8最適合買進",
+      "entry_months": [2, 5, 8],
+      "applicable_markets": ["台灣加權指數", "美股"],
+      "confidence": "medium",
+      "source": "定律筆記",
+      "notes": "原理待驗證（季度配置轉換？機構資金進出？）"
+    },
+    {
+      "id": "q4-low-pattern",
+      "name": "第四季最低點慣性",
+      "scale": "季度",
+      "market": "台灣加權指數（台指期）",
+      "description": "第四季最低點通常出現在10月中下旬至11月初",
+      "historical_lows": [
+        { "year": 2023, "date": "10/31", "level": 15973 },
+        { "year": 2022, "date": "10/25", "level": 12652 },
+        { "year": 2021, "date": "10/5",  "level": 16107 },
+        { "year": 2020, "date": "11/2",  "level": 12370 },
+        { "year": 2019, "date": "10/2",  "level": 10768 },
+        { "year": 2018, "date": "10/30", "level": 9326  },
+        { "year": 2017, "date": "12/7",  "level": 10321 },
+        { "year": 2016, "date": "11/14", "level": 8877  },
+        { "year": 2015, "date": "12/14", "level": 7949  },
+        { "year": 2014, "date": "10/17", "level": 8497  },
+        { "year": 2013, "date": "11/21", "level": 8062  },
+        { "year": 2012, "date": "11/1",  "level": 7702  },
+        { "year": 2008, "date": "10/28", "level": 3811  },
+        { "year": 2004, "date": "10/27", "level": 5598  }
+      ],
+      "observation": "第四季最低點落在Q4的年份（2022、2018、2015、2011、2008）皆為空頭年",
+      "confidence": "high",
+      "source": "慣性整理筆記"
+    },
+    {
+      "id": "september-seasonal",
+      "name": "9月慣性（大多頭年）",
+      "scale": "月度",
+      "market": "台灣加權指數（台指期）",
+      "description": "大多頭年的9月份具有明顯的季節性殺盤規律",
+      "applicable_years": "大多頭年（2014、2019、2021、2024）",
+      "sequence": [
+        {
+          "phase": 1,
+          "timing": "7月月結算前後",
+          "event": "開始暴跌",
+          "historical": [
+            { "year": 2014, "date": "8/8" },
+            { "year": 2019, "date": "8/15" },
+            { "year": 2021, "date": "8/20" },
+            { "year": 2024, "date": "8/6" }
+          ]
+        },
+        {
+          "phase": 2,
+          "timing": "9月初",
+          "event": "短底出現後拉高",
+          "historical": [
+            { "year": 2021, "short_bottom": "9/9", "bounce": "9/10大長紅", "squeeze_end": "9/14" },
+            { "year": 2024, "short_bottom": "9/9", "bounce": "9/12大長紅", "squeeze_end": "9/15" }
+          ]
+        },
+        {
+          "phase": 3,
+          "timing": "9月中至10月初",
+          "event": "再度下殺至Q4低點",
+          "notes": "2014例外：9/1見高後一路跌至10/17，因跌幅幾乎吃光全年漲幅"
+        }
+      ],
+      "confidence": "high",
+      "source": "慣性整理筆記"
+    },
+    {
+      "id": "witching-day-strategy",
+      "name": "四巫日空倉策略",
+      "scale": "月度",
+      "market": "台指期",
+      "description": "9月四巫日當天日盤收盤空倉，洗出機率低，後市快速下跌",
+      "entry": "9/14（或四巫日當天）日盤收盤空",
+      "exit": "9/22收盤回補",
+      "historical_witching_days": [
+        { "year": 2023, "date": "9/15" },
+        { "year": 2022, "date": "9/16" },
+        { "year": 2021, "date": "9/17" },
+        { "year": 2020, "date": "9/18" },
+        { "year": 2019, "date": "9/20" }
+      ],
+      "backtest": [
+        { "year": 2023, "entry": 16836, "exit": 16344, "points": 492, "note": "被嘎到16904" },
+        { "year": 2022, "entry": 14578, "exit": 14390, "points": 188 },
+        { "year": 2021, "entry": 17462, "exit": 16900, "points": 562 },
+        { "year": 2020, "entry": 12784, "exit": 12509, "points": 275, "note": "被嘎到13018，後續殺至12050" },
+        { "year": 2019, "entry": 10878, "exit": 10892, "points": -14, "note": "9/14假日提前一天" },
+        { "year": 2014, "entry": 9246,  "exit": 9128,  "points": 118, "note": "加碼回測" }
+      ],
+      "win_rate": "80%",
+      "max_profit_points": 562,
+      "confidence": "high",
+      "source": "慣性整理筆記"
+    },
+    {
+      "id": "monthly-momentum",
+      "name": "月底月初順勢交易",
+      "scale": "月度",
+      "market": "台股",
+      "description": "月底、月初以順勢交易為主",
+      "rationale": "資金結帳、籌碼換手（月底）；新資金入場（月初）",
+      "direction": "順勢，跟著當下趨勢方向",
+      "confidence": "medium",
+      "source": "台股月度慣性筆記"
+    },
+    {
+      "id": "weekly-thursday",
+      "name": "週四開高走低",
+      "scale": "週度",
+      "market": "台股",
+      "description": "週四開高後走低的機率較高",
+      "action": "週四開高 → 觀察做空機會",
+      "win_rate": "待驗證",
+      "confidence": "low",
+      "source": "定律筆記",
+      "notes": "需補充勝率和平均獲利數據"
+    },
+    {
+      "id": "intraday-open-signals",
+      "name": "早盤籌碼訊號",
+      "scale": "日內",
+      "market": "台股",
+      "rules": [
+        { "signal": "早上大跌", "action": "買進", "rationale": "主力洗盤，低點吸籌" },
+        { "signal": "早上大漲", "action": "賣出", "rationale": "主力出貨，高點派發" },
+        { "signal": "下午大漲", "action": "不追", "rationale": "冷門時段假漲，無量支撐" },
+        { "signal": "下午大跌", "action": "次日買進", "rationale": "尾盤砸盤，隔日反彈" },
+        { "signal": "早上大跌", "action": "不停損", "rationale": "跌即是買點" },
+        { "signal": "不漲不跌", "action": "觀望", "rationale": "無訊號不交易" }
+      ],
+      "pending_definition": "「大漲」「大跌」的具體量化標準（%或絕對點數）待確認",
+      "confidence": "medium",
+      "source": "日內規則筆記"
+    },
+    {
+      "id": "us-futures-session",
+      "name": "美股期貨冷門熱門時段",
+      "scale": "日內",
+      "market": "美股期貨（小道、小SP、小那斯達克）",
+      "sessions": [
+        { "name": "冷門時段", "taiwan_time": "10:00-15:00", "volume": "低", "characteristic": "市場難走遠，成交量極低" },
+        { "name": "歐洲開盤觀察點", "taiwan_time": "15:00-16:00", "volume": "漸升", "characteristic": "容易發生轉折，走出一段行情" },
+        { "name": "歐洲下半場", "taiwan_time": "17:00-19:00", "volume": "中", "characteristic": "常見轉折點" },
+        { "name": "美股開盤（熱門）", "taiwan_time": "21:30起", "volume": "高", "characteristic": "成交量爆發，方向性強" },
+        { "name": "美股下半場順盤", "taiwan_time": "01:00-02:00後", "volume": "中高", "characteristic": "收盤前單向行情（一路漲或一路殺）" }
+      ],
+      "core_principle": "成交量決定突破難度。要突破壓力/支撐，需要足夠的「軍隊」（成交量）",
+      "confidence": "high",
+      "source": "冷門熱門時段筆記"
+    }
+  ],
+
+  "risk_management": {
+    "frameworks": [
+      {
+        "source": "亞當理論",
+        "rules": [
+          "賠錢部位絕不加碼或攤平",
+          "開始交易或加碼時必須同時設置停損點",
+          "除非順向否則絕不移動停損點",
+          "不讓合理小損失變成大損失",
+          "任何一筆交易或一天不虧損交易資金10%以上",
+          "別去抓頭部和底部，讓市場自己定義",
+          "不逆勢操作，除非有強烈反轉證據",
+          "保持彈性，沒有絕對肯定的事",
+          "交易不順時縮手休息",
+          "認清自己想從市場上得到什麼"
+        ]
+      },
+      {
+        "source": "K5",
+        "parameters": {
+          "wave_trade_loss_limit": "單筆3%以內",
+          "wave_trade_win_rate": "約25%",
+          "short_trade_win_rate": "50%以上",
+          "wave_leverage_max": "5倍",
+          "day_trade_leverage_max": "10倍",
+          "unrealized_loss_days_ratio": "未實現損益天數占比若過高代表在凹單",
+          "core_metric": "期望值 > 勝率"
+        }
+      },
+      {
+        "source": "王醫師",
+        "parameters": {
+          "position_sizing": "3-5口的資金做1口單",
+          "entry_signal": "5MA向上只作多、5MA向下只作空",
+          "add_position": "試單獲利後才加碼",
+          "exit_signal": "型態失敗或型態轉變",
+          "holding": "抱到底，不管中間回檔多深",
+          "time_frame_futures": "日線",
+          "time_frame_stocks": "週線"
+        }
+      }
+    ]
+  },
+
+  "philosophy": {
+    "core_belief": "歷史不會重複，但是會押韻",
+    "scale_principle": "用tick看市場是混沌的，用更大的刻度看會有規律",
+    "progression_stages": [
+      "第一階段：明牌、基本面、新手",
+      "第二階段：技術指標、找名師",
+      "第三階段：自創指標、多指標合用（多數人終生卡在此）",
+      "第四階段：化繁為簡、波段操作、穩定獲利",
+      "第五階段：心無罣礙、操盤無礙",
+      "第六階段：以錢賺錢、財務自由"
+    ],
+    "key_quotes": [
+      "少賺不會死，賠才會死",
+      "賺多少是看運氣，賠多少是我們可以控制的",
+      "什麼價格到了該做什麼動作，能做到就贏一半",
+      "事情做之前就要想到最壞的結果",
+      "市場會改變，不要死抱一個策略",
+      "盤只有會做不會做，不會做的盤不做"
+    ]
+  },
+
+  "api_endpoints_spec": {
+    "note": "給Claude讀取用的API結構建議",
+    "endpoints": [
+      { "path": "/api/current-state", "description": "當前市場狀態（指數、日期、週期位置）" },
+      { "path": "/api/rhyme-patterns", "description": "所有韻腳規則" },
+      { "path": "/api/cycle-position", "description": "現在在哪個週期位置" },
+      { "path": "/api/active-signals", "description": "當下有效的押韻訊號" }
+    ]
+  }
+}
