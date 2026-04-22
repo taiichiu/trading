@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>韻腳規則｜市場韻腳資料庫</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #0f172a; color: #e2e8f0; min-height: 100vh; padding: 1.5rem; }
+  nav { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+  nav a { font-size: 0.85rem; color: #64748b; text-decoration: none; }
+  nav a:hover { color: #e2e8f0; }
+  nav span { color: #334155; }
+  h2 { font-size: 1.2rem; font-weight: 500; color: #f1f5f9; }
+  .sub { font-size: 0.82rem; color: #64748b; margin-top: 0.25rem; margin-bottom: 1.25rem; }
+  .filters { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 0.75rem; align-items: center; }
+  .filters label { font-size: 0.78rem; color: #64748b; margin-right: 4px; }
+  .filters button { font-size: 0.78rem; padding: 4px 12px; border-radius: 6px; cursor: pointer;
+    border: 0.5px solid #334155; background: transparent; color: #94a3b8; transition: all 0.15s; }
+  .filters button.active { background: #1e3a5f; color: #60a5fa; border-color: #3b82f6; }
+  .filters button:hover:not(.active) { border-color: #64748b; color: #e2e8f0; }
+  .grid { display: grid; grid-template-columns: 1fr; gap: 0.75rem; max-width: 980px; }
+  @media (min-width: 720px) { .grid { grid-template-columns: 1fr 1fr; } }
+  .card { background: #1e293b; border: 0.5px solid #334155; border-radius: 12px; padding: 1.1rem 1.25rem; }
+  .card h3 { font-size: 1rem; color: #f1f5f9; margin-bottom: 0.4rem; font-weight: 500; }
+  .badges { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 0.6rem; }
+  .badge { font-size: 0.68rem; padding: 2px 8px; border-radius: 4px; border: 0.5px solid; line-height: 1.5; }
+  .b-scale { color: #60a5fa; border-color: #3b82f6; }
+  .b-market { color: #94a3b8; border-color: #475569; }
+  .b-conf-high { color: #34d399; border-color: #10b981; }
+  .b-conf-medium { color: #fbbf24; border-color: #f59e0b; }
+  .b-conf-low { color: #f87171; border-color: #ef4444; }
+  .desc { font-size: 0.85rem; color: #cbd5e1; line-height: 1.65; margin-bottom: 0.6rem; }
+  details { font-size: 0.8rem; color: #94a3b8; }
+  details summary { cursor: pointer; color: #60a5fa; padding: 4px 0; user-select: none; outline: none; }
+  details summary:hover { color: #93c5fd; }
+  details[open] summary { margin-bottom: 0.5rem; }
+  .kv { display: grid; grid-template-columns: max-content 1fr; gap: 4px 12px; font-size: 0.78rem; line-height: 1.65; }
+  .kv dt { color: #64748b; }
+  .kv dd { color: #cbd5e1; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.76rem; margin-top: 4px; }
+  th, td { text-align: left; padding: 4px 8px; border-bottom: 0.5px solid #2a3547; color: #cbd5e1; }
+  th { color: #64748b; font-weight: 500; background: #15202d; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .neg { color: #f87171; }
+  .pos { color: #34d399; }
+  .note { font-size: 0.74rem; color: #64748b; margin-top: 0.5rem; padding-top: 0.5rem;
+    border-top: 0.5px dashed #2a3547; line-height: 1.6; }
+  .empty { color: #475569; padding: 2rem; text-align: center; font-size: 0.85rem; }
+  ul { margin: 0; padding-left: 1.2rem; }
+  ul li { font-size: 0.8rem; color: #cbd5e1; line-height: 1.7; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../index.html">← 首頁</a>
+  <span>/</span>
+  <span style="color:#94a3b8">韻腳規則</span>
+</nav>
+
+<h2>韻腳規則</h2>
+<p class="sub">市場週期規律整理。展開卡片查看歷史紀錄、回測、規則細節。</p>
+
+<div class="filters">
+  <label>時間刻度：</label>
+  <div id="scaleFilter"></div>
+</div>
+
+<div class="filters">
+  <label>信心度：</label>
+  <div id="confFilter"></div>
+</div>
+
+<div id="grid" class="grid"></div>
+<div id="empty" class="empty" style="display:none;">沒有符合條件的規則。</div>
+
+<script>
+const CONF_LABEL = { high: '高信心', medium: '中信心', low: '待驗證' };
+
+let DATA = null;
+let scaleSel = 'all';
+let confSel = 'all';
+
+async function init() {
+  const res = await fetch('../data/rhymes.json');
+  DATA = await res.json();
+  buildFilters();
+  render();
+}
+
+function uniqueScales() {
+  return [...new Set(DATA.rhyme_patterns.map(p => p.scale))];
+}
+
+function buildFilters() {
+  const scaleEl = document.getElementById('scaleFilter');
+  scaleEl.style.cssText = 'display:flex;gap:4px;flex-wrap:wrap;';
+  ['all', ...uniqueScales()].forEach(s => {
+    const b = document.createElement('button');
+    b.textContent = s === 'all' ? '全部' : s;
+    if (s === scaleSel) b.className = 'active';
+    b.onclick = () => { scaleSel = s; updateActive('scaleFilter', s); render(); };
+    scaleEl.appendChild(b);
+  });
+
+  const confEl = document.getElementById('confFilter');
+  confEl.style.cssText = 'display:flex;gap:4px;flex-wrap:wrap;';
+  ['all', 'high', 'medium', 'low'].forEach(c => {
+    const b = document.createElement('button');
+    b.textContent = c === 'all' ? '全部' : CONF_LABEL[c];
+    if (c === confSel) b.className = 'active';
+    b.onclick = () => { confSel = c; updateActive('confFilter', c); render(); };
+    confEl.appendChild(b);
+  });
+}
+
+function updateActive(containerId, val) {
+  const buttons = document.getElementById(containerId).children;
+  for (const b of buttons) {
+    const labelMatch = (b.textContent === '全部' && val === 'all')
+      || b.textContent === val
+      || b.textContent === CONF_LABEL[val];
+    b.className = labelMatch ? 'active' : '';
+  }
+}
+
+function render() {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  const filtered = DATA.rhyme_patterns.filter(p =>
+    (scaleSel === 'all' || p.scale === scaleSel)
+    && (confSel === 'all' || p.confidence === confSel)
+  );
+
+  document.getElementById('empty').style.display = filtered.length ? 'none' : 'block';
+
+  filtered.forEach(p => grid.appendChild(buildCard(p)));
+}
+
+function el(tag, opts = {}) {
+  const e = document.createElement(tag);
+  if (opts.cls) e.className = opts.cls;
+  if (opts.text) e.textContent = opts.text;
+  if (opts.html) e.innerHTML = opts.html;
+  return e;
+}
+
+function buildCard(p) {
+  const card = el('div', { cls: 'card' });
+
+  card.appendChild(el('h3', { text: p.name }));
+
+  const badges = el('div', { cls: 'badges' });
+  badges.appendChild(el('span', { cls: 'badge b-scale', text: p.scale }));
+  if (p.market) badges.appendChild(el('span', { cls: 'badge b-market', text: p.market }));
+  badges.appendChild(el('span', { cls: 'badge b-conf-' + p.confidence, text: CONF_LABEL[p.confidence] }));
+  card.appendChild(badges);
+
+  if (p.description) card.appendChild(el('div', { cls: 'desc', text: p.description }));
+
+  // Detail sections per pattern type
+  const detail = buildDetail(p);
+  if (detail) card.appendChild(detail);
+
+  if (p.notes) card.appendChild(el('div', { cls: 'note', text: '備註：' + p.notes }));
+  if (p.source) {
+    const srcLine = el('div', { cls: 'note' });
+    srcLine.style.borderTop = 'none';
+    srcLine.style.paddingTop = '4px';
+    srcLine.textContent = '來源：' + p.source;
+    card.appendChild(srcLine);
+  }
+  return card;
+}
+
+function buildDetail(p) {
+  const det = el('details');
+  const sum = el('summary', { text: '展開細節' });
+  det.appendChild(sum);
+  let added = false;
+
+  if (p.pattern) {
+    const dl = el('dl', { cls: 'kv' });
+    if (p.pattern.interval_sequence)
+      addKV(dl, '間隔序列', p.pattern.interval_sequence.join('、') + ' 年');
+    if (p.pattern.confirmed_years)
+      addKV(dl, '已確認年份', p.pattern.confirmed_years.join('、'));
+    if (p.pattern.pending_verification)
+      addKV(dl, '待驗證', p.pattern.pending_verification.join('、'));
+    det.appendChild(dl);
+    added = true;
+  }
+
+  if (p.confirmed_years && !p.pattern) {
+    const dl = el('dl', { cls: 'kv' });
+    addKV(dl, '年份', p.confirmed_years.join('、'));
+    if (p.characteristics) addKV(dl, '特徵', p.characteristics);
+    det.appendChild(dl);
+    added = true;
+  }
+
+  if (p.entry_months) {
+    const dl = el('dl', { cls: 'kv' });
+    addKV(dl, '進場月份', p.entry_months.join('、') + ' 月');
+    if (p.applicable_markets) addKV(dl, '適用市場', p.applicable_markets.join('、'));
+    det.appendChild(dl);
+    added = true;
+  }
+
+  if (p.prior_year_pattern || p.similar_prior_years) {
+    const dl = el('dl', { cls: 'kv' });
+    if (p.prior_year_pattern) addKV(dl, '前一年型態', p.prior_year_pattern);
+    if (p.similar_prior_years) addKV(dl, '相似前一年', p.similar_prior_years.join('、'));
+    det.appendChild(dl);
+    added = true;
+  }
+
+  if (p.historical_lows) {
+    det.appendChild(buildLowsTable(p.historical_lows));
+    if (p.observation) det.appendChild(el('div', { cls: 'note', text: '觀察：' + p.observation }));
+    added = true;
+  }
+
+  if (p.applicable_years) {
+    const dl = el('dl', { cls: 'kv' });
+    addKV(dl, '適用年份', p.applicable_years);
+    det.appendChild(dl);
+    added = true;
+  }
+
+  if (p.sequence) {
+    p.sequence.forEach(phase => {
+      const head = el('div', { cls: 'desc' });
+      head.style.marginTop = '0.5rem';
+      head.innerHTML = `<strong style="color:#f1f5f9;">階段 ${phase.phase}</strong>　<span style="color:#64748b;">${phase.timing}</span><br><span style="color:#94a3b8;">${phase.event}</span>`;
+      det.appendChild(head);
+      if (phase.historical && phase.historical.length) {
+        det.appendChild(buildHistoricalTable(phase.historical));
+      }
+      if (phase.notes) det.appendChild(el('div', { cls: 'note', text: phase.notes }));
+    });
+    added = true;
+  }
+
+  if (p.entry || p.exit) {
+    const dl = el('dl', { cls: 'kv' });
+    if (p.entry) addKV(dl, '進場', p.entry);
+    if (p.exit) addKV(dl, '出場', p.exit);
+    if (p.win_rate) addKV(dl, '勝率', p.win_rate);
+    if (p.max_profit_points) addKV(dl, '最大獲利', p.max_profit_points + ' 點');
+    det.appendChild(dl);
+    added = true;
+  }
+
+  if (p.historical_witching_days) {
+    const t = el('div');
+    t.appendChild(el('div', { cls: 'note', text: '近年四巫日：' }));
+    const list = p.historical_witching_days.map(d => `${d.year} ${d.date}`).join('、');
+    t.appendChild(el('div', { cls: 'desc', text: list }));
+    det.appendChild(t);
+    added = true;
+  }
+
+  if (p.backtest) {
+    det.appendChild(buildBacktestTable(p.backtest));
+    added = true;
+  }
+
+  if (p.rules && Array.isArray(p.rules)) {
+    det.appendChild(buildRulesTable(p.rules));
+    if (p.pending_definition) det.appendChild(el('div', { cls: 'note', text: '待定義：' + p.pending_definition }));
+    added = true;
+  }
+
+  if (p.rationale) {
+    const dl = el('dl', { cls: 'kv' });
+    addKV(dl, '原理', p.rationale);
+    if (p.direction) addKV(dl, '方向', p.direction);
+    det.appendChild(dl);
+    added = true;
+  }
+
+  if (p.action) {
+    const dl = el('dl', { cls: 'kv' });
+    addKV(dl, '操作', p.action);
+    det.appendChild(dl);
+    added = true;
+  }
+
+  if (p.sessions) {
+    det.appendChild(buildSessionsTable(p.sessions));
+    if (p.core_principle) det.appendChild(el('div', { cls: 'note', text: '核心：' + p.core_principle }));
+    added = true;
+  }
+
+  return added ? det : null;
+}
+
+function addKV(dl, k, v) {
+  dl.appendChild(el('dt', { text: k }));
+  dl.appendChild(el('dd', { text: v }));
+}
+
+function buildLowsTable(rows) {
+  const t = el('table');
+  t.innerHTML = '<thead><tr><th>年</th><th>日期</th><th class="num">點位</th></tr></thead>';
+  const tb = el('tbody');
+  rows.forEach(r => {
+    const tr = el('tr');
+    tr.innerHTML = `<td>${r.year}</td><td>${r.date}</td><td class="num">${r.level.toLocaleString()}</td>`;
+    tb.appendChild(tr);
+  });
+  t.appendChild(tb);
+  return t;
+}
+
+function buildHistoricalTable(rows) {
+  const t = el('table');
+  const cols = Object.keys(rows[0]).filter(k => k !== 'year');
+  t.innerHTML = '<thead><tr><th>年</th>' + cols.map(c => `<th>${headerLabel(c)}</th>`).join('') + '</tr></thead>';
+  const tb = el('tbody');
+  rows.forEach(r => {
+    const tr = el('tr');
+    tr.innerHTML = `<td>${r.year}</td>` + cols.map(c => `<td>${r[c] ?? ''}</td>`).join('');
+    tb.appendChild(tr);
+  });
+  t.appendChild(tb);
+  return t;
+}
+
+function headerLabel(k) {
+  return ({ date: '日期', short_bottom: '短底', bounce: '反彈', squeeze_end: '嘎空尾段' })[k] || k;
+}
+
+function buildBacktestTable(rows) {
+  const t = el('table');
+  t.innerHTML = '<thead><tr><th>年</th><th class="num">進場</th><th class="num">出場</th><th class="num">點數</th><th>備註</th></tr></thead>';
+  const tb = el('tbody');
+  rows.forEach(r => {
+    const cls = r.points >= 0 ? 'pos' : 'neg';
+    const tr = el('tr');
+    tr.innerHTML = `<td>${r.year}</td><td class="num">${r.entry}</td><td class="num">${r.exit}</td>`
+      + `<td class="num ${cls}">${r.points > 0 ? '+' : ''}${r.points}</td>`
+      + `<td>${r.note || ''}</td>`;
+    tb.appendChild(tr);
+  });
+  t.appendChild(tb);
+  return t;
+}
+
+function buildRulesTable(rules) {
+  const t = el('table');
+  t.innerHTML = '<thead><tr><th>訊號</th><th>動作</th><th>原理</th></tr></thead>';
+  const tb = el('tbody');
+  rules.forEach(r => {
+    const tr = el('tr');
+    tr.innerHTML = `<td>${r.signal}</td><td><strong style="color:#f1f5f9;">${r.action}</strong></td><td>${r.rationale}</td>`;
+    tb.appendChild(tr);
+  });
+  t.appendChild(tb);
+  return t;
+}
+
+function buildSessionsTable(sessions) {
+  const t = el('table');
+  t.innerHTML = '<thead><tr><th>時段</th><th>台灣時間</th><th>量</th><th>特性</th></tr></thead>';
+  const tb = el('tbody');
+  sessions.forEach(s => {
+    const tr = el('tr');
+    tr.innerHTML = `<td>${s.name}</td><td>${s.taiwan_time}</td><td>${s.volume}</td><td>${s.characteristic}</td>`;
+    tb.appendChild(tr);
+  });
+  t.appendChild(tb);
+  return t;
+}
+
+init();
+</script>
+</body>
+</html>

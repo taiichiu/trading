@@ -3,45 +3,79 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>台股週期儀表板</title>
+<title>市場韻腳資料庫</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     background: #0f172a; color: #e2e8f0; min-height: 100vh;
-    display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; }
-  h1 { font-size: 1.8rem; font-weight: 500; margin-bottom: 0.5rem; color: #f8fafc; }
-  p.sub { font-size: 0.9rem; color: #64748b; margin-bottom: 3rem; }
-  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 1rem; width: 100%; max-width: 800px; }
+    display: flex; flex-direction: column; align-items: center;
+    padding: 3rem 1.5rem 2rem; }
+  h1 { font-size: 1.8rem; font-weight: 500; margin-bottom: 0.4rem; color: #f8fafc; text-align: center; }
+  p.sub { font-size: 0.92rem; color: #64748b; margin-bottom: 0.75rem; text-align: center; max-width: 560px; }
+  blockquote { font-size: 0.86rem; color: #94a3b8; font-style: italic; margin-bottom: 2.75rem;
+    text-align: center; max-width: 560px; }
+  blockquote::before { content: '「'; color: #475569; }
+  blockquote::after  { content: '」'; color: #475569; }
+  .section-label { font-size: 0.74rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em;
+    align-self: flex-start; max-width: 880px; width: 100%; margin: 0 auto 0.6rem; padding-left: 4px; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0.85rem; width: 100%; max-width: 880px; margin-bottom: 1.75rem; }
   .card { background: #1e293b; border: 0.5px solid #334155; border-radius: 12px;
-    padding: 1.5rem; text-decoration: none; color: inherit; transition: border-color 0.2s, transform 0.2s; }
+    padding: 1.25rem 1.35rem; text-decoration: none; color: inherit;
+    transition: border-color 0.2s, transform 0.2s; display: flex; flex-direction: column; }
   .card:hover { border-color: #3b82f6; transform: translateY(-2px); }
-  .card-icon { font-size: 2rem; margin-bottom: 0.75rem; }
-  .card-title { font-size: 1rem; font-weight: 500; color: #f1f5f9; margin-bottom: 0.4rem; }
-  .card-desc { font-size: 0.82rem; color: #64748b; line-height: 1.6; }
-  .badge { display: inline-block; margin-top: 0.75rem; font-size: 0.72rem;
+  .card-icon { font-size: 1.7rem; margin-bottom: 0.55rem; }
+  .card-title { font-size: 1rem; font-weight: 500; color: #f1f5f9; margin-bottom: 0.35rem; }
+  .card-desc { font-size: 0.8rem; color: #64748b; line-height: 1.6; flex: 1; }
+  .badge { display: inline-block; margin-top: 0.65rem; font-size: 0.68rem;
     padding: 2px 8px; border-radius: 4px; background: #0f172a; color: #3b82f6;
-    border: 0.5px solid #3b82f6; }
-  #lastUpdated { margin-top: 3rem; font-size: 0.78rem; color: #475569; }
+    border: 0.5px solid #3b82f6; align-self: flex-start; }
+  #lastUpdated { margin-top: 1rem; font-size: 0.74rem; color: #475569; text-align: center; }
 </style>
 </head>
 <body>
-<h1>台股週期儀表板</h1>
-<p class="sub">Taiwan Stock Cycle Dashboard</p>
+<h1>市場韻腳資料庫</h1>
+<p class="sub">Market Rhyme Database</p>
+<blockquote>歷史不會重複，但是會押韻</blockquote>
 
+<div class="section-label">週期圖表</div>
 <div class="cards">
   <a class="card" href="pages/decade.html">
     <div class="card-icon">📊</div>
     <div class="card-title">十年週期疊加</div>
     <div class="card-desc">各十年標準化為起始=100，疊加比較週期形狀與押韻區間。可切換 TAIEX / NASDAQ。</div>
-    <span class="badge">Decade Cycle Overlay</span>
+    <span class="badge">Decade Overlay</span>
   </a>
 
   <a class="card" href="pages/yearly.html">
     <div class="card-icon">📅</div>
     <div class="card-title">尾數年月度比較</div>
-    <div class="card-desc">選擇年份尾數（0–9），比較該尾數所有年份的每月表現，找出季節性規律。可切換 TAIEX / NASDAQ。</div>
-    <span class="badge">Year-End Digit Monthly</span>
+    <div class="card-desc">選擇年份尾數（0–9），比較該尾數所有年份的每月表現，找出季節性規律。</div>
+    <span class="badge">Year-End Digit</span>
+  </a>
+</div>
+
+<div class="section-label">規律與心法</div>
+<div class="cards">
+  <a class="card" href="pages/rhymes.html">
+    <div class="card-icon">🎼</div>
+    <div class="card-title">韻腳規則</div>
+    <div class="card-desc">空頭年週期、Q4低點慣性、四巫日、9月慣性等市場押韻規律整理。</div>
+    <span class="badge">Rhyme Patterns</span>
+  </a>
+
+  <a class="card" href="pages/risk.html">
+    <div class="card-icon">🛡️</div>
+    <div class="card-title">風險管理</div>
+    <div class="card-desc">亞當理論、K5、王醫師三套停損、部位、槓桿原則。</div>
+    <span class="badge">Risk Frameworks</span>
+  </a>
+
+  <a class="card" href="pages/philosophy.html">
+    <div class="card-icon">🧘</div>
+    <div class="card-title">操盤哲學</div>
+    <div class="card-desc">核心信念、心法六階段、不時翻一翻的金句。</div>
+    <span class="badge">Philosophy</span>
   </a>
 </div>
 
@@ -49,9 +83,9 @@
 
 <script>
 fetch('data/indices.json').then(r => r.json()).then(d => {
-  document.getElementById('lastUpdated').textContent = '數據最後更新：' + d.lastUpdated;
+  document.getElementById('lastUpdated').textContent = '指數資料最後更新：' + d.lastUpdated;
 }).catch(() => {
-  document.getElementById('lastUpdated').textContent = '數據尚未載入，請先執行 GitHub Actions';
+  document.getElementById('lastUpdated').textContent = '指數資料尚未載入，請先執行 GitHub Actions';
 });
 </script>
 </body>

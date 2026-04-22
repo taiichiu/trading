@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>操盤哲學｜市場韻腳資料庫</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #0f172a; color: #e2e8f0; min-height: 100vh; padding: 1.5rem; }
+  nav { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+  nav a { font-size: 0.85rem; color: #64748b; text-decoration: none; }
+  nav a:hover { color: #e2e8f0; }
+  nav span { color: #334155; }
+  h2 { font-size: 1.2rem; font-weight: 500; color: #f1f5f9; }
+  .sub { font-size: 0.82rem; color: #64748b; margin-top: 0.25rem; margin-bottom: 1.75rem; }
+  section { max-width: 760px; margin-bottom: 2rem; }
+  section h3 { font-size: 0.78rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.08em;
+    margin-bottom: 0.85rem; font-weight: 500; }
+  .hero { background: linear-gradient(135deg, #1e293b, #0f172a); border: 0.5px solid #334155;
+    border-radius: 14px; padding: 1.75rem 1.75rem; }
+  .hero blockquote { font-size: 1.5rem; line-height: 1.5; color: #f1f5f9; font-weight: 500; letter-spacing: 0.02em; }
+  .hero blockquote::before { content: '「'; color: #475569; }
+  .hero blockquote::after  { content: '」'; color: #475569; }
+  .scale-card { background: #1e293b; border: 0.5px solid #334155; border-radius: 12px; padding: 1.1rem 1.4rem;
+    font-size: 0.92rem; color: #cbd5e1; line-height: 1.7; }
+  .stages { display: flex; flex-direction: column; gap: 0.5rem; }
+  .stage { display: flex; align-items: stretch; gap: 0.8rem; }
+  .stage-num { flex: 0 0 28px; height: 28px; border-radius: 14px; background: #1e293b; border: 0.5px solid #334155;
+    color: #60a5fa; font-size: 0.78rem; font-weight: 500;
+    display: flex; align-items: center; justify-content: center; }
+  .stage-text { font-size: 0.88rem; color: #cbd5e1; padding-top: 5px; line-height: 1.5; }
+  .stage-text strong { color: #f1f5f9; margin-right: 0.4rem; }
+  .quotes { display: grid; grid-template-columns: 1fr; gap: 0.65rem; }
+  @media (min-width: 720px) { .quotes { grid-template-columns: 1fr 1fr; } }
+  .quote { background: #1e293b; border: 0.5px solid #334155; border-radius: 10px; padding: 0.95rem 1.1rem;
+    font-size: 0.86rem; color: #e2e8f0; line-height: 1.6; }
+  .quote::before { content: '— '; color: #475569; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../index.html">← 首頁</a>
+  <span>/</span>
+  <span style="color:#94a3b8">操盤哲學</span>
+</nav>
+
+<h2>操盤哲學</h2>
+<p class="sub">核心信念、心法階段、不時翻一翻的金句。</p>
+
+<section>
+  <h3>核心信念</h3>
+  <div class="hero"><blockquote id="coreBelief">…</blockquote></div>
+</section>
+
+<section>
+  <h3>刻度原則</h3>
+  <div class="scale-card" id="scalePrinciple">…</div>
+</section>
+
+<section>
+  <h3>操盤六階段</h3>
+  <div class="stages" id="stages"></div>
+</section>
+
+<section>
+  <h3>金句</h3>
+  <div class="quotes" id="quotes"></div>
+</section>
+
+<script>
+async function init() {
+  const res = await fetch('../data/rhymes.json');
+  const { philosophy } = await res.json();
+
+  document.getElementById('coreBelief').textContent = philosophy.core_belief;
+  document.getElementById('scalePrinciple').textContent = philosophy.scale_principle;
+
+  const stages = document.getElementById('stages');
+  philosophy.progression_stages.forEach((s, i) => {
+    const row = document.createElement('div');
+    row.className = 'stage';
+    const num = document.createElement('div');
+    num.className = 'stage-num';
+    num.textContent = i + 1;
+    const text = document.createElement('div');
+    text.className = 'stage-text';
+    const colon = s.indexOf('：');
+    if (colon > -1) {
+      text.innerHTML = `<strong>${s.slice(0, colon)}</strong>${s.slice(colon)}`;
+    } else {
+      text.textContent = s;
+    }
+    row.appendChild(num);
+    row.appendChild(text);
+    stages.appendChild(row);
+  });
+
+  const quotes = document.getElementById('quotes');
+  philosophy.key_quotes.forEach(q => {
+    const card = document.createElement('div');
+    card.className = 'quote';
+    card.textContent = q;
+    quotes.appendChild(card);
+  });
+}
+init();
+</script>
+</body>
+</html>
