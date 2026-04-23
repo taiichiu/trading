@@ -406,6 +406,112 @@
       "core_principle": "成交量決定突破難度。要突破壓力／支撐，需要足夠的「軍隊」（成交量）。所謂「子彈銀彈時間」本質上就是熱門時段。",
       "confidence": "high",
       "source": "冷門熱門時段筆記"
+    },
+    {
+      "id": "midterm-april-turning-point",
+      "name": "期中選舉年4月轉折",
+      "scale": "年度",
+      "market": "台灣加權指數",
+      "description": "美國期中選舉年（每4年一次），台股在4月第3-4週或5月初容易出現年內重要高點轉折。若當時位置處於相對高點，空下去勝率高；若處於區間底附近，則不適用。",
+      "entry_condition": "4月第3-4週或5月初，當下位置為相對高點（近期創新高或接近新高、高檔爆量）",
+      "skip_condition": "若4月位置處於區間底附近（如2018），不適用此規律，反而可能被軋",
+      "win_rate": "86% (6/7)",
+      "historical_cases": [
+        {
+          "year": 1998,
+          "high_date": "4/7週",
+          "high": 9337.61,
+          "low_date": "1999/2/1",
+          "low": 5422.66,
+          "drop_percent": -42,
+          "duration": "約10個月",
+          "macro_context": "亞洲金融危機",
+          "position_at_april": "高點附近",
+          "result": "贏，立即大跌"
+        },
+        {
+          "year": 2002,
+          "high_date": "4/22週",
+          "high": 6484.93,
+          "low_date": "10/7週",
+          "low": 3845.76,
+          "drop_percent": -41,
+          "duration": "約6個月",
+          "macro_context": "科技泡沫餘震",
+          "position_at_april": "高點附近",
+          "result": "贏，立即大跌"
+        },
+        {
+          "year": 2006,
+          "high_date": "5/8週",
+          "high": 7476.07,
+          "low_date": "7/17",
+          "low": 6232.49,
+          "drop_percent": -17,
+          "duration": "約2個月",
+          "macro_context": "多頭大循環中",
+          "position_at_april": "高點附近",
+          "result": "贏，快閃回檔後續創高"
+        },
+        {
+          "year": 2010,
+          "high_date": "4/26週",
+          "high": 8174.85,
+          "low_date": "5/24週",
+          "low": 7032.4,
+          "drop_percent": -14,
+          "duration": "約1個月",
+          "macro_context": "多頭大循環中",
+          "position_at_april": "高點附近",
+          "result": "贏，快閃回檔後續創高"
+        },
+        {
+          "year": 2014,
+          "high_date": "4/21週",
+          "high": 9022.28,
+          "low_date": "隔週",
+          "low": 8671.65,
+          "drop_percent": -4,
+          "duration": "約1週",
+          "macro_context": "多頭大循環中",
+          "position_at_april": "高點附近",
+          "result": "贏，短暫回檔後續創高"
+        },
+        {
+          "year": 2018,
+          "high_date": "1月底",
+          "high": 11270.18,
+          "low_date": "10月",
+          "low": 9319.28,
+          "drop_percent": -17,
+          "duration": "約9個月",
+          "macro_context": "高檔震盪後秋崩，年初美股先崩導致高點提前",
+          "position_at_april": "區間底附近",
+          "result": "輸/被巴，4月空會先被軋，要等到9月崩才會賺"
+        },
+        {
+          "year": 2022,
+          "high_date": "1月",
+          "high": 18619.61,
+          "low_date": "10月",
+          "low": 12629.48,
+          "drop_percent": -32,
+          "duration": "約10個月",
+          "macro_context": "熊市，聯準會升息",
+          "position_at_april": "已在下跌途中",
+          "result": "贏，繼續下跌"
+        }
+      ],
+      "key_insights": [
+        "不管牛熊，期中選舉年4月第3-4週附近都會出現年內重要轉折",
+        "跌幅深淺由大週期背景決定：牛市循環中 -4% 到 -17%（快閃回檔），熊市中 -30% 到 -42%（大頂）",
+        "關鍵判斷條件是「位置」：高點附近空下去才有效，區間底空會被巴（2018案例）",
+        "7次案例中，6次在4月見到年內重要高點附近，只有2018例外（高點提前到1月）"
+      ],
+      "confidence": "high",
+      "source": "手動翻週K線驗證，1998-2022共7個期中選舉年",
+      "notes": "2026為下一個期中選舉年，當下（4/23）台股創歷史新高後爆量收十字線，符合「高點附近」條件。",
+      "next_occurrence": 2026
     }
   ],
   "risk_management": {
