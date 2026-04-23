@@ -1,18 +1,28 @@
-"""Fetch monthly closes for TAIEX (^TWII) and NASDAQ Composite (^IXIC).
+"""Fetch monthly closes and daily K-line data for TAIEX (^TWII) and NASDAQ Composite (^IXIC).
 
-Yahoo is authoritative for recent history. Stooq is used as a best-effort
-backfill for older periods Yahoo is missing (TAIEX pre-1997, etc.).
+For TAIEX daily data, uses Taiwan Stock Exchange official API or yfinance as fallback.
+For monthly data and NASDAQ, uses yfinance + Stooq backfill.
+
+This script can run in two modes:
+- Full mode (default): Fetches all historical data (10 years for daily, all available for monthly)
+- Incremental mode (--incremental): Updates only the latest trading day
 """
 
 import csv
 import io
 import json
 import os
+import sys
+import time
 from datetime import datetime, timedelta, timezone
 from urllib.error import URLError
 from urllib.request import Request, urlopen
 
-import yfinance as yf
+try:
+    import yfinance as yf
+    HAS_YFINANCE = True
+except ImportError:
+    HAS_YFINANCE = False
 
 
 YAHOO_INDICES = {
@@ -27,19 +37,91 @@ STOOQ_CANDIDATES = {
 }
 
 
-def fetch_yahoo_monthly(ticker):
-    hist = yf.Ticker(ticker).history(period="max", interval="1mo")
+def fetch_twse_daily(full_history=True):
+    """Fetch TAIEX daily data from Taiwan Stock Exchange official API.
+
+    Args:
+        full_history: If True, fetch from 2015 onwards. If False, fetch only today's data.
+    """
     out = []
-    for date, row in hist.iterrows():
-        close = row.get("Close")
-        if close is None or str(close) == "nan":
-            continue
-        out.append({
-            "year": int(date.year),
-            "month": int(date.month),
-            "close": round(float(close), 2),
-        })
+
+    if full_history:
+        start_date = datetime(2015, 1, 1)
+    else:
+        # For incremental update, only fetch today
+        start_date = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+
+    today = datetime.now()
+    current_date = start_date
+
+    while current_date <= today:
+        year_month = current_date.strftime("%Y%m")
+        url = f"https://www.twse.com.tw/rwd/zh/afterTrading/MI_INDEX?date={year_month}01&response=json"
+
+        try:
+            headers = {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+                "Referer": "https://www.twse.com.tw/",
+            }
+            req = Request(url, headers=headers)
+            with urlopen(req, timeout=10) as resp:
+                text = resp.read().decode("utf-8")
+                data = json.loads(text)
+
+                # data format: {"data": [[date, open, high, low, close, volume], ...]}
+                for row in data.get("data", []):
+                    if len(row) >= 6:
+                        date_str = row[0]
+                        try:
+                            # Parse date in format "20150105"
+                            date_obj = datetime.strptime(date_str, "%Y%m%d")
+                            out.append({
+                                "date": date_obj.strftime("%Y-%m-%d"),
+                                "open": round(float(row[1]), 2) if row[1] else None,
+                                "high": round(float(row[2]), 2) if row[2] else None,
+                                "low": round(float(row[3]), 2) if row[3] else None,
+                                "close": round(float(row[4]), 2) if row[4] else None,
+                                "volume": int(row[5]) if row[5] else None,
+                            })
+                        except (ValueError, IndexError, TypeError):
+                            continue
+
+        except Exception as e:
+            print(f"  TWSE {year_month}: {e}")
+
+        # Move to next month
+        if current_date.month == 12:
+            current_date = datetime(current_date.year + 1, 1, 1)
+        else:
+            current_date = datetime(current_date.year, current_date.month + 1, 1)
+
+        time.sleep(0.3)  # Rate limit
+
     return out
+
+
+def fetch_yahoo_monthly(ticker):
+    """Fetch monthly closes from Yahoo Finance."""
+    if not HAS_YFINANCE:
+        print(f"  yfinance not available for {ticker}")
+        return []
+
+    try:
+        hist = yf.Ticker(ticker).history(period="max", interval="1mo")
+        out = []
+        for date, row in hist.iterrows():
+            close = row.get("Close")
+            if close is None or str(close) == "nan":
+                continue
+            out.append({
+                "year": int(date.year),
+                "month": int(date.month),
+                "close": round(float(close), 2),
+            })
+        return out
+    except Exception as e:
+        print(f"  Yahoo {ticker}: {e}")
+        return []
 
 
 def fetch_stooq_monthly(symbol):
@@ -94,8 +176,46 @@ def build_annual(monthly):
     return [{"year": y, "close": c} for y, c in sorted(annual.items())]
 
 
-def build_index(name):
+def load_existing_data(filepath):
+    """Load existing indices.json if it exists."""
+    if os.path.exists(filepath):
+        try:
+            with open(filepath, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception as e:
+            print(f"Warning: Could not load existing {filepath}: {e}")
+    return {}
+
+
+def update_daily_incremental(existing_daily, new_daily):
+    """Merge new daily data with existing, removing duplicates."""
+    if not new_daily:
+        return existing_daily
+
+    # Create a dict of existing data by date for easy lookup
+    existing_dict = {d["date"]: d for d in existing_daily}
+
+    # Add or update with new data
+    for item in new_daily:
+        existing_dict[item["date"]] = item
+
+    # Return sorted by date
+    return sorted(existing_dict.values(), key=lambda x: x["date"])
+
+
+def build_index(name, incremental=False):
     print(f"Fetching {name}...")
+
+    if name == "TAIEX":
+        # For TAIEX, fetch daily from TWSE
+        daily = fetch_twse_daily(full_history=not incremental)
+        print(f"  TWSE daily: {len(daily)} days")
+        if daily:
+            print(f"  daily range: {daily[0]['date']} – {daily[-1]['date']}")
+    else:
+        daily = []
+
+    # Fetch monthly data
     yahoo = fetch_yahoo_monthly(YAHOO_INDICES[name])
     print(f"  yahoo: {len(yahoo)} months")
 
@@ -112,18 +232,49 @@ def build_index(name):
         print(f"  range: {merged[0]['year']}/{merged[0]['month']:02d} – "
               f"{merged[-1]['year']}/{merged[-1]['month']:02d}")
 
-    return {"monthly": merged, "annual": build_annual(merged)}
+    result = {
+        "monthly": merged,
+        "annual": build_annual(merged),
+    }
+
+    if daily:
+        result["daily"] = daily
+
+    return result
 
 
 def main():
-    data = {name: build_index(name) for name in YAHOO_INDICES}
+    incremental = "--incremental" in sys.argv
+
+    data_file = "data/indices.json"
+    existing_data = load_existing_data(data_file) if incremental else {}
+
+    data = {}
+    for name in YAHOO_INDICES:
+        new_index_data = build_index(name, incremental=incremental)
+
+        if incremental and name in existing_data:
+            # Merge daily data if it exists
+            if "daily" in new_index_data and "daily" in existing_data[name]:
+                new_index_data["daily"] = update_daily_incremental(
+                    existing_data[name]["daily"],
+                    new_index_data["daily"]
+                )
+            # Keep other fields if not updated
+            if "monthly" not in new_index_data and "monthly" in existing_data[name]:
+                new_index_data["monthly"] = existing_data[name]["monthly"]
+            if "annual" not in new_index_data and "annual" in existing_data[name]:
+                new_index_data["annual"] = existing_data[name]["annual"]
+
+        data[name] = new_index_data
+
     tw = timezone(timedelta(hours=8))
     data["lastUpdated"] = datetime.now(tw).strftime("%Y-%m-%d %H:%M (TWT)")
 
     os.makedirs("data", exist_ok=True)
-    with open("data/indices.json", "w", encoding="utf-8") as f:
+    with open(data_file, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
-    print("Wrote data/indices.json")
+    print(f"Wrote {data_file}")
 
 
 if __name__ == "__main__":

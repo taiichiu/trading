@@ -1,4 +1,4 @@
-name: Update TAIEX Data
+name: Update Indices Data
 
 on:
   schedule:
@@ -23,8 +23,8 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Fetch TAIEX data
-        run: python scripts/fetch_data.py
+      - name: Update indices data (incremental daily, full monthly)
+        run: python scripts/fetch_data.py --incremental
 
       - name: Commit and push if changed
         run: |
