@@ -295,7 +295,67 @@ function buildDetail(p) {
     added = true;
   }
 
+  if (p.historical_cases) {
+    const dl = el('dl', { cls: 'kv' });
+    if (p.entry_condition) addKV(dl, '進場條件', p.entry_condition);
+    if (p.skip_condition) addKV(dl, '不適用條件', p.skip_condition);
+    if (p.win_rate) addKV(dl, '勝率', p.win_rate);
+    if (p.next_occurrence) addKV(dl, '下次發生', p.next_occurrence + ' 年');
+    det.appendChild(dl);
+
+    const wrap = el('div');
+    wrap.style.overflowX = 'auto';
+    wrap.style.marginTop = '0.5rem';
+    wrap.appendChild(buildCasesTable(p.historical_cases));
+    det.appendChild(wrap);
+
+    if (p.key_insights && p.key_insights.length) {
+      det.appendChild(el('div', { cls: 'note', text: '關鍵洞察：' }));
+      const ul = el('ul');
+      p.key_insights.forEach(ins => ul.appendChild(el('li', { text: ins })));
+      det.appendChild(ul);
+    }
+    added = true;
+  }
+
   return added ? det : null;
+}
+
+function buildCasesTable(cases) {
+  const t = el('table');
+  t.innerHTML = '<thead><tr>'
+    + '<th>年</th>'
+    + '<th>高點</th>'
+    + '<th>低點</th>'
+    + '<th class="num">跌幅</th>'
+    + '<th>歷時</th>'
+    + '<th>4月位置</th>'
+    + '<th>結果</th>'
+    + '<th>大週期背景</th>'
+    + '</tr></thead>';
+  const tb = el('tbody');
+  cases.forEach(c => {
+    const cls = (c.drop_percent != null && c.drop_percent < 0) ? 'neg' : 'pos';
+    const dropText = c.drop_percent != null
+      ? (c.drop_percent > 0 ? '+' : '') + c.drop_percent + '%'
+      : '';
+    const highLvl = c.high != null ? c.high.toLocaleString() : '';
+    const lowLvl = c.low != null ? c.low.toLocaleString() : '';
+    const highCell = (c.high_date || '') + (highLvl ? `<br><span style="color:#64748b;">${highLvl}</span>` : '');
+    const lowCell = (c.low_date || '') + (lowLvl ? `<br><span style="color:#64748b;">${lowLvl}</span>` : '');
+    const tr = el('tr');
+    tr.innerHTML = `<td>${c.year}</td>`
+      + `<td>${highCell}</td>`
+      + `<td>${lowCell}</td>`
+      + `<td class="num ${cls}">${dropText}</td>`
+      + `<td>${c.duration ?? ''}</td>`
+      + `<td>${c.position_at_april ?? ''}</td>`
+      + `<td>${c.result ?? ''}</td>`
+      + `<td>${c.macro_context ?? ''}</td>`;
+    tb.appendChild(tr);
+  });
+  t.appendChild(tb);
+  return t;
 }
 
 function addKV(dl, k, v) {
