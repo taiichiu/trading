@@ -3,7 +3,7 @@
     "name": "市場韻腳資料庫",
     "description": "歷史不會重複，但是會押韻 — 市場週期規律整理",
     "version": "0.1.0",
-    "last_updated": "2026-04-22",
+    "last_updated": "2026-04-23",
     "market": "台灣加權指數（主）、美股（次）"
   },
   "rhyme_patterns": [
@@ -43,7 +43,8 @@
       ],
       "confidence": "high",
       "source": "空頭年整理筆記",
-      "notes": "2025 待驗證（2022+3）"
+      "notes": "2025 待驗證（2022+3）",
+      "updated_at": "2026-04-22"
     },
     {
       "id": "annual-bull-years",
@@ -59,7 +60,8 @@
       ],
       "characteristics": "全年趨勢向上，創新高",
       "confidence": "high",
-      "source": "大多頭年筆記"
+      "source": "大多頭年筆記",
+      "updated_at": "2026-04-22"
     },
     {
       "id": "monthly-entry-timing",
@@ -78,7 +80,8 @@
       ],
       "confidence": "medium",
       "source": "定律筆記",
-      "notes": "原理待驗證（季度配置轉換？機構資金進出？）"
+      "notes": "原理待驗證（季度配置轉換？機構資金進出？）",
+      "updated_at": "2026-04-22"
     },
     {
       "id": "q4-low-pattern",
@@ -160,7 +163,8 @@
       ],
       "observation": "第四季最低點落在 Q4 的年份（2022、2018、2015、2011、2008）皆為空頭年",
       "confidence": "high",
-      "source": "慣性整理筆記"
+      "source": "慣性整理筆記",
+      "updated_at": "2026-04-22"
     },
     {
       "id": "september-seasonal",
@@ -220,7 +224,8 @@
         }
       ],
       "confidence": "high",
-      "source": "慣性整理筆記"
+      "source": "慣性整理筆記",
+      "updated_at": "2026-04-22"
     },
     {
       "id": "witching-day-strategy",
@@ -299,7 +304,8 @@
         }
       ],
       "confidence": "high",
-      "source": "慣性整理筆記"
+      "source": "慣性整理筆記",
+      "updated_at": "2026-04-22"
     },
     {
       "id": "monthly-momentum",
@@ -310,7 +316,8 @@
       "rationale": "資金結帳、籌碼換手（月底）；新資金入場（月初）",
       "direction": "順勢，跟著當下趨勢方向",
       "confidence": "medium",
-      "source": "台股月度慣性筆記"
+      "source": "台股月度慣性筆記",
+      "updated_at": "2026-04-22"
     },
     {
       "id": "weekly-thursday",
@@ -321,7 +328,8 @@
       "action": "週四開高 → 觀察做空機會",
       "confidence": "low",
       "source": "定律筆記",
-      "notes": "需補充勝率和平均獲利數據"
+      "notes": "需補充勝率和平均獲利數據",
+      "updated_at": "2026-04-22"
     },
     {
       "id": "intraday-open-signals",
@@ -363,7 +371,8 @@
       ],
       "pending_definition": "「大漲」「大跌」的具體量化標準（% 或絕對點數）待確認",
       "confidence": "medium",
-      "source": "日內規則筆記"
+      "source": "日內規則筆記",
+      "updated_at": "2026-04-22"
     },
     {
       "id": "us-futures-session",
@@ -405,7 +414,8 @@
       ],
       "core_principle": "成交量決定突破難度。要突破壓力／支撐，需要足夠的「軍隊」（成交量）。所謂「子彈銀彈時間」本質上就是熱門時段。",
       "confidence": "high",
-      "source": "冷門熱門時段筆記"
+      "source": "冷門熱門時段筆記",
+      "updated_at": "2026-04-22"
     },
     {
       "id": "midterm-april-turning-point",
@@ -511,7 +521,8 @@
       "confidence": "high",
       "source": "手動翻週K線驗證，1998-2022共7個期中選舉年",
       "notes": "2026為下一個期中選舉年，當下（4/23）台股創歷史新高後爆量收十字線，符合「高點附近」條件。",
-      "next_occurrence": 2026
+      "next_occurrence": 2026,
+      "updated_at": "2026-04-23"
     }
   ],
   "risk_management": {

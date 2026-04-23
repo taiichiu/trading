@@ -31,6 +31,7 @@
   .b-conf-high { color: #34d399; border-color: #10b981; }
   .b-conf-medium { color: #fbbf24; border-color: #f59e0b; }
   .b-conf-low { color: #f87171; border-color: #ef4444; }
+  .b-recent { color: #0f172a; background: #fbbf24; border-color: #fbbf24; font-weight: 500; }
   .desc { font-size: 0.85rem; color: #cbd5e1; line-height: 1.65; margin-bottom: 0.6rem; }
   details { font-size: 0.8rem; color: #94a3b8; }
   details summary { cursor: pointer; color: #60a5fa; padding: 4px 0; user-select: none; outline: none; }
@@ -134,9 +135,20 @@ function render() {
     && (confSel === 'all' || p.confidence === confSel)
   );
 
+  // Most recently updated first; fall back to array order when dates tie or missing.
+  filtered.sort((a, b) => (b.updated_at || '').localeCompare(a.updated_at || ''));
+
   document.getElementById('empty').style.display = filtered.length ? 'none' : 'block';
 
   filtered.forEach(p => grid.appendChild(buildCard(p)));
+}
+
+function isRecent(dateStr, days = 2) {
+  if (!dateStr) return false;
+  const then = new Date(dateStr + 'T00:00:00');
+  if (isNaN(then)) return false;
+  const diffDays = (Date.now() - then.getTime()) / 86400000;
+  return diffDays <= days;
 }
 
 function el(tag, opts = {}) {
@@ -153,6 +165,7 @@ function buildCard(p) {
   card.appendChild(el('h3', { text: p.name }));
 
   const badges = el('div', { cls: 'badges' });
+  if (isRecent(p.updated_at)) badges.appendChild(el('span', { cls: 'badge b-recent', text: '剛更新' }));
   badges.appendChild(el('span', { cls: 'badge b-scale', text: p.scale }));
   if (p.market) badges.appendChild(el('span', { cls: 'badge b-market', text: p.market }));
   badges.appendChild(el('span', { cls: 'badge b-conf-' + p.confidence, text: CONF_LABEL[p.confidence] }));
