@@ -324,23 +324,47 @@ def main():
     existing_data = load_existing_data(data_file) if incremental else {}
 
     data = {}
+    any_fetch_succeeded = False
+
     for name in YAHOO_INDICES:
         new_index_data = build_index(name, incremental=incremental)
 
+        # Track whether fetch produced any data (any of daily/monthly has rows)
+        fetched_any = bool(
+            new_index_data.get("daily")
+            or new_index_data.get("monthly")
+        )
+        if fetched_any:
+            any_fetch_succeeded = True
+
         if incremental and name in existing_data:
-            # Merge daily data if it exists
-            if "daily" in new_index_data and "daily" in existing_data[name]:
+            existing = existing_data[name]
+
+            # Daily: merge new into existing (keeps history, updates/appends latest)
+            if new_index_data.get("daily") and existing.get("daily"):
                 new_index_data["daily"] = update_daily_incremental(
-                    existing_data[name]["daily"],
-                    new_index_data["daily"]
+                    existing["daily"], new_index_data["daily"]
                 )
-            # Keep other fields if not updated
-            if "monthly" not in new_index_data and "monthly" in existing_data[name]:
-                new_index_data["monthly"] = existing_data[name]["monthly"]
-            if "annual" not in new_index_data and "annual" in existing_data[name]:
-                new_index_data["annual"] = existing_data[name]["annual"]
+            elif not new_index_data.get("daily") and existing.get("daily"):
+                # No new daily fetched — preserve existing daily history
+                new_index_data["daily"] = existing["daily"]
+
+            # Monthly: preserve existing if new fetch returned empty
+            if not new_index_data.get("monthly") and existing.get("monthly"):
+                new_index_data["monthly"] = existing["monthly"]
+
+            # Annual: preserve existing if new fetch returned empty
+            if not new_index_data.get("annual") and existing.get("annual"):
+                new_index_data["annual"] = existing["annual"]
 
         data[name] = new_index_data
+
+    # Safety: if incremental fetch failed completely (network down, etc.),
+    # don't overwrite the existing file with empty data.
+    if incremental and not any_fetch_succeeded and existing_data:
+        print("WARNING: No new data fetched in incremental mode. "
+              "Keeping existing file unchanged to avoid data loss.")
+        return
 
     tw = timezone(timedelta(hours=8))
     data["lastUpdated"] = datetime.now(tw).strftime("%Y-%m-%d %H:%M (TWT)")
