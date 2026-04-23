@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>日K線走勢｜市場韻腳資料庫</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #0f172a; color: #e2e8f0; min-height: 100vh; padding: 1.5rem; }
+  nav { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+  nav a { font-size: 0.85rem; color: #64748b; text-decoration: none; }
+  nav a:hover { color: #e2e8f0; }
+  nav span { color: #334155; }
+  h2 { font-size: 1.2rem; font-weight: 500; color: #f1f5f9; }
+  .sub { font-size: 0.82rem; color: #64748b; margin-top: 0.25rem; margin-bottom: 1.25rem; }
+  .controls { display: flex; gap: 8px; margin-bottom: 0.75rem; flex-wrap: wrap; align-items: center; }
+  .controls label { font-size: 0.8rem; color: #64748b; }
+  button { font-size: 0.8rem; padding: 4px 14px; border-radius: 6px; cursor: pointer;
+    border: 0.5px solid #334155; background: transparent; color: #94a3b8; transition: all 0.15s; }
+  button.active { background: #1e3a5f; color: #60a5fa; border-color: #3b82f6; }
+  button:hover:not(.active) { border-color: #64748b; color: #e2e8f0; }
+  #chart { width: 100%; height: 560px; }
+  @media (max-width: 640px) {
+    body { padding: 1rem 0.75rem; }
+    #chart { height: 440px; }
+  }
+  .note { margin-top: 1.25rem; font-size: 0.78rem; color: #475569; line-height: 1.8; }
+  #lastUpdated { font-size: 0.75rem; color: #475569; margin-top: 0.5rem; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../index.html">← 首頁</a>
+  <span>/</span>
+  <span style="color:#94a3b8">日K線走勢</span>
+</nav>
+
+<h2>日K線走勢</h2>
+<p class="sub">台灣加權指數（TAIEX）日K線。跌紅漲綠（台股慣例）。可拖曳底部縮放條或在圖上滾輪/捏合縮放。</p>
+
+<div class="controls">
+  <label>時間範圍：</label>
+  <button class="range-btn" data-range="3m">近3月</button>
+  <button class="range-btn" data-range="6m">近半年</button>
+  <button class="range-btn active" data-range="1y">近1年</button>
+  <button class="range-btn" data-range="all">全部</button>
+</div>
+
+<div id="chart"></div>
+
+<div class="note">
+  📈 <span style="color:#ef4444;">紅實體</span> 收盤 &gt; 開盤（上漲）
+  &nbsp;&nbsp;
+  📉 <span style="color:#10b981;">綠實體</span> 收盤 &lt; 開盤（下跌）
+  <br>
+  滑鼠移至K棒可查看當日 OHLCV 詳細資料。
+</div>
+<div id="lastUpdated"></div>
+
+<script>
+const UP_COLOR = '#ef4444';      // red (up) - TW convention
+const DOWN_COLOR = '#10b981';    // green (down) - TW convention
+const VOLUME_UP = '#7f1d1d';
+const VOLUME_DOWN = '#064e3b';
+
+let chart, rawDaily = [], currentRange = '1y';
+
+async function init() {
+  const res = await fetch('../data/indices.json');
+  const data = await res.json();
+  rawDaily = (data.TAIEX && data.TAIEX.daily) || [];
+
+  document.getElementById('lastUpdated').textContent =
+    '數據最後更新：' + (data.lastUpdated || '—') +
+    '　｜　日K筆數：' + rawDaily.length.toLocaleString();
+
+  bindRangeButtons();
+  renderChart();
+}
+
+function bindRangeButtons() {
+  document.querySelectorAll('.range-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentRange = btn.dataset.range;
+      document.querySelectorAll('.range-btn').forEach(b =>
+        b.classList.toggle('active', b === btn));
+      renderChart();
+    });
+  });
+}
+
+function computeDataZoom() {
+  const n = rawDaily.length;
+  if (n === 0) return { start: 0, end: 100 };
+
+  let wanted;
+  if (currentRange === '3m') wanted = 63;    // ~63 trading days
+  else if (currentRange === '6m') wanted = 126;
+  else if (currentRange === '1y') wanted = 252;
+  else return { start: 0, end: 100 };
+
+  const startIdx = Math.max(0, n - wanted);
+  return { start: (startIdx / (n - 1)) * 100, end: 100 };
+}
+
+function renderChart() {
+  if (!chart) chart = echarts.init(document.getElementById('chart'), 'dark');
+
+  const tc = '#64748b', gc = '#1e2533', lc = '#2a3547';
+  const dates = rawDaily.map(d => d.date);
+  // ECharts candlestick expects [open, close, low, high]
+  const candles = rawDaily.map(d => [d.open, d.close, d.low, d.high]);
+  const volumes = rawDaily.map((d, i) => ({
+    value: d.volume || 0,
+    itemStyle: {
+      color: (d.close >= d.open) ? VOLUME_UP : VOLUME_DOWN
+    }
+  }));
+
+  const zoom = computeDataZoom();
+  const narrow = window.innerWidth < 640;
+
+  chart.setOption({
+    backgroundColor: 'transparent',
+    animation: false,
+    axisPointer: { link: [{ xAxisIndex: 'all' }] },
+    grid: [
+      { left: narrow ? 56 : 72, right: 16, top: 30, height: '62%' },
+      { left: narrow ? 56 : 72, right: 16, top: '76%', height: '14%' }
+    ],
+    xAxis: [
+      {
+        type: 'category', data: dates, boundaryGap: true,
+        axisLine: { lineStyle: { color: lc } },
+        axisLabel: { color: tc, fontSize: narrow ? 10 : 11 },
+        splitLine: { show: false },
+        axisPointer: { label: { backgroundColor: '#1a2233' } }
+      },
+      {
+        type: 'category', gridIndex: 1, data: dates, boundaryGap: true,
+        axisLine: { lineStyle: { color: lc } },
+        axisLabel: { show: false },
+        axisTick: { show: false },
+        splitLine: { show: false }
+      }
+    ],
+    yAxis: [
+      {
+        scale: true,
+        name: '點數', nameTextStyle: { color: tc, fontSize: 10, padding: [0, 0, 0, narrow ? 20 : 40] },
+        axisLine: { lineStyle: { color: lc } },
+        axisLabel: { color: tc, fontSize: narrow ? 10 : 11,
+          formatter: v => v >= 10000 ? (v/1000).toFixed(1)+'K' : v },
+        splitLine: { lineStyle: { color: gc, type: 'dashed' } }
+      },
+      {
+        scale: true, gridIndex: 1,
+        axisLine: { lineStyle: { color: lc } },
+        axisLabel: { color: tc, fontSize: 9,
+          formatter: v => v === 0 ? '' : (v >= 1e8 ? (v/1e8).toFixed(1)+'億' :
+            (v >= 1e4 ? (v/1e4).toFixed(0)+'萬' : v)) },
+        splitLine: { show: false }
+      }
+    ],
+    dataZoom: [
+      {
+        type: 'inside', xAxisIndex: [0, 1],
+        start: zoom.start, end: zoom.end, zoomOnMouseWheel: true
+      },
+      {
+        type: 'slider', xAxisIndex: [0, 1],
+        bottom: 0, height: 18,
+        start: zoom.start, end: zoom.end,
+        textStyle: { color: tc, fontSize: 10 },
+        borderColor: '#334155', backgroundColor: '#1a2233',
+        fillerColor: 'rgba(59,130,246,0.12)',
+        handleStyle: { color: '#3b82f6' },
+        moveHandleStyle: { color: '#3b82f6' }
+      }
+    ],
+    tooltip: {
+      trigger: 'axis', axisPointer: { type: 'cross' },
+      backgroundColor: '#1a2233', borderColor: '#334155',
+      textStyle: { color: '#e2e8f0', fontSize: 12 },
+      formatter: params => {
+        if (!params || !params.length) return '';
+        const i = params[0].dataIndex;
+        const d = rawDaily[i];
+        if (!d) return '';
+        const chg = d.close - d.open;
+        const chgPct = d.open ? (chg / d.open * 100) : 0;
+        const chgColor = chg >= 0 ? UP_COLOR : DOWN_COLOR;
+        const sign = chg >= 0 ? '+' : '';
+        const fmt = v => (v == null ? '—' : v.toLocaleString(undefined, { maximumFractionDigits: 2 }));
+        const fmtVol = v => {
+          if (!v) return '—';
+          if (v >= 1e8) return (v / 1e8).toFixed(2) + ' 億';
+          if (v >= 1e4) return (v / 1e4).toFixed(0) + ' 萬';
+          return v.toLocaleString();
+        };
+        return `<b>${d.date}</b><br/>` +
+          `<span style="color:${tc}">開</span> ${fmt(d.open)}　` +
+          `<span style="color:${tc}">高</span> ${fmt(d.high)}<br/>` +
+          `<span style="color:${tc}">低</span> ${fmt(d.low)}　` +
+          `<span style="color:${tc}">收</span> <b style="color:${chgColor}">${fmt(d.close)}</b><br/>` +
+          `<span style="color:${tc}">漲跌</span> <span style="color:${chgColor}">${sign}${fmt(chg)} (${sign}${chgPct.toFixed(2)}%)</span><br/>` +
+          `<span style="color:${tc}">量</span> ${fmtVol(d.volume)}`;
+      }
+    },
+    series: [
+      {
+        name: 'TAIEX', type: 'candlestick',
+        data: candles,
+        itemStyle: {
+          color: UP_COLOR, color0: DOWN_COLOR,
+          borderColor: UP_COLOR, borderColor0: DOWN_COLOR
+        }
+      },
+      {
+        name: '成交量', type: 'bar',
+        xAxisIndex: 1, yAxisIndex: 1,
+        data: volumes,
+        barWidth: '60%'
+      }
+    ]
+  }, true);
+}
+
+window.addEventListener('resize', () => { if (chart) { chart.resize(); renderChart(); } });
+init();
+</script>
+</body>
+</html>
