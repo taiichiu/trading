@@ -37,26 +37,71 @@ STOOQ_CANDIDATES = {
 }
 
 
+def fetch_yahoo_daily(ticker, full_history=True):
+    """Fetch daily OHLCV data from Yahoo Finance.
+
+    Args:
+        full_history: If True, fetch 10 years of data. If False, fetch only last 5 days.
+    """
+    if not HAS_YFINANCE:
+        print(f"  yfinance not available for {ticker}")
+        return []
+
+    try:
+        period = "10y" if full_history else "5d"
+        hist = yf.Ticker(ticker).history(period=period, interval="1d")
+        out = []
+        for date, row in hist.iterrows():
+            close = row.get("Close")
+            if close is None or str(close) == "nan":
+                continue
+
+            def safe_round(val):
+                if val is None or str(val) == "nan":
+                    return None
+                return round(float(val), 2)
+
+            def safe_int(val):
+                if val is None or str(val) == "nan":
+                    return None
+                return int(float(val))
+
+            out.append({
+                "date": date.strftime("%Y-%m-%d"),
+                "open": safe_round(row.get("Open")),
+                "high": safe_round(row.get("High")),
+                "low": safe_round(row.get("Low")),
+                "close": safe_round(close),
+                "volume": safe_int(row.get("Volume")),
+            })
+        return out
+    except Exception as e:
+        print(f"  Yahoo daily {ticker}: {e}")
+        return []
+
+
 def fetch_twse_daily(full_history=True):
     """Fetch TAIEX daily data from Taiwan Stock Exchange official API.
 
+    Uses MI_5MINS_HIST endpoint which returns daily OHLC for the TAIEX index.
+
     Args:
-        full_history: If True, fetch from 2015 onwards. If False, fetch only today's data.
+        full_history: If True, fetch from 2015 onwards. If False, fetch only current month.
     """
     out = []
 
     if full_history:
         start_date = datetime(2015, 1, 1)
     else:
-        # For incremental update, only fetch today
-        start_date = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+        # For incremental update, only fetch current month
+        start_date = datetime.now().replace(day=1, hour=0, minute=0, second=0, microsecond=0)
 
     today = datetime.now()
     current_date = start_date
 
     while current_date <= today:
         year_month = current_date.strftime("%Y%m")
-        url = f"https://www.twse.com.tw/rwd/zh/afterTrading/MI_INDEX?date={year_month}01&response=json"
+        url = f"https://www.twse.com.tw/rwd/zh/indices/MI_5MINS_HIST?date={year_month}01&response=json"
 
         try:
             headers = {
@@ -64,25 +109,48 @@ def fetch_twse_daily(full_history=True):
                 "Referer": "https://www.twse.com.tw/",
             }
             req = Request(url, headers=headers)
-            with urlopen(req, timeout=10) as resp:
+            with urlopen(req, timeout=15) as resp:
                 text = resp.read().decode("utf-8")
                 data = json.loads(text)
 
-                # data format: {"data": [[date, open, high, low, close, volume], ...]}
+                # MI_5MINS_HIST format:
+                # {"data": [[date, open, high, low, close], ...]}
+                # Date is in ROC format like "114/01/02" (民國年/月/日)
                 for row in data.get("data", []):
-                    if len(row) >= 6:
+                    if len(row) >= 5:
                         date_str = row[0]
                         try:
-                            # Parse date in format "20150105"
-                            date_obj = datetime.strptime(date_str, "%Y%m%d")
-                            out.append({
-                                "date": date_obj.strftime("%Y-%m-%d"),
-                                "open": round(float(row[1]), 2) if row[1] else None,
-                                "high": round(float(row[2]), 2) if row[2] else None,
-                                "low": round(float(row[3]), 2) if row[3] else None,
-                                "close": round(float(row[4]), 2) if row[4] else None,
-                                "volume": int(row[5]) if row[5] else None,
-                            })
+                            # Parse ROC date "114/01/02" → 2025-01-02
+                            parts = date_str.split("/")
+                            if len(parts) == 3:
+                                roc_year = int(parts[0])
+                                month = int(parts[1])
+                                day = int(parts[2])
+                                # ROC year + 1911 = AD year
+                                year = roc_year + 1911
+                                date_obj = datetime(year, month, day)
+
+                                def parse_num(s):
+                                    if not s or s == "--":
+                                        return None
+                                    return float(s.replace(",", ""))
+
+                                open_v = parse_num(row[1])
+                                high_v = parse_num(row[2])
+                                low_v = parse_num(row[3])
+                                close_v = parse_num(row[4])
+
+                                if close_v is None:
+                                    continue
+
+                                out.append({
+                                    "date": date_obj.strftime("%Y-%m-%d"),
+                                    "open": round(open_v, 2) if open_v else None,
+                                    "high": round(high_v, 2) if high_v else None,
+                                    "low": round(low_v, 2) if low_v else None,
+                                    "close": round(close_v, 2),
+                                    "volume": None,  # MI_5MINS_HIST doesn't include volume
+                                })
                         except (ValueError, IndexError, TypeError):
                             continue
 
@@ -207,9 +275,15 @@ def build_index(name, incremental=False):
     print(f"Fetching {name}...")
 
     if name == "TAIEX":
-        # For TAIEX, fetch daily from TWSE
-        daily = fetch_twse_daily(full_history=not incremental)
-        print(f"  TWSE daily: {len(daily)} days")
+        # Try yfinance first (more stable), fall back to TWSE official API
+        daily = fetch_yahoo_daily(YAHOO_INDICES[name], full_history=not incremental)
+        print(f"  yahoo daily: {len(daily)} days")
+
+        if not daily:
+            print(f"  yahoo daily failed, trying TWSE API...")
+            daily = fetch_twse_daily(full_history=not incremental)
+            print(f"  TWSE daily: {len(daily)} days")
+
         if daily:
             print(f"  daily range: {daily[0]['date']} – {daily[-1]['date']}")
     else:
