@@ -20,6 +20,7 @@
   button { font-size: 0.8rem; padding: 4px 14px; border-radius: 6px; cursor: pointer;
     border: 0.5px solid #334155; background: transparent; color: #94a3b8; transition: all 0.15s; }
   button.active { background: #1e3a5f; color: #60a5fa; border-color: #3b82f6; }
+  button.overlay-btn.active { background: rgba(251,191,36,0.12); color: #fbbf24; border-color: #fbbf24; }
   button:hover:not(.active) { border-color: #64748b; color: #e2e8f0; }
   #chart { width: 100%; height: 560px; }
   @media (max-width: 640px) {
@@ -56,6 +57,11 @@
   <button class="range-btn" data-range="all">全部</button>
 </div>
 
+<div class="controls">
+  <label>疊加指標：</label>
+  <button class="overlay-btn" data-overlay="buffett">巴菲特指標</button>
+</div>
+
 <div id="chart"></div>
 
 <div class="note">
@@ -64,6 +70,10 @@
   📉 <span style="color:#10b981;">綠實體</span> 收盤 &lt; 開盤（下跌）
   <br>
   滑鼠移至K棒可查看當日 OHLCV 詳細資料。
+  <br>
+  <span style="color:#fbbf24;">⓵ 巴菲特指標</span>＝台股總市值 ÷ GDP × 100%。
+  &gt;115% 高估、&gt;135% 顯著高估。
+  目前資料為公開來源年度近似值，可在 <code style="color:#94a3b8">data/buffett.json</code> 編輯。
 </div>
 <div id="lastUpdated"></div>
 
@@ -73,7 +83,11 @@ const DOWN_COLOR = '#10b981';    // green (down) - TW convention
 const VOLUME_UP = '#7f1d1d';
 const VOLUME_DOWN = '#064e3b';
 
-let chart, rawDaily = [], currentRange = '1y', currentTimeframe = 'daily';
+const BUFFETT_COLOR = '#fbbf24';  // amber
+
+let chart, rawDaily = [], buffettData = null;
+let currentRange = '1y', currentTimeframe = 'daily';
+let overlayBuffett = false;
 
 // Bars per range, by timeframe — used to compute initial data zoom window.
 const BARS_PER_RANGE = {
@@ -83,17 +97,53 @@ const BARS_PER_RANGE = {
 };
 
 async function init() {
-  const res = await fetch('../data/indices.json');
-  const data = await res.json();
-  rawDaily = (data.TAIEX && data.TAIEX.daily) || [];
+  const [indicesRes, buffettRes] = await Promise.all([
+    fetch('../data/indices.json').then(r => r.json()),
+    fetch('../data/buffett.json').then(r => r.ok ? r.json() : null).catch(() => null),
+  ]);
+  rawDaily = (indicesRes.TAIEX && indicesRes.TAIEX.daily) || [];
+  buffettData = buffettRes;
 
   document.getElementById('lastUpdated').textContent =
-    '數據最後更新：' + (data.lastUpdated || '—') +
+    '數據最後更新：' + (indicesRes.lastUpdated || '—') +
     '　｜　日K筆數：' + rawDaily.length.toLocaleString();
 
   bindButtons('.tf-btn',    'tf',    v => { currentTimeframe = v; });
   bindButtons('.range-btn', 'range', v => { currentRange = v; });
+  bindOverlayButtons();
   renderChart();
+}
+
+// Overlay buttons toggle (multi-select-able, currently just 巴菲特)
+function bindOverlayButtons() {
+  document.querySelectorAll('.overlay-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const k = btn.dataset.overlay;
+      if (k === 'buffett') overlayBuffett = !overlayBuffett;
+      btn.classList.toggle('active');
+      renderChart();
+    });
+  });
+}
+
+// Map yearly buffett values onto the last trading day of each year that
+// exists in the current candle series, so the line aligns with the x axis.
+function buildBuffettSeries(seriesDates) {
+  if (!buffettData || !buffettData.annual) return [];
+  const dateSet = new Set(seriesDates);
+  // For YYYY-MM dates (monthly view), strip year out of YYYY-MM directly.
+  const out = [];
+  for (const item of buffettData.annual) {
+    const year = item.date.slice(0, 4);
+    let matched = null;
+    // Walk backwards through current series dates to find last entry of this year
+    for (let i = seriesDates.length - 1; i >= 0; i--) {
+      const d = seriesDates[i];
+      if (d.startsWith(year)) { matched = d; break; }
+    }
+    if (matched) out.push([matched, item.value]);
+  }
+  return out;
 }
 
 function bindButtons(selector, dataKey, setter) {
@@ -217,6 +267,17 @@ function renderChart() {
           formatter: v => v === 0 ? '' : (v >= 1e8 ? (v/1e8).toFixed(1)+'億' :
             (v >= 1e4 ? (v/1e4).toFixed(0)+'萬' : v)) },
         splitLine: { show: false }
+      },
+      // [2] Buffett indicator (right-side %, on main grid)
+      {
+        scale: true, gridIndex: 0, position: 'right',
+        name: '巴菲特(%)',
+        nameTextStyle: { color: BUFFETT_COLOR, fontSize: 10 },
+        axisLine: { show: overlayBuffett, lineStyle: { color: BUFFETT_COLOR } },
+        axisTick: { show: overlayBuffett },
+        axisLabel: { show: overlayBuffett, color: BUFFETT_COLOR, fontSize: 10,
+          formatter: '{value}%' },
+        splitLine: { show: false },
       }
     ],
     dataZoom: [
@@ -257,13 +318,28 @@ function renderChart() {
         };
         const tfLabel = { daily: '日K', weekly: '週K', monthly: '月K' }[currentTimeframe];
         const dateLabel = currentTimeframe === 'monthly' ? d.date.slice(0, 7) : d.date;
+
+        let extra = '';
+        if (overlayBuffett && buffettData && buffettData.annual) {
+          const yr = d.date.slice(0, 4);
+          // Latest annual data point on or before current year
+          let bv = null;
+          for (const it of buffettData.annual) {
+            if (it.date.slice(0, 4) <= yr) bv = it.value;
+          }
+          if (bv != null) {
+            extra = `<br/><span style="color:${BUFFETT_COLOR}">巴菲特指標</span> ` +
+              `<b style="color:${BUFFETT_COLOR}">${bv}%</b> <span style="color:${tc};font-size:10px">(年度近似值)</span>`;
+          }
+        }
+
         return `<b>${dateLabel}</b> <span style="color:${tc};font-size:10px">(${tfLabel})</span><br/>` +
           `<span style="color:${tc}">開</span> ${fmt(d.open)}　` +
           `<span style="color:${tc}">高</span> ${fmt(d.high)}<br/>` +
           `<span style="color:${tc}">低</span> ${fmt(d.low)}　` +
           `<span style="color:${tc}">收</span> <b style="color:${chgColor}">${fmt(d.close)}</b><br/>` +
           `<span style="color:${tc}">漲跌</span> <span style="color:${chgColor}">${sign}${fmt(chg)} (${sign}${chgPct.toFixed(2)}%)</span><br/>` +
-          `<span style="color:${tc}">量</span> ${fmtVol(d.volume)}`;
+          `<span style="color:${tc}">量</span> ${fmtVol(d.volume)}` + extra;
       }
     },
     series: [
@@ -280,7 +356,19 @@ function renderChart() {
         xAxisIndex: 1, yAxisIndex: 1,
         data: volumes,
         barWidth: '60%'
-      }
+      },
+      ...(overlayBuffett ? [{
+        name: '巴菲特指標',
+        type: 'line',
+        yAxisIndex: 2,
+        data: buildBuffettSeries(dates),
+        symbol: 'circle', symbolSize: 7,
+        lineStyle: { color: BUFFETT_COLOR, width: 2 },
+        itemStyle: { color: BUFFETT_COLOR },
+        connectNulls: true,
+        z: 6,
+        tooltip: { valueFormatter: v => v + '%' },
+      }] : [])
     ]
   }, true);
 }

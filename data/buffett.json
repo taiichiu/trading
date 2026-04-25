@@ -1,0 +1,30 @@
+{
+  "meta": {
+    "name": "Taiwan Buffett Indicator",
+    "formula": "Total market capitalization of Taiwan listed companies / Taiwan GDP × 100%",
+    "unit": "percent",
+    "source": "Approximated annual values compiled from public TWSE market cap and DGBAS GDP figures. Replace with authoritative numbers for production use.",
+    "thresholds": {
+      "significantly_undervalued": 75,
+      "modestly_undervalued": 90,
+      "fair_value": 115,
+      "modestly_overvalued": 135,
+      "significantly_overvalued": 999
+    },
+    "last_updated": "2026-04-23",
+    "disclaimer": "年度數值為近似估算，僅供視覺參考。"
+  },
+  "annual": [
+    { "date": "2015-12-31", "value": 144 },
+    { "date": "2016-12-31", "value": 155 },
+    { "date": "2017-12-31", "value": 177 },
+    { "date": "2018-12-31", "value": 158 },
+    { "date": "2019-12-31", "value": 190 },
+    { "date": "2020-12-31", "value": 225 },
+    { "date": "2021-12-31", "value": 259 },
+    { "date": "2022-12-31", "value": 194 },
+    { "date": "2023-12-31", "value": 237 },
+    { "date": "2024-12-31", "value": 281 },
+    { "date": "2025-12-31", "value": 296 }
+  ]
+}
