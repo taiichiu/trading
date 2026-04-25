@@ -126,22 +126,34 @@ function bindOverlayButtons() {
   });
 }
 
-// Map yearly buffett values onto the last trading day of each year that
-// exists in the current candle series, so the line aligns with the x axis.
+// Build a dense buffett series by linear-interpolating annual data points
+// across every series date, so the line is visible in any zoom range.
 function buildBuffettSeries(seriesDates) {
-  if (!buffettData || !buffettData.annual) return [];
-  const dateSet = new Set(seriesDates);
-  // For YYYY-MM dates (monthly view), strip year out of YYYY-MM directly.
+  if (!buffettData || !buffettData.annual || buffettData.annual.length === 0) return [];
+  const ann = buffettData.annual.map(it => ({
+    ts: new Date(it.date + 'T00:00:00Z').getTime(),
+    v: it.value,
+  })).sort((a, b) => a.ts - b.ts);
+  const first = ann[0], last = ann[ann.length - 1];
+
   const out = [];
-  for (const item of buffettData.annual) {
-    const year = item.date.slice(0, 4);
-    let matched = null;
-    // Walk backwards through current series dates to find last entry of this year
-    for (let i = seriesDates.length - 1; i >= 0; i--) {
-      const d = seriesDates[i];
-      if (d.startsWith(year)) { matched = d; break; }
+  for (const d of seriesDates) {
+    // d is 'YYYY-MM-DD' (daily/weekly) or 'YYYY-MM' (monthly view)
+    const dateStr = d.length === 7 ? d + '-15' : d;
+    const ts = new Date(dateStr + 'T00:00:00Z').getTime();
+    let v;
+    if (ts <= first.ts) v = first.v;
+    else if (ts >= last.ts) v = last.v;
+    else {
+      for (let i = 0; i < ann.length - 1; i++) {
+        if (ts >= ann[i].ts && ts <= ann[i + 1].ts) {
+          const r = (ts - ann[i].ts) / (ann[i + 1].ts - ann[i].ts);
+          v = ann[i].v + (ann[i + 1].v - ann[i].v) * r;
+          break;
+        }
+      }
     }
-    if (matched) out.push([matched, item.value]);
+    out.push([d, +v.toFixed(2)]);
   }
   return out;
 }
@@ -362,10 +374,10 @@ function renderChart() {
         type: 'line',
         yAxisIndex: 2,
         data: buildBuffettSeries(dates),
-        symbol: 'circle', symbolSize: 7,
+        showSymbol: false,
         lineStyle: { color: BUFFETT_COLOR, width: 2 },
         itemStyle: { color: BUFFETT_COLOR },
-        connectNulls: true,
+        smooth: true,
         z: 6,
         tooltip: { valueFormatter: v => v + '%' },
       }] : [])
