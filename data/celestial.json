@@ -9,6 +9,9 @@
       "火星",
       "木星",
       "土星",
+      "天王星",
+      "海王星",
+      "冥王星",
       "北交點"
     ],
     "zodiac": [
@@ -26,7 +29,7 @@
       "雙魚座"
     ],
     "accuracy_days": "±1 (Mer–Mar), ±3 (Jup/Sat), <1 (NN)",
-    "total_events": 406
+    "total_events": 417
   },
   "by_year": {
     "2020": [
@@ -1144,6 +1147,15 @@
         "lon": 60.616
       },
       {
+        "date": "2023-04-21",
+        "planet": "冥王星",
+        "symbol": "♇",
+        "from": "摩羯座",
+        "to": "水瓶座",
+        "retrograde": false,
+        "lon": 300.001
+      },
+      {
         "date": "2023-05-08",
         "planet": "金星",
         "symbol": "♀",
@@ -1151,6 +1163,15 @@
         "to": "巨蟹座",
         "retrograde": false,
         "lon": 90.116
+      },
+      {
+        "date": "2023-05-13",
+        "planet": "冥王星",
+        "symbol": "♇",
+        "from": "水瓶座",
+        "to": "摩羯座",
+        "retrograde": true,
+        "lon": 299.996
       },
       {
         "date": "2023-05-19",
@@ -1371,6 +1392,15 @@
         "lon": 270.451
       },
       {
+        "date": "2024-02-01",
+        "planet": "冥王星",
+        "symbol": "♇",
+        "from": "摩羯座",
+        "to": "水瓶座",
+        "retrograde": false,
+        "lon": 300.012
+      },
+      {
         "date": "2024-02-06",
         "planet": "水星",
         "symbol": "☿",
@@ -1570,6 +1600,15 @@
       },
       {
         "date": "2024-08-15",
+        "planet": "冥王星",
+        "symbol": "♇",
+        "from": "水瓶座",
+        "to": "摩羯座",
+        "retrograde": true,
+        "lon": 299.986
+      },
+      {
+        "date": "2024-08-15",
         "planet": "水星",
         "symbol": "☿",
         "from": "處女座",
@@ -1666,6 +1705,15 @@
         "to": "摩羯座",
         "retrograde": false,
         "lon": 271.127
+      },
+      {
+        "date": "2024-12-07",
+        "planet": "冥王星",
+        "symbol": "♇",
+        "from": "摩羯座",
+        "to": "水瓶座",
+        "retrograde": false,
+        "lon": 300.011
       },
       {
         "date": "2024-12-08",
@@ -1767,6 +1815,15 @@
         "to": "雙魚座",
         "retrograde": true,
         "lon": 359.722
+      },
+      {
+        "date": "2025-04-10",
+        "planet": "海王星",
+        "symbol": "♆",
+        "from": "雙魚座",
+        "to": "白羊座",
+        "retrograde": false,
+        "lon": 0.032
       },
       {
         "date": "2025-04-17",
@@ -1877,6 +1934,15 @@
         "lon": 60.04
       },
       {
+        "date": "2025-07-16",
+        "planet": "天王星",
+        "symbol": "♅",
+        "from": "金牛座",
+        "to": "雙子座",
+        "retrograde": false,
+        "lon": 60.021
+      },
+      {
         "date": "2025-08-01",
         "planet": "金星",
         "symbol": "♀",
@@ -1958,6 +2024,15 @@
         "lon": 210.106
       },
       {
+        "date": "2025-10-08",
+        "planet": "海王星",
+        "symbol": "♆",
+        "from": "白羊座",
+        "to": "雙魚座",
+        "retrograde": true,
+        "lon": 359.987
+      },
+      {
         "date": "2025-10-15",
         "planet": "金星",
         "symbol": "♀",
@@ -1965,6 +2040,15 @@
         "to": "天秤座",
         "retrograde": false,
         "lon": 181.026
+      },
+      {
+        "date": "2025-10-30",
+        "planet": "天王星",
+        "symbol": "♅",
+        "from": "雙子座",
+        "to": "金牛座",
+        "retrograde": true,
+        "lon": 59.993
       },
       {
         "date": "2025-10-30",
@@ -2086,6 +2170,15 @@
         "lon": 331.484
       },
       {
+        "date": "2026-02-09",
+        "planet": "海王星",
+        "symbol": "♆",
+        "from": "雙魚座",
+        "to": "白羊座",
+        "retrograde": false,
+        "lon": 0.002
+      },
+      {
         "date": "2026-02-11",
         "planet": "金星",
         "symbol": "♀",
@@ -2156,6 +2249,15 @@
         "to": "雙子座",
         "retrograde": false,
         "lon": 60.653
+      },
+      {
+        "date": "2026-05-03",
+        "planet": "天王星",
+        "symbol": "♅",
+        "from": "金牛座",
+        "to": "雙子座",
+        "retrograde": false,
+        "lon": 60.025
       },
       {
         "date": "2026-05-04",

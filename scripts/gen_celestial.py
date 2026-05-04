@@ -70,14 +70,42 @@ ELEMENTS = {
         "long_peri": (92.59887831, -0.41897216),
         "long_node": (113.66242448, -0.28867794),
     },
+    "uranus": {
+        "a": (19.18916464, -0.00196176),
+        "e": (0.04725744,  -0.00004397),
+        "I": (0.77263783,  -0.00242939),
+        "L": (313.23810451, 428.48202785),
+        "long_peri": (170.95427630, 0.40805281),
+        "long_node": (74.01692503, 0.04240589),
+    },
+    "neptune": {
+        "a": (30.06992276,  0.00026291),
+        "e": (0.00859048,   0.00005105),
+        "I": (1.77004347,   0.00035372),
+        "L": (-55.12002969, 218.45945325),
+        "long_peri": (44.96476227, -0.32241464),
+        "long_node": (131.78422574, -0.00508664),
+    },
+    "pluto": {
+        "a": (39.48211675, -0.00031596),
+        "e": (0.24882730,   0.00005170),
+        "I": (17.14001206,  0.00004818),
+        "L": (238.92903833, 145.20780515),
+        "long_peri": (224.06891629, -0.04062942),
+        "long_node": (110.30393684, -0.01183482),
+    },
 }
 
 PLANET_LABELS = {
+    "sun":     ("太陽", "☉"),
     "mercury": ("水星", "☿"),
     "venus":   ("金星", "♀"),
     "mars":    ("火星", "♂"),
     "jupiter": ("木星", "♃"),
     "saturn":  ("土星", "♄"),
+    "uranus":  ("天王星", "♅"),
+    "neptune": ("海王星", "♆"),
+    "pluto":   ("冥王星", "♇"),
     "north_node": ("北交點", "☊"),
 }
 
@@ -172,8 +200,10 @@ def main():
     start = date(2020, 1, 1)
     end   = date(2030, 12, 31)
 
-    # Build per-day longitude tables for each planet (incl. north node)
-    bodies = ["mercury", "venus", "mars", "jupiter", "saturn", "north_node"]
+    # Build per-day longitude tables (sign-change events; sun excluded as
+    # its sign-change cadence is fixed near month-ends).
+    bodies = ["mercury", "venus", "mars", "jupiter", "saturn",
+              "uranus", "neptune", "pluto", "north_node"]
     lon_table = {b: [] for b in bodies}
     dates = list(daterange(start, end))
 

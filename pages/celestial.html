@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>天體位置｜市場韻腳資料庫</title>
+<script src="../js/celestial.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #0f172a; color: #e2e8f0; min-height: 100vh; padding: 1.5rem; }
+  nav { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+  nav a { font-size: 0.85rem; color: #64748b; text-decoration: none; }
+  nav a:hover { color: #e2e8f0; }
+  nav span { color: #334155; }
+  h2 { font-size: 1.2rem; font-weight: 500; color: #f1f5f9; }
+  .sub { font-size: 0.82rem; color: #64748b; margin-top: 0.25rem; margin-bottom: 1.25rem; }
+  .controls { display: flex; gap: 10px; margin-bottom: 1rem; flex-wrap: wrap; align-items: center; }
+  .controls label { font-size: 0.82rem; color: #64748b; }
+  input[type=date] {
+    background: #1e293b; color: #e2e8f0; border: 0.5px solid #334155;
+    border-radius: 6px; padding: 4px 10px; font-size: 0.85rem;
+    color-scheme: dark;
+  }
+  button { font-size: 0.8rem; padding: 4px 12px; border-radius: 6px;
+    border: 0.5px solid #334155; background: transparent;
+    color: #94a3b8; cursor: pointer; }
+  button:hover { border-color: #64748b; color: #e2e8f0; }
+  .grid { display: grid; gap: 0.65rem;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    max-width: 980px; }
+  .planet-card { background: #1e293b; border-left: 3px solid var(--c, #475569);
+    border-top: 0.5px solid #334155; border-right: 0.5px solid #334155;
+    border-bottom: 0.5px solid #334155;
+    border-radius: 8px; padding: 0.85rem 1rem; }
+  .planet-card .head { display: flex; align-items: baseline; gap: 8px;
+    margin-bottom: 0.4rem; }
+  .planet-card .sym { font-size: 1.4rem; line-height: 1; color: var(--c, #94a3b8); }
+  .planet-card .name { font-size: 0.95rem; color: #f1f5f9; font-weight: 500; }
+  .planet-card .badge { margin-left: auto; font-size: 0.7rem; padding: 2px 7px;
+    border-radius: 3px; }
+  .planet-card .badge.retro { background: rgba(248,113,113,0.12);
+    color: #f87171; border: 0.5px solid #f87171; }
+  .planet-card .badge.fwd   { background: rgba(52,211,153,0.10);
+    color: #34d399; border: 0.5px solid #10b981; }
+  .planet-card .row { display: flex; justify-content: space-between;
+    font-size: 0.78rem; line-height: 1.7; }
+  .planet-card .row .k { color: #64748b; }
+  .planet-card .row .v { color: #cbd5e1; font-variant-numeric: tabular-nums; }
+  .planet-card .sign { font-size: 0.92rem; color: #f1f5f9; font-weight: 500; }
+
+  .legend { font-size: 0.74rem; color: #475569; margin-top: 1.25rem;
+    line-height: 1.7; max-width: 980px; }
+
+  h3 { font-size: 0.78rem; color: #64748b; text-transform: uppercase;
+    letter-spacing: 0.08em; margin: 1.5rem 0 0.6rem; font-weight: 500;
+    max-width: 980px; }
+
+  table.transits { width: 100%; max-width: 980px; border-collapse: collapse;
+    font-size: 0.82rem; }
+  table.transits th, table.transits td {
+    text-align: left; padding: 6px 10px; border-bottom: 0.5px solid #2a3547;
+    color: #cbd5e1;
+  }
+  table.transits th { color: #64748b; font-weight: 500; background: #15202d; }
+  table.transits td.sym { font-size: 1.05rem; width: 28px; }
+  table.transits td.r   { color: #f87171; }
+  table.transits td.f   { color: #34d399; }
+
+  @media (max-width: 640px) { body { padding: 1rem 0.75rem; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../index.html">← 首頁</a>
+  <span>/</span>
+  <span style="color:#94a3b8">天體位置</span>
+</nav>
+
+<h2>天體位置</h2>
+<p class="sub">十大天體當前所在星座、度分、順逆行狀態。</p>
+
+<div class="controls">
+  <label>日期：</label>
+  <input type="date" id="datePicker">
+  <button id="todayBtn">今天</button>
+  <button id="prevBtn">−1日</button>
+  <button id="nextBtn">+1日</button>
+</div>
+
+<div id="grid" class="grid"></div>
+
+<h3>近期轉星座事件（前後 60 天）</h3>
+<table class="transits">
+  <thead>
+    <tr><th>日期</th><th></th><th>行星</th><th>從</th><th>→</th><th>到</th><th>方向</th></tr>
+  </thead>
+  <tbody id="transitsBody"></tbody>
+</table>
+
+<div class="legend">
+  • 計算法：NASA JPL 近似軌道元素 + Kepler 方程，地心黃經。
+  &nbsp;• 精度：水–火 ±1天、木–冥 ±3天、北交點 mean node。
+  &nbsp;• 北交點本性逆行，恆顯示為 R。
+  &nbsp;• 黃經度數中 30° 為一個星座；度.分顯示星座內位置。
+</div>
+
+<script>
+const dp = document.getElementById('datePicker');
+const grid = document.getElementById('grid');
+const tBody = document.getElementById('transitsBody');
+
+let allEvents = [];
+
+function isoToday() {
+  const d = new Date();
+  const tw = new Date(d.getTime() + (8 * 60 + d.getTimezoneOffset()) * 60000);
+  return tw.toISOString().slice(0, 10);
+}
+
+function fmtDeg(p) {
+  // p has signIndex 0-11, deg 0-29, min 0-59
+  return `${String(p.deg).padStart(2, '0')}°${String(p.min).padStart(2, '0')}'`;
+}
+
+function render(dateStr) {
+  dp.value = dateStr;
+  const noonUTC = new Date(dateStr + 'T04:00:00Z');  // ~noon Taipei (UTC+8)
+  const positions = Celestial.positionsAt(noonUTC);
+
+  grid.innerHTML = '';
+  positions.forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'planet-card';
+    card.style.setProperty('--c', p.color);
+    const dirBadge = p.retrograde
+      ? '<span class="badge retro">逆行 R</span>'
+      : '<span class="badge fwd">順行</span>';
+    card.innerHTML = `
+      <div class="head">
+        <span class="sym">${p.symbol}</span>
+        <span class="name">${p.zh}</span>
+        ${dirBadge}
+      </div>
+      <div class="row"><span class="k">星座</span><span class="sign">${p.sign}</span></div>
+      <div class="row"><span class="k">度分</span><span class="v">${fmtDeg(p)}</span></div>
+      <div class="row"><span class="k">黃經</span><span class="v">${p.longitude.toFixed(2)}°</span></div>
+      <div class="row"><span class="k">日動</span><span class="v">${p.speedPerDay > 0 ? '+' : ''}${p.speedPerDay.toFixed(3)}°</span></div>
+    `;
+    grid.appendChild(card);
+  });
+
+  // Nearby transits ±60 days from selected date
+  const t = new Date(dateStr + 'T00:00:00Z').getTime();
+  const SPAN = 60 * 86400000;
+  const nearby = allEvents.filter(e => {
+    const et = new Date(e.date + 'T00:00:00Z').getTime();
+    return Math.abs(et - t) <= SPAN;
+  }).sort((a, b) => a.date.localeCompare(b.date));
+
+  tBody.innerHTML = '';
+  nearby.forEach(e => {
+    const meta = Celestial.planetMeta(e.planet);
+    const tr = document.createElement('tr');
+    const dirCls = e.retrograde ? 'r' : 'f';
+    const dirText = e.retrograde ? '逆行 ↙' : '順行 ↗';
+    tr.innerHTML =
+      `<td>${e.date}</td>` +
+      `<td class="sym" style="color:${meta ? meta.color : '#94a3b8'}">${e.symbol}</td>` +
+      `<td>${e.planet}</td>` +
+      `<td>${e.from}</td>` +
+      `<td style="color:#64748b">→</td>` +
+      `<td>${e.to}</td>` +
+      `<td class="${dirCls}">${dirText}</td>`;
+    tBody.appendChild(tr);
+  });
+  if (!nearby.length) {
+    tBody.innerHTML = '<tr><td colspan="7" style="color:#475569;text-align:center;padding:1rem">所選日期前後 60 天內無事件（或超出 2020-2030 資料範圍）</td></tr>';
+  }
+}
+
+async function init() {
+  try {
+    const data = await Celestial.load();
+    allEvents = data.all;
+  } catch (e) { /* events table optional */ }
+
+  const today = isoToday();
+  render(today);
+
+  dp.addEventListener('change', () => render(dp.value));
+  document.getElementById('todayBtn').addEventListener('click',
+    () => render(isoToday()));
+  document.getElementById('prevBtn').addEventListener('click', () => {
+    const d = new Date(dp.value + 'T00:00:00Z');
+    d.setUTCDate(d.getUTCDate() - 1);
+    render(d.toISOString().slice(0, 10));
+  });
+  document.getElementById('nextBtn').addEventListener('click', () => {
+    const d = new Date(dp.value + 'T00:00:00Z');
+    d.setUTCDate(d.getUTCDate() + 1);
+    render(d.toISOString().slice(0, 10));
+  });
+}
+init();
+</script>
+<script src="../js/chat.js"></script>
+</body>
+</html>
