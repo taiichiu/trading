@@ -67,6 +67,27 @@
   table.transits td.r   { color: #f87171; }
   table.transits td.f   { color: #34d399; }
 
+  table.yearcal { width: 100%; max-width: 980px; border-collapse: collapse;
+    font-size: 0.82rem; }
+  table.yearcal td {
+    text-align: left; padding: 5px 10px; border-bottom: 0.5px solid #2a3547;
+    color: #cbd5e1; vertical-align: middle;
+  }
+  table.yearcal td.sym { font-size: 1.05rem; width: 28px; }
+  table.yearcal td.date { color: #94a3b8; font-variant-numeric: tabular-nums; width: 56px; }
+  table.yearcal tr.month-divider td { background: #15202d; color: #60a5fa;
+    font-size: 0.74rem; padding: 4px 10px; letter-spacing: 0.04em; font-weight: 500;
+    border-bottom: 0.5px solid #1e3a5f; }
+  table.yearcal td.r { color: #f87171; }
+  table.yearcal td.f { color: #34d399; }
+  table.yearcal td.station-r { color: #f87171; }
+  table.yearcal td.station-d { color: #34d399; }
+  .yearfilter { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin: 0.4rem 0 1rem; }
+  .yearfilter button { font-size: 0.74rem; padding: 3px 9px; border-radius: 6px;
+    border: 0.5px solid #334155; background: transparent;
+    color: #94a3b8; cursor: pointer; }
+  .yearfilter button.active { background: #1e3a5f; color: #60a5fa; border-color: #3b82f6; }
+
   @media (max-width: 640px) { body { padding: 1rem 0.75rem; } }
 </style>
 </head>
@@ -97,6 +118,16 @@
     <tr><th>日期</th><th></th><th>行星</th><th>從</th><th>→</th><th>到</th><th>方向</th></tr>
   </thead>
   <tbody id="transitsBody"></tbody>
+</table>
+
+<h3 id="yearHeader">當年大事曆</h3>
+<div class="yearfilter">
+  <button class="yfilter active" data-yfilter="all">全部</button>
+  <button class="yfilter" data-yfilter="transit">僅轉星座</button>
+  <button class="yfilter" data-yfilter="station">僅順逆行轉折</button>
+</div>
+<table class="yearcal">
+  <tbody id="yearcalBody"></tbody>
 </table>
 
 <div class="legend">
@@ -151,10 +182,11 @@ function render(dateStr) {
     grid.appendChild(card);
   });
 
-  // Nearby transits ±60 days from selected date
+  // Nearby transits ±60 days from selected date (only transits in this table)
   const t = new Date(dateStr + 'T00:00:00Z').getTime();
   const SPAN = 60 * 86400000;
   const nearby = allEvents.filter(e => {
+    if ((e.type || 'transit') !== 'transit') return false;
     const et = new Date(e.date + 'T00:00:00Z').getTime();
     return Math.abs(et - t) <= SPAN;
   }).sort((a, b) => a.date.localeCompare(b.date));
@@ -177,6 +209,70 @@ function render(dateStr) {
   });
   if (!nearby.length) {
     tBody.innerHTML = '<tr><td colspan="7" style="color:#475569;text-align:center;padding:1rem">所選日期前後 60 天內無事件（或超出 2020-2030 資料範圍）</td></tr>';
+  }
+
+  // Annual calendar (transits + stations) for the year of selected date
+  renderYearCalendar(dateStr.slice(0, 4));
+}
+
+const ycBody = document.getElementById('yearcalBody');
+let yearFilter = 'all';
+
+function renderYearCalendar(year) {
+  document.getElementById('yearHeader').textContent = `${year} 年大事曆`;
+  ycBody.innerHTML = '';
+
+  const events = allEvents
+    .filter(e => e.date.startsWith(year))
+    .filter(e => yearFilter === 'all' || (e.type || 'transit') === yearFilter)
+    .sort((a, b) => a.date.localeCompare(b.date));
+
+  if (!events.length) {
+    ycBody.innerHTML = '<tr><td style="color:#475569;text-align:center;padding:1rem">' +
+      (year < '2020' || year > '2030'
+        ? '超出 2020-2030 資料範圍'
+        : '無符合條件的事件') + '</td></tr>';
+    return;
+  }
+
+  let lastMonth = null;
+  for (const e of events) {
+    const month = parseInt(e.date.slice(5, 7), 10);
+    if (month !== lastMonth) {
+      const tr = document.createElement('tr');
+      tr.className = 'month-divider';
+      tr.innerHTML = `<td colspan="5">${month} 月</td>`;
+      ycBody.appendChild(tr);
+      lastMonth = month;
+    }
+
+    const meta = Celestial.planetMeta(e.planet);
+    const symColor = meta ? meta.color : '#94a3b8';
+    const tr = document.createElement('tr');
+
+    if ((e.type || 'transit') === 'transit') {
+      const dirText = e.retrograde ? '逆行 ↙' : '順行 ↗';
+      const dirCls = e.retrograde ? 'r' : 'f';
+      tr.innerHTML =
+        `<td class="date">${e.date.slice(5)}</td>` +
+        `<td class="sym" style="color:${symColor}">${e.symbol}</td>` +
+        `<td>${e.planet}</td>` +
+        `<td>進入 <b style="color:#f1f5f9">${e.to}</b></td>` +
+        `<td class="${dirCls}">${dirText}</td>`;
+    } else {
+      // station
+      const isRetro = e.direction === 'R-start';
+      const dirText = isRetro ? '⏸ 開始逆行' : '▶ 轉為順行';
+      const dirCls = isRetro ? 'station-r' : 'station-d';
+      const degTxt = `${e.deg ?? 0}°${String(e.min ?? 0).padStart(2, '0')}'`;
+      tr.innerHTML =
+        `<td class="date">${e.date.slice(5)}</td>` +
+        `<td class="sym" style="color:${symColor}">${e.symbol}</td>` +
+        `<td>${e.planet}</td>` +
+        `<td>於 <b style="color:#f1f5f9">${degTxt} ${e.sign}</b></td>` +
+        `<td class="${dirCls}">${dirText}</td>`;
+    }
+    ycBody.appendChild(tr);
   }
 }
 
@@ -201,6 +297,15 @@ async function init() {
     const d = new Date(dp.value + 'T00:00:00Z');
     d.setUTCDate(d.getUTCDate() + 1);
     render(d.toISOString().slice(0, 10));
+  });
+
+  document.querySelectorAll('.yfilter').forEach(btn => {
+    btn.addEventListener('click', () => {
+      yearFilter = btn.dataset.yfilter;
+      document.querySelectorAll('.yfilter').forEach(b =>
+        b.classList.toggle('active', b === btn));
+      renderYearCalendar(dp.value.slice(0, 4));
+    });
   });
 }
 init();

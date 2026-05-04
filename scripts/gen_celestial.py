@@ -216,7 +216,7 @@ def main():
             else:
                 lon_table[b].append(geo_longitude(b, T))
 
-    # Find sign-change events (compare day i and day i-1)
+    # Find sign-change (transit) events  (compare day i and day i-1)
     events = []
     for b in bodies:
         zh, sym = PLANET_LABELS[b]
@@ -232,6 +232,7 @@ def main():
                 from_sign = ZODIAC[prev_sign]
                 to_sign = ZODIAC[curr_sign]
                 events.append({
+                    "type": "transit",
                     "date": dates[i].isoformat(),
                     "planet": zh,
                     "symbol": sym,
@@ -242,12 +243,49 @@ def main():
                 })
             prev_sign = curr_sign
 
+    # Find stationary points (planet flips between forward and retrograde)
+    # North Node is mean-longitude (always retrograde), so no station for it.
+    station_bodies = [b for b in bodies if b != "north_node"]
+    for b in station_bodies:
+        zh, sym = PLANET_LABELS[b]
+        lons = lon_table[b]
+        # daily velocity (deg/day), normalized to [-180,180]
+        deltas = []
+        for i in range(1, len(lons)):
+            d = (lons[i] - lons[i - 1] + 540) % 360 - 180
+            deltas.append(d)
+        # Detect sign change in deltas (i indexes deltas; date = dates[i])
+        for i in range(1, len(deltas)):
+            d_prev, d_curr = deltas[i - 1], deltas[i]
+            if d_prev == 0 or d_curr == 0:
+                continue
+            if (d_prev > 0) != (d_curr > 0):
+                # The station happens between dates[i-1] and dates[i]
+                going_retro = d_curr < 0  # was forward, now retrograde
+                station_lon = lons[i]
+                sign_idx = sign_index(station_lon)
+                within = ((station_lon % 360) + 360) % 360 - sign_idx * 30
+                events.append({
+                    "type": "station",
+                    "date": dates[i].isoformat(),
+                    "planet": zh,
+                    "symbol": sym,
+                    "direction": "R-start" if going_retro else "D-start",
+                    "lon": round(station_lon, 3),
+                    "sign": ZODIAC[sign_idx],
+                    "deg": int(within),
+                    "min": int((within - int(within)) * 60),
+                })
+
     # Group by year, sort within
     by_year = defaultdict(list)
     for e in events:
         by_year[e["date"][:4]].append(e)
+    # Within a year sort by date, then station before transit (so the
+    # 'about to retrograde' note shows before the sign change if same day).
+    type_rank = {"station": 0, "transit": 1}
     for y in by_year:
-        by_year[y].sort(key=lambda x: (x["date"], x["planet"]))
+        by_year[y].sort(key=lambda x: (x["date"], type_rank.get(x.get("type"), 9), x["planet"]))
 
     out = {
         "meta": {
@@ -266,11 +304,15 @@ def main():
     with open("data/celestial.json", "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=2)
 
-    print(f"Wrote data/celestial.json ({len(events)} events)")
+    transits = [e for e in events if e.get("type") == "transit"]
+    stations = [e for e in events if e.get("type") == "station"]
+    print(f"Wrote data/celestial.json ({len(events)} events: "
+          f"{len(transits)} transits, {len(stations)} stations)")
     for b in bodies:
         zh = PLANET_LABELS[b][0]
-        cnt = sum(1 for e in events if e["planet"] == zh)
-        print(f"  {zh}: {cnt}")
+        t = sum(1 for e in transits if e["planet"] == zh)
+        s = sum(1 for e in stations if e["planet"] == zh)
+        print(f"  {zh}: {t} transits, {s} stations")
 
 
 if __name__ == "__main__":

@@ -166,7 +166,9 @@ function bindCelestialButtons() {
 // weekends + monthly aggregation).
 function buildCelestialMarks(seriesDates) {
   if (!celestial || !visToggles.arrows || selectedPlanets.size === 0) return null;
-  const events = celestial.all.filter(e => selectedPlanets.has(e.planet));
+  const events = celestial.all.filter(e =>
+    (e.type || 'transit') === 'transit' && selectedPlanets.has(e.planet)
+  );
   if (!events.length) return null;
 
   const dateSet = new Set(seriesDates);

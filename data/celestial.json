@@ -29,11 +29,12 @@
       "雙魚座"
     ],
     "accuracy_days": "±1 (Mer–Mar), ±3 (Jup/Sat), <1 (NN)",
-    "total_events": 417
+    "total_events": 618
   },
   "by_year": {
     "2020": [
       {
+        "type": "transit",
         "date": "2020-01-04",
         "planet": "火星",
         "symbol": "♂",
@@ -43,6 +44,18 @@
         "lon": 240.139
       },
       {
+        "type": "station",
+        "date": "2020-01-11",
+        "planet": "天王星",
+        "symbol": "♅",
+        "direction": "D-start",
+        "lon": 32.403,
+        "sign": "金牛座",
+        "deg": 2,
+        "min": 24
+      },
+      {
+        "type": "transit",
         "date": "2020-01-14",
         "planet": "金星",
         "symbol": "♀",
@@ -52,6 +65,7 @@
         "lon": 330.0
       },
       {
+        "type": "transit",
         "date": "2020-01-17",
         "planet": "水星",
         "symbol": "☿",
@@ -61,6 +75,7 @@
         "lon": 300.122
       },
       {
+        "type": "transit",
         "date": "2020-02-04",
         "planet": "水星",
         "symbol": "☿",
@@ -70,6 +85,7 @@
         "lon": 330.533
       },
       {
+        "type": "transit",
         "date": "2020-02-09",
         "planet": "金星",
         "symbol": "♀",
@@ -79,6 +95,18 @@
         "lon": 1.092
       },
       {
+        "type": "station",
+        "date": "2020-02-17",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "R-start",
+        "lon": 342.611,
+        "sign": "雙魚座",
+        "deg": 12,
+        "min": 36
+      },
+      {
+        "type": "transit",
         "date": "2020-02-17",
         "planet": "火星",
         "symbol": "♂",
@@ -88,6 +116,7 @@
         "lon": 270.091
       },
       {
+        "type": "transit",
         "date": "2020-03-05",
         "planet": "水星",
         "symbol": "☿",
@@ -97,6 +126,7 @@
         "lon": 329.391
       },
       {
+        "type": "transit",
         "date": "2020-03-06",
         "planet": "金星",
         "symbol": "♀",
@@ -106,6 +136,18 @@
         "lon": 30.673
       },
       {
+        "type": "station",
+        "date": "2020-03-10",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "D-start",
+        "lon": 327.932,
+        "sign": "水瓶座",
+        "deg": 27,
+        "min": 55
+      },
+      {
+        "type": "transit",
         "date": "2020-03-17",
         "planet": "水星",
         "symbol": "☿",
@@ -115,6 +157,7 @@
         "lon": 330.111
       },
       {
+        "type": "transit",
         "date": "2020-03-26",
         "planet": "土星",
         "symbol": "♄",
@@ -124,6 +167,7 @@
         "lon": 300.052
       },
       {
+        "type": "transit",
         "date": "2020-04-01",
         "planet": "火星",
         "symbol": "♂",
@@ -133,6 +177,7 @@
         "lon": 300.548
       },
       {
+        "type": "transit",
         "date": "2020-04-05",
         "planet": "金星",
         "symbol": "♀",
@@ -142,6 +187,7 @@
         "lon": 60.865
       },
       {
+        "type": "transit",
         "date": "2020-04-12",
         "planet": "水星",
         "symbol": "☿",
@@ -151,6 +197,18 @@
         "lon": 1.003
       },
       {
+        "type": "station",
+        "date": "2020-04-25",
+        "planet": "冥王星",
+        "symbol": "♇",
+        "direction": "R-start",
+        "lon": 294.711,
+        "sign": "摩羯座",
+        "deg": 24,
+        "min": 42
+      },
+      {
+        "type": "transit",
         "date": "2020-04-28",
         "planet": "水星",
         "symbol": "☿",
@@ -160,6 +218,29 @@
         "lon": 30.078
       },
       {
+        "type": "station",
+        "date": "2020-05-11",
+        "planet": "土星",
+        "symbol": "♄",
+        "direction": "R-start",
+        "lon": 301.732,
+        "sign": "水瓶座",
+        "deg": 1,
+        "min": 43
+      },
+      {
+        "type": "station",
+        "date": "2020-05-13",
+        "planet": "金星",
+        "symbol": "♀",
+        "direction": "R-start",
+        "lon": 81.559,
+        "sign": "雙子座",
+        "deg": 21,
+        "min": 33
+      },
+      {
+        "type": "transit",
         "date": "2020-05-13",
         "planet": "水星",
         "symbol": "☿",
@@ -169,6 +250,7 @@
         "lon": 62.015
       },
       {
+        "type": "transit",
         "date": "2020-05-14",
         "planet": "火星",
         "symbol": "♂",
@@ -178,6 +260,18 @@
         "lon": 330.285
       },
       {
+        "type": "station",
+        "date": "2020-05-15",
+        "planet": "木星",
+        "symbol": "♃",
+        "direction": "R-start",
+        "lon": 296.969,
+        "sign": "摩羯座",
+        "deg": 26,
+        "min": 58
+      },
+      {
+        "type": "transit",
         "date": "2020-05-29",
         "planet": "水星",
         "symbol": "☿",
@@ -187,6 +281,7 @@
         "lon": 90.053
       },
       {
+        "type": "transit",
         "date": "2020-06-05",
         "planet": "北交點",
         "symbol": "☊",
@@ -196,6 +291,40 @@
         "lon": 89.983
       },
       {
+        "type": "station",
+        "date": "2020-06-18",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "R-start",
+        "lon": 104.484,
+        "sign": "巨蟹座",
+        "deg": 14,
+        "min": 29
+      },
+      {
+        "type": "station",
+        "date": "2020-06-23",
+        "planet": "海王星",
+        "symbol": "♆",
+        "direction": "R-start",
+        "lon": 350.692,
+        "sign": "雙魚座",
+        "deg": 20,
+        "min": 41
+      },
+      {
+        "type": "station",
+        "date": "2020-06-25",
+        "planet": "金星",
+        "symbol": "♀",
+        "direction": "D-start",
+        "lon": 65.05,
+        "sign": "雙子座",
+        "deg": 5,
+        "min": 2
+      },
+      {
+        "type": "transit",
         "date": "2020-06-29",
         "planet": "土星",
         "symbol": "♄",
@@ -205,6 +334,7 @@
         "lon": 299.966
       },
       {
+        "type": "transit",
         "date": "2020-06-29",
         "planet": "火星",
         "symbol": "♂",
@@ -214,6 +344,18 @@
         "lon": 0.28
       },
       {
+        "type": "station",
+        "date": "2020-07-12",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "D-start",
+        "lon": 95.219,
+        "sign": "巨蟹座",
+        "deg": 5,
+        "min": 13
+      },
+      {
+        "type": "transit",
         "date": "2020-08-06",
         "planet": "水星",
         "symbol": "☿",
@@ -223,6 +365,7 @@
         "lon": 121.36
       },
       {
+        "type": "transit",
         "date": "2020-08-08",
         "planet": "金星",
         "symbol": "♀",
@@ -232,6 +375,18 @@
         "lon": 90.052
       },
       {
+        "type": "station",
+        "date": "2020-08-15",
+        "planet": "天王星",
+        "symbol": "♅",
+        "direction": "R-start",
+        "lon": 40.438,
+        "sign": "金牛座",
+        "deg": 10,
+        "min": 26
+      },
+      {
+        "type": "transit",
         "date": "2020-08-21",
         "planet": "水星",
         "symbol": "☿",
@@ -241,6 +396,7 @@
         "lon": 151.566
       },
       {
+        "type": "transit",
         "date": "2020-09-06",
         "planet": "水星",
         "symbol": "☿",
@@ -250,6 +406,7 @@
         "lon": 180.012
       },
       {
+        "type": "transit",
         "date": "2020-09-07",
         "planet": "金星",
         "symbol": "♀",
@@ -259,6 +416,29 @@
         "lon": 120.478
       },
       {
+        "type": "station",
+        "date": "2020-09-10",
+        "planet": "火星",
+        "symbol": "♂",
+        "direction": "R-start",
+        "lon": 27.859,
+        "sign": "白羊座",
+        "deg": 27,
+        "min": 51
+      },
+      {
+        "type": "station",
+        "date": "2020-09-13",
+        "planet": "木星",
+        "symbol": "♃",
+        "direction": "D-start",
+        "lon": 287.129,
+        "sign": "摩羯座",
+        "deg": 17,
+        "min": 7
+      },
+      {
+        "type": "transit",
         "date": "2020-09-28",
         "planet": "水星",
         "symbol": "☿",
@@ -268,6 +448,29 @@
         "lon": 210.486
       },
       {
+        "type": "station",
+        "date": "2020-09-29",
+        "planet": "土星",
+        "symbol": "♄",
+        "direction": "D-start",
+        "lon": 295.09,
+        "sign": "摩羯座",
+        "deg": 25,
+        "min": 5
+      },
+      {
+        "type": "station",
+        "date": "2020-10-04",
+        "planet": "冥王星",
+        "symbol": "♇",
+        "direction": "D-start",
+        "lon": 292.196,
+        "sign": "摩羯座",
+        "deg": 22,
+        "min": 11
+      },
+      {
+        "type": "transit",
         "date": "2020-10-04",
         "planet": "金星",
         "symbol": "♀",
@@ -277,6 +480,18 @@
         "lon": 151.046
       },
       {
+        "type": "station",
+        "date": "2020-10-14",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "R-start",
+        "lon": 221.388,
+        "sign": "天蠍座",
+        "deg": 11,
+        "min": 23
+      },
+      {
+        "type": "transit",
         "date": "2020-10-28",
         "planet": "水星",
         "symbol": "☿",
@@ -286,6 +501,7 @@
         "lon": 209.786
       },
       {
+        "type": "transit",
         "date": "2020-10-29",
         "planet": "金星",
         "symbol": "♀",
@@ -295,6 +511,18 @@
         "lon": 180.849
       },
       {
+        "type": "station",
+        "date": "2020-11-04",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "D-start",
+        "lon": 205.621,
+        "sign": "天秤座",
+        "deg": 25,
+        "min": 37
+      },
+      {
+        "type": "transit",
         "date": "2020-11-12",
         "planet": "水星",
         "symbol": "☿",
@@ -304,6 +532,18 @@
         "lon": 210.887
       },
       {
+        "type": "station",
+        "date": "2020-11-14",
+        "planet": "火星",
+        "symbol": "♂",
+        "direction": "D-start",
+        "lon": 14.957,
+        "sign": "白羊座",
+        "deg": 14,
+        "min": 57
+      },
+      {
+        "type": "transit",
         "date": "2020-11-22",
         "planet": "金星",
         "symbol": "♀",
@@ -313,6 +553,18 @@
         "lon": 210.268
       },
       {
+        "type": "station",
+        "date": "2020-11-29",
+        "planet": "海王星",
+        "symbol": "♆",
+        "direction": "D-start",
+        "lon": 347.886,
+        "sign": "雙魚座",
+        "deg": 17,
+        "min": 53
+      },
+      {
+        "type": "transit",
         "date": "2020-12-03",
         "planet": "水星",
         "symbol": "☿",
@@ -322,6 +574,7 @@
         "lon": 241.555
       },
       {
+        "type": "transit",
         "date": "2020-12-16",
         "planet": "金星",
         "symbol": "♀",
@@ -331,6 +584,7 @@
         "lon": 240.117
       },
       {
+        "type": "transit",
         "date": "2020-12-20",
         "planet": "土星",
         "symbol": "♄",
@@ -340,6 +594,7 @@
         "lon": 300.055
       },
       {
+        "type": "transit",
         "date": "2020-12-21",
         "planet": "木星",
         "symbol": "♃",
@@ -349,6 +604,7 @@
         "lon": 300.03
       },
       {
+        "type": "transit",
         "date": "2020-12-22",
         "planet": "水星",
         "symbol": "☿",
@@ -360,6 +616,7 @@
     ],
     "2021": [
       {
+        "type": "transit",
         "date": "2021-01-08",
         "planet": "火星",
         "symbol": "♂",
@@ -369,6 +626,7 @@
         "lon": 30.211
       },
       {
+        "type": "transit",
         "date": "2021-01-09",
         "planet": "水星",
         "symbol": "☿",
@@ -378,6 +636,7 @@
         "lon": 300.542
       },
       {
+        "type": "transit",
         "date": "2021-01-09",
         "planet": "金星",
         "symbol": "♀",
@@ -387,6 +646,29 @@
         "lon": 270.154
       },
       {
+        "type": "station",
+        "date": "2021-01-14",
+        "planet": "天王星",
+        "symbol": "♅",
+        "direction": "D-start",
+        "lon": 36.462,
+        "sign": "金牛座",
+        "deg": 6,
+        "min": 27
+      },
+      {
+        "type": "station",
+        "date": "2021-01-31",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "R-start",
+        "lon": 326.189,
+        "sign": "水瓶座",
+        "deg": 26,
+        "min": 11
+      },
+      {
+        "type": "transit",
         "date": "2021-02-02",
         "planet": "金星",
         "symbol": "♀",
@@ -396,6 +678,18 @@
         "lon": 300.236
       },
       {
+        "type": "station",
+        "date": "2021-02-21",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "D-start",
+        "lon": 310.728,
+        "sign": "水瓶座",
+        "deg": 10,
+        "min": 43
+      },
+      {
+        "type": "transit",
         "date": "2021-02-26",
         "planet": "金星",
         "symbol": "♀",
@@ -405,6 +699,7 @@
         "lon": 330.28
       },
       {
+        "type": "transit",
         "date": "2021-03-05",
         "planet": "火星",
         "symbol": "♂",
@@ -414,6 +709,7 @@
         "lon": 60.215
       },
       {
+        "type": "transit",
         "date": "2021-03-17",
         "planet": "水星",
         "symbol": "☿",
@@ -423,6 +719,7 @@
         "lon": 331.142
       },
       {
+        "type": "transit",
         "date": "2021-03-22",
         "planet": "金星",
         "symbol": "♀",
@@ -432,6 +729,7 @@
         "lon": 0.22
       },
       {
+        "type": "transit",
         "date": "2021-04-05",
         "planet": "水星",
         "symbol": "☿",
@@ -441,6 +739,7 @@
         "lon": 1.238
       },
       {
+        "type": "transit",
         "date": "2021-04-15",
         "planet": "金星",
         "symbol": "♀",
@@ -450,6 +749,7 @@
         "lon": 30.008
       },
       {
+        "type": "transit",
         "date": "2021-04-20",
         "planet": "水星",
         "symbol": "☿",
@@ -459,6 +759,7 @@
         "lon": 30.91
       },
       {
+        "type": "transit",
         "date": "2021-04-24",
         "planet": "火星",
         "symbol": "♂",
@@ -468,6 +769,18 @@
         "lon": 90.024
       },
       {
+        "type": "station",
+        "date": "2021-04-28",
+        "planet": "冥王星",
+        "symbol": "♇",
+        "direction": "R-start",
+        "lon": 296.507,
+        "sign": "摩羯座",
+        "deg": 26,
+        "min": 30
+      },
+      {
+        "type": "transit",
         "date": "2021-05-05",
         "planet": "水星",
         "symbol": "☿",
@@ -477,6 +790,7 @@
         "lon": 61.289
       },
       {
+        "type": "transit",
         "date": "2021-05-10",
         "planet": "金星",
         "symbol": "♀",
@@ -486,6 +800,7 @@
         "lon": 60.845
       },
       {
+        "type": "transit",
         "date": "2021-05-17",
         "planet": "木星",
         "symbol": "♃",
@@ -495,6 +810,29 @@
         "lon": 330.003
       },
       {
+        "type": "station",
+        "date": "2021-05-23",
+        "planet": "土星",
+        "symbol": "♄",
+        "direction": "R-start",
+        "lon": 313.291,
+        "sign": "水瓶座",
+        "deg": 13,
+        "min": 17
+      },
+      {
+        "type": "station",
+        "date": "2021-05-30",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "R-start",
+        "lon": 84.426,
+        "sign": "雙子座",
+        "deg": 24,
+        "min": 25
+      },
+      {
+        "type": "transit",
         "date": "2021-06-03",
         "planet": "金星",
         "symbol": "♀",
@@ -504,6 +842,7 @@
         "lon": 90.262
       },
       {
+        "type": "transit",
         "date": "2021-06-13",
         "planet": "火星",
         "symbol": "♂",
@@ -513,6 +852,40 @@
         "lon": 120.599
       },
       {
+        "type": "station",
+        "date": "2021-06-21",
+        "planet": "木星",
+        "symbol": "♃",
+        "direction": "R-start",
+        "lon": 331.847,
+        "sign": "雙魚座",
+        "deg": 1,
+        "min": 50
+      },
+      {
+        "type": "station",
+        "date": "2021-06-23",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "D-start",
+        "lon": 75.834,
+        "sign": "雙子座",
+        "deg": 15,
+        "min": 50
+      },
+      {
+        "type": "station",
+        "date": "2021-06-25",
+        "planet": "海王星",
+        "symbol": "♆",
+        "direction": "R-start",
+        "lon": 352.913,
+        "sign": "雙魚座",
+        "deg": 22,
+        "min": 54
+      },
+      {
+        "type": "transit",
         "date": "2021-06-28",
         "planet": "金星",
         "symbol": "♀",
@@ -522,6 +895,7 @@
         "lon": 120.703
       },
       {
+        "type": "transit",
         "date": "2021-07-13",
         "planet": "水星",
         "symbol": "☿",
@@ -531,6 +905,7 @@
         "lon": 91.38
       },
       {
+        "type": "transit",
         "date": "2021-07-23",
         "planet": "金星",
         "symbol": "♀",
@@ -540,6 +915,7 @@
         "lon": 150.881
       },
       {
+        "type": "transit",
         "date": "2021-07-26",
         "planet": "木星",
         "symbol": "♃",
@@ -549,6 +925,7 @@
         "lon": 329.918
       },
       {
+        "type": "transit",
         "date": "2021-07-29",
         "planet": "水星",
         "symbol": "☿",
@@ -558,6 +935,7 @@
         "lon": 121.722
       },
       {
+        "type": "transit",
         "date": "2021-07-31",
         "planet": "火星",
         "symbol": "♂",
@@ -567,6 +945,7 @@
         "lon": 150.43
       },
       {
+        "type": "transit",
         "date": "2021-08-13",
         "planet": "水星",
         "symbol": "☿",
@@ -576,6 +955,7 @@
         "lon": 151.718
       },
       {
+        "type": "transit",
         "date": "2021-08-17",
         "planet": "金星",
         "symbol": "♀",
@@ -585,6 +965,18 @@
         "lon": 180.67
       },
       {
+        "type": "station",
+        "date": "2021-08-20",
+        "planet": "天王星",
+        "symbol": "♅",
+        "direction": "R-start",
+        "lon": 44.525,
+        "sign": "金牛座",
+        "deg": 14,
+        "min": 31
+      },
+      {
+        "type": "transit",
         "date": "2021-08-31",
         "planet": "水星",
         "symbol": "☿",
@@ -594,6 +986,7 @@
         "lon": 180.822
       },
       {
+        "type": "transit",
         "date": "2021-09-12",
         "planet": "金星",
         "symbol": "♀",
@@ -603,6 +996,7 @@
         "lon": 211.018
       },
       {
+        "type": "transit",
         "date": "2021-09-16",
         "planet": "火星",
         "symbol": "♂",
@@ -612,6 +1006,29 @@
         "lon": 180.348
       },
       {
+        "type": "station",
+        "date": "2021-09-27",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "R-start",
+        "lon": 205.176,
+        "sign": "天秤座",
+        "deg": 25,
+        "min": 10
+      },
+      {
+        "type": "station",
+        "date": "2021-10-07",
+        "planet": "冥王星",
+        "symbol": "♇",
+        "direction": "D-start",
+        "lon": 294.004,
+        "sign": "摩羯座",
+        "deg": 24,
+        "min": 0
+      },
+      {
+        "type": "transit",
         "date": "2021-10-08",
         "planet": "金星",
         "symbol": "♀",
@@ -621,6 +1038,40 @@
         "lon": 240.283
       },
       {
+        "type": "station",
+        "date": "2021-10-11",
+        "planet": "土星",
+        "symbol": "♄",
+        "direction": "D-start",
+        "lon": 306.631,
+        "sign": "水瓶座",
+        "deg": 6,
+        "min": 37
+      },
+      {
+        "type": "station",
+        "date": "2021-10-18",
+        "planet": "木星",
+        "symbol": "♃",
+        "direction": "D-start",
+        "lon": 321.986,
+        "sign": "水瓶座",
+        "deg": 21,
+        "min": 59
+      },
+      {
+        "type": "station",
+        "date": "2021-10-19",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "D-start",
+        "lon": 189.84,
+        "sign": "天秤座",
+        "deg": 9,
+        "min": 50
+      },
+      {
+        "type": "transit",
         "date": "2021-11-01",
         "planet": "火星",
         "symbol": "♂",
@@ -630,6 +1081,7 @@
         "lon": 210.65
       },
       {
+        "type": "transit",
         "date": "2021-11-06",
         "planet": "金星",
         "symbol": "♀",
@@ -639,6 +1091,7 @@
         "lon": 270.23
       },
       {
+        "type": "transit",
         "date": "2021-11-07",
         "planet": "水星",
         "symbol": "☿",
@@ -648,6 +1101,7 @@
         "lon": 211.397
       },
       {
+        "type": "transit",
         "date": "2021-11-25",
         "planet": "水星",
         "symbol": "☿",
@@ -657,6 +1111,18 @@
         "lon": 240.266
       },
       {
+        "type": "station",
+        "date": "2021-12-01",
+        "planet": "海王星",
+        "symbol": "♆",
+        "direction": "D-start",
+        "lon": 350.107,
+        "sign": "雙魚座",
+        "deg": 20,
+        "min": 6
+      },
+      {
+        "type": "transit",
         "date": "2021-12-14",
         "planet": "水星",
         "symbol": "☿",
@@ -666,6 +1132,7 @@
         "lon": 270.111
       },
       {
+        "type": "transit",
         "date": "2021-12-14",
         "planet": "火星",
         "symbol": "♂",
@@ -675,6 +1142,18 @@
         "lon": 240.119
       },
       {
+        "type": "station",
+        "date": "2021-12-19",
+        "planet": "金星",
+        "symbol": "♀",
+        "direction": "R-start",
+        "lon": 296.194,
+        "sign": "摩羯座",
+        "deg": 26,
+        "min": 11
+      },
+      {
+        "type": "transit",
         "date": "2021-12-24",
         "planet": "北交點",
         "symbol": "☊",
@@ -684,6 +1163,7 @@
         "lon": 59.958
       },
       {
+        "type": "transit",
         "date": "2021-12-31",
         "planet": "木星",
         "symbol": "♃",
@@ -695,6 +1175,7 @@
     ],
     "2022": [
       {
+        "type": "transit",
         "date": "2022-01-03",
         "planet": "水星",
         "symbol": "☿",
@@ -704,6 +1185,29 @@
         "lon": 300.66
       },
       {
+        "type": "station",
+        "date": "2022-01-14",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "R-start",
+        "lon": 310.014,
+        "sign": "水瓶座",
+        "deg": 10,
+        "min": 0
+      },
+      {
+        "type": "station",
+        "date": "2022-01-19",
+        "planet": "天王星",
+        "symbol": "♅",
+        "direction": "D-start",
+        "lon": 40.542,
+        "sign": "金牛座",
+        "deg": 10,
+        "min": 32
+      },
+      {
+        "type": "transit",
         "date": "2022-01-25",
         "planet": "火星",
         "symbol": "♂",
@@ -713,6 +1217,7 @@
         "lon": 270.046
       },
       {
+        "type": "transit",
         "date": "2022-01-26",
         "planet": "水星",
         "symbol": "☿",
@@ -722,6 +1227,29 @@
         "lon": 299.853
       },
       {
+        "type": "station",
+        "date": "2022-01-29",
+        "planet": "金星",
+        "symbol": "♀",
+        "direction": "D-start",
+        "lon": 280.792,
+        "sign": "摩羯座",
+        "deg": 10,
+        "min": 47
+      },
+      {
+        "type": "station",
+        "date": "2022-02-04",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "D-start",
+        "lon": 294.076,
+        "sign": "摩羯座",
+        "deg": 24,
+        "min": 4
+      },
+      {
+        "type": "transit",
         "date": "2022-02-16",
         "planet": "水星",
         "symbol": "☿",
@@ -731,6 +1259,7 @@
         "lon": 300.726
       },
       {
+        "type": "transit",
         "date": "2022-03-07",
         "planet": "火星",
         "symbol": "♂",
@@ -740,6 +1269,7 @@
         "lon": 300.257
       },
       {
+        "type": "transit",
         "date": "2022-03-07",
         "planet": "金星",
         "symbol": "♀",
@@ -749,6 +1279,7 @@
         "lon": 300.336
       },
       {
+        "type": "transit",
         "date": "2022-03-11",
         "planet": "水星",
         "symbol": "☿",
@@ -758,6 +1289,7 @@
         "lon": 331.177
       },
       {
+        "type": "transit",
         "date": "2022-03-28",
         "planet": "水星",
         "symbol": "☿",
@@ -767,6 +1299,7 @@
         "lon": 1.011
       },
       {
+        "type": "transit",
         "date": "2022-04-06",
         "planet": "金星",
         "symbol": "♀",
@@ -776,6 +1309,7 @@
         "lon": 330.086
       },
       {
+        "type": "transit",
         "date": "2022-04-12",
         "planet": "水星",
         "symbol": "☿",
@@ -785,6 +1319,7 @@
         "lon": 31.562
       },
       {
+        "type": "transit",
         "date": "2022-04-16",
         "planet": "火星",
         "symbol": "♂",
@@ -794,6 +1329,18 @@
         "lon": 330.368
       },
       {
+        "type": "station",
+        "date": "2022-04-30",
+        "planet": "冥王星",
+        "symbol": "♇",
+        "direction": "R-start",
+        "lon": 298.279,
+        "sign": "摩羯座",
+        "deg": 28,
+        "min": 16
+      },
+      {
+        "type": "transit",
         "date": "2022-05-01",
         "planet": "水星",
         "symbol": "☿",
@@ -803,6 +1350,7 @@
         "lon": 60.625
       },
       {
+        "type": "transit",
         "date": "2022-05-03",
         "planet": "金星",
         "symbol": "♀",
@@ -812,6 +1360,18 @@
         "lon": 0.067
       },
       {
+        "type": "station",
+        "date": "2022-05-10",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "R-start",
+        "lon": 64.531,
+        "sign": "雙子座",
+        "deg": 4,
+        "min": 31
+      },
+      {
+        "type": "transit",
         "date": "2022-05-13",
         "planet": "木星",
         "symbol": "♃",
@@ -821,6 +1381,7 @@
         "lon": 0.032
       },
       {
+        "type": "transit",
         "date": "2022-05-23",
         "planet": "水星",
         "symbol": "☿",
@@ -830,6 +1391,7 @@
         "lon": 59.715
       },
       {
+        "type": "transit",
         "date": "2022-05-26",
         "planet": "火星",
         "symbol": "♂",
@@ -839,6 +1401,7 @@
         "lon": 0.472
       },
       {
+        "type": "transit",
         "date": "2022-05-29",
         "planet": "金星",
         "symbol": "♀",
@@ -848,6 +1411,29 @@
         "lon": 30.145
       },
       {
+        "type": "station",
+        "date": "2022-06-03",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "D-start",
+        "lon": 55.772,
+        "sign": "金牛座",
+        "deg": 25,
+        "min": 46
+      },
+      {
+        "type": "station",
+        "date": "2022-06-05",
+        "planet": "土星",
+        "symbol": "♄",
+        "direction": "R-start",
+        "lon": 325.02,
+        "sign": "水瓶座",
+        "deg": 25,
+        "min": 1
+      },
+      {
+        "type": "transit",
         "date": "2022-06-15",
         "planet": "水星",
         "symbol": "☿",
@@ -857,6 +1443,7 @@
         "lon": 60.759
       },
       {
+        "type": "transit",
         "date": "2022-06-24",
         "planet": "金星",
         "symbol": "♀",
@@ -866,6 +1453,18 @@
         "lon": 60.856
       },
       {
+        "type": "station",
+        "date": "2022-06-28",
+        "planet": "海王星",
+        "symbol": "♆",
+        "direction": "R-start",
+        "lon": 355.135,
+        "sign": "雙魚座",
+        "deg": 25,
+        "min": 8
+      },
+      {
+        "type": "transit",
         "date": "2022-07-06",
         "planet": "水星",
         "symbol": "☿",
@@ -875,6 +1474,7 @@
         "lon": 91.138
       },
       {
+        "type": "transit",
         "date": "2022-07-06",
         "planet": "火星",
         "symbol": "♂",
@@ -884,6 +1484,7 @@
         "lon": 30.22
       },
       {
+        "type": "transit",
         "date": "2022-07-19",
         "planet": "金星",
         "symbol": "♀",
@@ -893,6 +1494,7 @@
         "lon": 90.823
       },
       {
+        "type": "transit",
         "date": "2022-07-20",
         "planet": "水星",
         "symbol": "☿",
@@ -902,6 +1504,18 @@
         "lon": 120.697
       },
       {
+        "type": "station",
+        "date": "2022-07-29",
+        "planet": "木星",
+        "symbol": "♃",
+        "direction": "R-start",
+        "lon": 8.33,
+        "sign": "白羊座",
+        "deg": 8,
+        "min": 19
+      },
+      {
+        "type": "transit",
         "date": "2022-08-05",
         "planet": "水星",
         "symbol": "☿",
@@ -911,6 +1525,7 @@
         "lon": 150.884
       },
       {
+        "type": "transit",
         "date": "2022-08-13",
         "planet": "金星",
         "symbol": "♀",
@@ -920,6 +1535,7 @@
         "lon": 121.195
       },
       {
+        "type": "transit",
         "date": "2022-08-21",
         "planet": "火星",
         "symbol": "♂",
@@ -929,6 +1545,18 @@
         "lon": 60.081
       },
       {
+        "type": "station",
+        "date": "2022-08-24",
+        "planet": "天王星",
+        "symbol": "♅",
+        "direction": "R-start",
+        "lon": 48.635,
+        "sign": "金牛座",
+        "deg": 18,
+        "min": 38
+      },
+      {
+        "type": "transit",
         "date": "2022-08-27",
         "planet": "水星",
         "symbol": "☿",
@@ -938,6 +1566,7 @@
         "lon": 180.65
       },
       {
+        "type": "transit",
         "date": "2022-09-06",
         "planet": "金星",
         "symbol": "♀",
@@ -947,6 +1576,18 @@
         "lon": 150.719
       },
       {
+        "type": "station",
+        "date": "2022-09-10",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "R-start",
+        "lon": 188.606,
+        "sign": "天秤座",
+        "deg": 8,
+        "min": 36
+      },
+      {
+        "type": "transit",
         "date": "2022-09-24",
         "planet": "水星",
         "symbol": "☿",
@@ -956,6 +1597,7 @@
         "lon": 179.151
       },
       {
+        "type": "transit",
         "date": "2022-09-30",
         "planet": "金星",
         "symbol": "♀",
@@ -965,6 +1607,29 @@
         "lon": 180.534
       },
       {
+        "type": "station",
+        "date": "2022-10-02",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "D-start",
+        "lon": 173.893,
+        "sign": "處女座",
+        "deg": 23,
+        "min": 53
+      },
+      {
+        "type": "station",
+        "date": "2022-10-09",
+        "planet": "冥王星",
+        "symbol": "♇",
+        "direction": "D-start",
+        "lon": 295.788,
+        "sign": "摩羯座",
+        "deg": 25,
+        "min": 47
+      },
+      {
+        "type": "transit",
         "date": "2022-10-12",
         "planet": "水星",
         "symbol": "☿",
@@ -974,6 +1639,18 @@
         "lon": 180.967
       },
       {
+        "type": "station",
+        "date": "2022-10-23",
+        "planet": "土星",
+        "symbol": "♄",
+        "direction": "D-start",
+        "lon": 318.336,
+        "sign": "水瓶座",
+        "deg": 18,
+        "min": 20
+      },
+      {
+        "type": "transit",
         "date": "2022-10-24",
         "planet": "木星",
         "symbol": "♃",
@@ -983,6 +1660,7 @@
         "lon": 359.99
       },
       {
+        "type": "transit",
         "date": "2022-10-24",
         "planet": "金星",
         "symbol": "♀",
@@ -992,6 +1670,7 @@
         "lon": 210.538
       },
       {
+        "type": "transit",
         "date": "2022-10-30",
         "planet": "水星",
         "symbol": "☿",
@@ -1001,6 +1680,18 @@
         "lon": 210.019
       },
       {
+        "type": "station",
+        "date": "2022-10-31",
+        "planet": "火星",
+        "symbol": "♂",
+        "direction": "R-start",
+        "lon": 85.297,
+        "sign": "雙子座",
+        "deg": 25,
+        "min": 17
+      },
+      {
+        "type": "transit",
         "date": "2022-11-17",
         "planet": "金星",
         "symbol": "♀",
@@ -1010,6 +1701,7 @@
         "lon": 240.631
       },
       {
+        "type": "transit",
         "date": "2022-11-18",
         "planet": "水星",
         "symbol": "☿",
@@ -1019,6 +1711,29 @@
         "lon": 240.696
       },
       {
+        "type": "station",
+        "date": "2022-11-24",
+        "planet": "木星",
+        "symbol": "♃",
+        "direction": "D-start",
+        "lon": 358.407,
+        "sign": "雙魚座",
+        "deg": 28,
+        "min": 24
+      },
+      {
+        "type": "station",
+        "date": "2022-12-04",
+        "planet": "海王星",
+        "symbol": "♆",
+        "direction": "D-start",
+        "lon": 352.328,
+        "sign": "雙魚座",
+        "deg": 22,
+        "min": 19
+      },
+      {
+        "type": "transit",
         "date": "2022-12-08",
         "planet": "水星",
         "symbol": "☿",
@@ -1028,6 +1743,7 @@
         "lon": 271.3
       },
       {
+        "type": "transit",
         "date": "2022-12-11",
         "planet": "金星",
         "symbol": "♀",
@@ -1037,6 +1753,7 @@
         "lon": 270.748
       },
       {
+        "type": "transit",
         "date": "2022-12-25",
         "planet": "木星",
         "symbol": "♃",
@@ -1044,10 +1761,22 @@
         "to": "白羊座",
         "retrograde": false,
         "lon": 0.032
+      },
+      {
+        "type": "station",
+        "date": "2022-12-29",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "R-start",
+        "lon": 294.028,
+        "sign": "摩羯座",
+        "deg": 24,
+        "min": 1
       }
     ],
     "2023": [
       {
+        "type": "transit",
         "date": "2023-01-04",
         "planet": "金星",
         "symbol": "♀",
@@ -1057,6 +1786,40 @@
         "lon": 300.835
       },
       {
+        "type": "station",
+        "date": "2023-01-13",
+        "planet": "火星",
+        "symbol": "♂",
+        "direction": "D-start",
+        "lon": 67.809,
+        "sign": "雙子座",
+        "deg": 7,
+        "min": 48
+      },
+      {
+        "type": "station",
+        "date": "2023-01-19",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "D-start",
+        "lon": 277.837,
+        "sign": "摩羯座",
+        "deg": 7,
+        "min": 50
+      },
+      {
+        "type": "station",
+        "date": "2023-01-23",
+        "planet": "天王星",
+        "symbol": "♅",
+        "direction": "D-start",
+        "lon": 44.644,
+        "sign": "金牛座",
+        "deg": 14,
+        "min": 38
+      },
+      {
+        "type": "transit",
         "date": "2023-01-28",
         "planet": "金星",
         "symbol": "♀",
@@ -1066,6 +1829,7 @@
         "lon": 330.806
       },
       {
+        "type": "transit",
         "date": "2023-02-12",
         "planet": "水星",
         "symbol": "☿",
@@ -1075,6 +1839,7 @@
         "lon": 300.419
       },
       {
+        "type": "transit",
         "date": "2023-02-21",
         "planet": "金星",
         "symbol": "♀",
@@ -1084,6 +1849,7 @@
         "lon": 0.516
       },
       {
+        "type": "transit",
         "date": "2023-03-04",
         "planet": "水星",
         "symbol": "☿",
@@ -1093,6 +1859,7 @@
         "lon": 331.486
       },
       {
+        "type": "transit",
         "date": "2023-03-10",
         "planet": "土星",
         "symbol": "♄",
@@ -1102,6 +1869,7 @@
         "lon": 330.037
       },
       {
+        "type": "transit",
         "date": "2023-03-18",
         "planet": "金星",
         "symbol": "♀",
@@ -1111,6 +1879,7 @@
         "lon": 30.965
       },
       {
+        "type": "transit",
         "date": "2023-03-20",
         "planet": "水星",
         "symbol": "☿",
@@ -1120,6 +1889,7 @@
         "lon": 1.321
       },
       {
+        "type": "transit",
         "date": "2023-03-27",
         "planet": "火星",
         "symbol": "♂",
@@ -1129,6 +1899,7 @@
         "lon": 90.418
       },
       {
+        "type": "transit",
         "date": "2023-04-04",
         "planet": "水星",
         "symbol": "☿",
@@ -1138,6 +1909,7 @@
         "lon": 30.215
       },
       {
+        "type": "transit",
         "date": "2023-04-12",
         "planet": "金星",
         "symbol": "♀",
@@ -1147,6 +1919,18 @@
         "lon": 60.616
       },
       {
+        "type": "station",
+        "date": "2023-04-21",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "R-start",
+        "lon": 45.292,
+        "sign": "金牛座",
+        "deg": 15,
+        "min": 17
+      },
+      {
+        "type": "transit",
         "date": "2023-04-21",
         "planet": "冥王星",
         "symbol": "♇",
@@ -1156,6 +1940,18 @@
         "lon": 300.001
       },
       {
+        "type": "station",
+        "date": "2023-05-01",
+        "planet": "冥王星",
+        "symbol": "♇",
+        "direction": "R-start",
+        "lon": 300.027,
+        "sign": "水瓶座",
+        "deg": 0,
+        "min": 1
+      },
+      {
+        "type": "transit",
         "date": "2023-05-08",
         "planet": "金星",
         "symbol": "♀",
@@ -1165,6 +1961,7 @@
         "lon": 90.116
       },
       {
+        "type": "transit",
         "date": "2023-05-13",
         "planet": "冥王星",
         "symbol": "♇",
@@ -1174,6 +1971,18 @@
         "lon": 299.996
       },
       {
+        "type": "station",
+        "date": "2023-05-15",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "D-start",
+        "lon": 35.526,
+        "sign": "金牛座",
+        "deg": 5,
+        "min": 31
+      },
+      {
+        "type": "transit",
         "date": "2023-05-19",
         "planet": "木星",
         "symbol": "♃",
@@ -1183,6 +1992,7 @@
         "lon": 30.143
       },
       {
+        "type": "transit",
         "date": "2023-05-22",
         "planet": "火星",
         "symbol": "♂",
@@ -1192,6 +2002,7 @@
         "lon": 120.456
       },
       {
+        "type": "transit",
         "date": "2023-06-06",
         "planet": "金星",
         "symbol": "♀",
@@ -1201,6 +2012,7 @@
         "lon": 120.076
       },
       {
+        "type": "transit",
         "date": "2023-06-12",
         "planet": "水星",
         "symbol": "☿",
@@ -1210,6 +2022,18 @@
         "lon": 60.596
       },
       {
+        "type": "station",
+        "date": "2023-06-18",
+        "planet": "土星",
+        "symbol": "♄",
+        "direction": "R-start",
+        "lon": 336.965,
+        "sign": "雙魚座",
+        "deg": 6,
+        "min": 57
+      },
+      {
+        "type": "transit",
         "date": "2023-06-28",
         "planet": "水星",
         "symbol": "☿",
@@ -1219,6 +2043,18 @@
         "lon": 91.821
       },
       {
+        "type": "station",
+        "date": "2023-07-01",
+        "planet": "海王星",
+        "symbol": "♆",
+        "direction": "R-start",
+        "lon": 357.359,
+        "sign": "雙魚座",
+        "deg": 27,
+        "min": 21
+      },
+      {
+        "type": "transit",
         "date": "2023-07-12",
         "planet": "水星",
         "symbol": "☿",
@@ -1228,6 +2064,7 @@
         "lon": 121.299
       },
       {
+        "type": "transit",
         "date": "2023-07-12",
         "planet": "火星",
         "symbol": "♂",
@@ -1237,6 +2074,7 @@
         "lon": 150.603
       },
       {
+        "type": "transit",
         "date": "2023-07-13",
         "planet": "北交點",
         "symbol": "☊",
@@ -1246,6 +2084,18 @@
         "lon": 29.986
       },
       {
+        "type": "station",
+        "date": "2023-07-23",
+        "planet": "金星",
+        "symbol": "♀",
+        "direction": "R-start",
+        "lon": 148.267,
+        "sign": "獅子座",
+        "deg": 28,
+        "min": 16
+      },
+      {
+        "type": "transit",
         "date": "2023-07-30",
         "planet": "水星",
         "symbol": "☿",
@@ -1255,6 +2105,29 @@
         "lon": 151.217
       },
       {
+        "type": "station",
+        "date": "2023-08-24",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "R-start",
+        "lon": 171.519,
+        "sign": "處女座",
+        "deg": 21,
+        "min": 31
+      },
+      {
+        "type": "station",
+        "date": "2023-08-29",
+        "planet": "天王星",
+        "symbol": "♅",
+        "direction": "R-start",
+        "lon": 52.768,
+        "sign": "金牛座",
+        "deg": 22,
+        "min": 46
+      },
+      {
+        "type": "transit",
         "date": "2023-08-29",
         "planet": "火星",
         "symbol": "♂",
@@ -1264,6 +2137,40 @@
         "lon": 180.604
       },
       {
+        "type": "station",
+        "date": "2023-09-04",
+        "planet": "木星",
+        "symbol": "♃",
+        "direction": "R-start",
+        "lon": 45.18,
+        "sign": "金牛座",
+        "deg": 15,
+        "min": 10
+      },
+      {
+        "type": "station",
+        "date": "2023-09-04",
+        "planet": "金星",
+        "symbol": "♀",
+        "direction": "D-start",
+        "lon": 131.877,
+        "sign": "獅子座",
+        "deg": 11,
+        "min": 52
+      },
+      {
+        "type": "station",
+        "date": "2023-09-16",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "D-start",
+        "lon": 157.674,
+        "sign": "處女座",
+        "deg": 7,
+        "min": 40
+      },
+      {
+        "type": "transit",
         "date": "2023-10-06",
         "planet": "水星",
         "symbol": "☿",
@@ -1273,6 +2180,7 @@
         "lon": 181.433
       },
       {
+        "type": "transit",
         "date": "2023-10-10",
         "planet": "金星",
         "symbol": "♀",
@@ -1282,6 +2190,18 @@
         "lon": 150.489
       },
       {
+        "type": "station",
+        "date": "2023-10-11",
+        "planet": "冥王星",
+        "symbol": "♇",
+        "direction": "D-start",
+        "lon": 297.548,
+        "sign": "摩羯座",
+        "deg": 27,
+        "min": 32
+      },
+      {
+        "type": "transit",
         "date": "2023-10-13",
         "planet": "火星",
         "symbol": "♂",
@@ -1291,6 +2211,7 @@
         "lon": 210.237
       },
       {
+        "type": "transit",
         "date": "2023-10-23",
         "planet": "水星",
         "symbol": "☿",
@@ -1300,6 +2221,18 @@
         "lon": 210.869
       },
       {
+        "type": "station",
+        "date": "2023-11-04",
+        "planet": "土星",
+        "symbol": "♄",
+        "direction": "D-start",
+        "lon": 330.251,
+        "sign": "雙魚座",
+        "deg": 0,
+        "min": 15
+      },
+      {
+        "type": "transit",
         "date": "2023-11-09",
         "planet": "金星",
         "symbol": "♀",
@@ -1309,6 +2242,7 @@
         "lon": 180.333
       },
       {
+        "type": "transit",
         "date": "2023-11-11",
         "planet": "水星",
         "symbol": "☿",
@@ -1318,6 +2252,7 @@
         "lon": 240.788
       },
       {
+        "type": "transit",
         "date": "2023-11-25",
         "planet": "火星",
         "symbol": "♂",
@@ -1327,6 +2262,7 @@
         "lon": 240.079
       },
       {
+        "type": "transit",
         "date": "2023-12-02",
         "planet": "水星",
         "symbol": "☿",
@@ -1336,6 +2272,18 @@
         "lon": 270.14
       },
       {
+        "type": "station",
+        "date": "2023-12-06",
+        "planet": "海王星",
+        "symbol": "♆",
+        "direction": "D-start",
+        "lon": 354.551,
+        "sign": "雙魚座",
+        "deg": 24,
+        "min": 33
+      },
+      {
+        "type": "transit",
         "date": "2023-12-06",
         "planet": "金星",
         "symbol": "♀",
@@ -1345,6 +2293,18 @@
         "lon": 211.105
       },
       {
+        "type": "station",
+        "date": "2023-12-13",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "R-start",
+        "lon": 278.15,
+        "sign": "摩羯座",
+        "deg": 8,
+        "min": 8
+      },
+      {
+        "type": "transit",
         "date": "2023-12-24",
         "planet": "水星",
         "symbol": "☿",
@@ -1354,6 +2314,18 @@
         "lon": 268.652
       },
       {
+        "type": "station",
+        "date": "2023-12-31",
+        "planet": "木星",
+        "symbol": "♃",
+        "direction": "D-start",
+        "lon": 35.174,
+        "sign": "金牛座",
+        "deg": 5,
+        "min": 10
+      },
+      {
+        "type": "transit",
         "date": "2023-12-31",
         "planet": "金星",
         "symbol": "♀",
@@ -1365,6 +2337,18 @@
     ],
     "2024": [
       {
+        "type": "station",
+        "date": "2024-01-02",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "D-start",
+        "lon": 261.851,
+        "sign": "射手座",
+        "deg": 21,
+        "min": 51
+      },
+      {
+        "type": "transit",
         "date": "2024-01-06",
         "planet": "火星",
         "symbol": "♂",
@@ -1374,6 +2358,7 @@
         "lon": 270.695
       },
       {
+        "type": "transit",
         "date": "2024-01-15",
         "planet": "水星",
         "symbol": "☿",
@@ -1383,6 +2368,7 @@
         "lon": 270.641
       },
       {
+        "type": "transit",
         "date": "2024-01-24",
         "planet": "金星",
         "symbol": "♀",
@@ -1392,6 +2378,18 @@
         "lon": 270.451
       },
       {
+        "type": "station",
+        "date": "2024-01-27",
+        "planet": "天王星",
+        "symbol": "♅",
+        "direction": "D-start",
+        "lon": 48.769,
+        "sign": "金牛座",
+        "deg": 18,
+        "min": 46
+      },
+      {
+        "type": "transit",
         "date": "2024-02-01",
         "planet": "冥王星",
         "symbol": "♇",
@@ -1401,6 +2399,7 @@
         "lon": 300.012
       },
       {
+        "type": "transit",
         "date": "2024-02-06",
         "planet": "水星",
         "symbol": "☿",
@@ -1410,6 +2409,7 @@
         "lon": 300.886
       },
       {
+        "type": "transit",
         "date": "2024-02-14",
         "planet": "火星",
         "symbol": "♂",
@@ -1419,6 +2419,7 @@
         "lon": 300.241
       },
       {
+        "type": "transit",
         "date": "2024-02-17",
         "planet": "金星",
         "symbol": "♀",
@@ -1428,6 +2429,7 @@
         "lon": 300.08
       },
       {
+        "type": "transit",
         "date": "2024-02-24",
         "planet": "水星",
         "symbol": "☿",
@@ -1437,6 +2439,7 @@
         "lon": 330.915
       },
       {
+        "type": "transit",
         "date": "2024-03-11",
         "planet": "水星",
         "symbol": "☿",
@@ -1446,6 +2449,7 @@
         "lon": 1.273
       },
       {
+        "type": "transit",
         "date": "2024-03-13",
         "planet": "金星",
         "symbol": "♀",
@@ -1455,6 +2459,7 @@
         "lon": 331.021
       },
       {
+        "type": "transit",
         "date": "2024-03-24",
         "planet": "火星",
         "symbol": "♂",
@@ -1464,6 +2469,18 @@
         "lon": 330.455
       },
       {
+        "type": "station",
+        "date": "2024-04-02",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "R-start",
+        "lon": 26.886,
+        "sign": "白羊座",
+        "deg": 26,
+        "min": 53
+      },
+      {
+        "type": "transit",
         "date": "2024-04-06",
         "planet": "金星",
         "symbol": "♀",
@@ -1473,6 +2490,18 @@
         "lon": 0.702
       },
       {
+        "type": "station",
+        "date": "2024-04-26",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "D-start",
+        "lon": 15.656,
+        "sign": "白羊座",
+        "deg": 15,
+        "min": 39
+      },
+      {
+        "type": "transit",
         "date": "2024-04-30",
         "planet": "金星",
         "symbol": "♀",
@@ -1482,6 +2511,18 @@
         "lon": 30.313
       },
       {
+        "type": "station",
+        "date": "2024-05-02",
+        "planet": "冥王星",
+        "symbol": "♇",
+        "direction": "R-start",
+        "lon": 301.751,
+        "sign": "水瓶座",
+        "deg": 1,
+        "min": 45
+      },
+      {
+        "type": "transit",
         "date": "2024-05-02",
         "planet": "火星",
         "symbol": "♂",
@@ -1491,6 +2532,7 @@
         "lon": 0.713
       },
       {
+        "type": "transit",
         "date": "2024-05-16",
         "planet": "水星",
         "symbol": "☿",
@@ -1500,6 +2542,7 @@
         "lon": 30.026
       },
       {
+        "type": "transit",
         "date": "2024-05-25",
         "planet": "金星",
         "symbol": "♀",
@@ -1509,6 +2552,7 @@
         "lon": 61.08
       },
       {
+        "type": "transit",
         "date": "2024-05-28",
         "planet": "木星",
         "symbol": "♃",
@@ -1518,6 +2562,7 @@
         "lon": 60.102
       },
       {
+        "type": "transit",
         "date": "2024-06-04",
         "planet": "水星",
         "symbol": "☿",
@@ -1527,6 +2572,7 @@
         "lon": 61.026
       },
       {
+        "type": "transit",
         "date": "2024-06-10",
         "planet": "火星",
         "symbol": "♂",
@@ -1536,6 +2582,7 @@
         "lon": 30.271
       },
       {
+        "type": "transit",
         "date": "2024-06-18",
         "planet": "水星",
         "symbol": "☿",
@@ -1545,6 +2592,7 @@
         "lon": 91.022
       },
       {
+        "type": "transit",
         "date": "2024-06-18",
         "planet": "金星",
         "symbol": "♀",
@@ -1554,6 +2602,29 @@
         "lon": 90.574
       },
       {
+        "type": "station",
+        "date": "2024-06-30",
+        "planet": "土星",
+        "symbol": "♄",
+        "direction": "R-start",
+        "lon": 349.167,
+        "sign": "雙魚座",
+        "deg": 19,
+        "min": 9
+      },
+      {
+        "type": "station",
+        "date": "2024-07-02",
+        "planet": "海王星",
+        "symbol": "♆",
+        "direction": "R-start",
+        "lon": 359.584,
+        "sign": "雙魚座",
+        "deg": 29,
+        "min": 35
+      },
+      {
+        "type": "transit",
         "date": "2024-07-03",
         "planet": "水星",
         "symbol": "☿",
@@ -1563,6 +2634,7 @@
         "lon": 120.471
       },
       {
+        "type": "transit",
         "date": "2024-07-12",
         "planet": "金星",
         "symbol": "♀",
@@ -1572,6 +2644,7 @@
         "lon": 120.062
       },
       {
+        "type": "transit",
         "date": "2024-07-22",
         "planet": "火星",
         "symbol": "♂",
@@ -1581,6 +2654,7 @@
         "lon": 60.457
       },
       {
+        "type": "transit",
         "date": "2024-07-27",
         "planet": "水星",
         "symbol": "☿",
@@ -1590,6 +2664,18 @@
         "lon": 150.419
       },
       {
+        "type": "station",
+        "date": "2024-08-05",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "R-start",
+        "lon": 153.76,
+        "sign": "處女座",
+        "deg": 3,
+        "min": 45
+      },
+      {
+        "type": "transit",
         "date": "2024-08-06",
         "planet": "金星",
         "symbol": "♀",
@@ -1599,6 +2685,7 @@
         "lon": 150.775
       },
       {
+        "type": "transit",
         "date": "2024-08-15",
         "planet": "冥王星",
         "symbol": "♇",
@@ -1608,6 +2695,7 @@
         "lon": 299.986
       },
       {
+        "type": "transit",
         "date": "2024-08-15",
         "planet": "水星",
         "symbol": "☿",
@@ -1617,6 +2705,18 @@
         "lon": 149.66
       },
       {
+        "type": "station",
+        "date": "2024-08-29",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "D-start",
+        "lon": 141.068,
+        "sign": "獅子座",
+        "deg": 21,
+        "min": 4
+      },
+      {
+        "type": "transit",
         "date": "2024-08-30",
         "planet": "金星",
         "symbol": "♀",
@@ -1626,6 +2726,18 @@
         "lon": 180.211
       },
       {
+        "type": "station",
+        "date": "2024-09-01",
+        "planet": "天王星",
+        "symbol": "♅",
+        "direction": "R-start",
+        "lon": 56.926,
+        "sign": "金牛座",
+        "deg": 26,
+        "min": 55
+      },
+      {
+        "type": "transit",
         "date": "2024-09-06",
         "planet": "火星",
         "symbol": "♂",
@@ -1635,6 +2747,7 @@
         "lon": 90.374
       },
       {
+        "type": "transit",
         "date": "2024-09-10",
         "planet": "水星",
         "symbol": "☿",
@@ -1644,6 +2757,7 @@
         "lon": 150.691
       },
       {
+        "type": "transit",
         "date": "2024-09-24",
         "planet": "金星",
         "symbol": "♀",
@@ -1653,6 +2767,7 @@
         "lon": 210.753
       },
       {
+        "type": "transit",
         "date": "2024-09-27",
         "planet": "水星",
         "symbol": "☿",
@@ -1662,6 +2777,29 @@
         "lon": 180.877
       },
       {
+        "type": "station",
+        "date": "2024-10-09",
+        "planet": "木星",
+        "symbol": "♃",
+        "direction": "R-start",
+        "lon": 80.952,
+        "sign": "雙子座",
+        "deg": 20,
+        "min": 57
+      },
+      {
+        "type": "station",
+        "date": "2024-10-12",
+        "planet": "冥王星",
+        "symbol": "♇",
+        "direction": "D-start",
+        "lon": 299.283,
+        "sign": "摩羯座",
+        "deg": 29,
+        "min": 16
+      },
+      {
+        "type": "transit",
         "date": "2024-10-15",
         "planet": "水星",
         "symbol": "☿",
@@ -1671,6 +2809,7 @@
         "lon": 211.572
       },
       {
+        "type": "transit",
         "date": "2024-10-19",
         "planet": "金星",
         "symbol": "♀",
@@ -1680,6 +2819,7 @@
         "lon": 241.1
       },
       {
+        "type": "transit",
         "date": "2024-11-04",
         "planet": "水星",
         "symbol": "☿",
@@ -1689,6 +2829,7 @@
         "lon": 241.319
       },
       {
+        "type": "transit",
         "date": "2024-11-06",
         "planet": "火星",
         "symbol": "♂",
@@ -1698,6 +2839,7 @@
         "lon": 120.271
       },
       {
+        "type": "transit",
         "date": "2024-11-13",
         "planet": "金星",
         "symbol": "♀",
@@ -1707,6 +2849,40 @@
         "lon": 271.127
       },
       {
+        "type": "station",
+        "date": "2024-11-16",
+        "planet": "土星",
+        "symbol": "♄",
+        "direction": "D-start",
+        "lon": 342.418,
+        "sign": "雙魚座",
+        "deg": 12,
+        "min": 25
+      },
+      {
+        "type": "station",
+        "date": "2024-11-26",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "R-start",
+        "lon": 262.328,
+        "sign": "射手座",
+        "deg": 22,
+        "min": 19
+      },
+      {
+        "type": "station",
+        "date": "2024-12-07",
+        "planet": "火星",
+        "symbol": "♂",
+        "direction": "R-start",
+        "lon": 125.83,
+        "sign": "獅子座",
+        "deg": 5,
+        "min": 49
+      },
+      {
+        "type": "transit",
         "date": "2024-12-07",
         "planet": "冥王星",
         "symbol": "♇",
@@ -1716,6 +2892,18 @@
         "lon": 300.011
       },
       {
+        "type": "station",
+        "date": "2024-12-08",
+        "planet": "海王星",
+        "symbol": "♆",
+        "direction": "D-start",
+        "lon": 356.774,
+        "sign": "雙魚座",
+        "deg": 26,
+        "min": 46
+      },
+      {
+        "type": "transit",
         "date": "2024-12-08",
         "planet": "金星",
         "symbol": "♀",
@@ -1723,10 +2911,22 @@
         "to": "水瓶座",
         "retrograde": false,
         "lon": 300.511
+      },
+      {
+        "type": "station",
+        "date": "2024-12-16",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "D-start",
+        "lon": 246.052,
+        "sign": "射手座",
+        "deg": 6,
+        "min": 3
       }
     ],
     "2025": [
       {
+        "type": "transit",
         "date": "2025-01-04",
         "planet": "金星",
         "symbol": "♀",
@@ -1736,6 +2936,7 @@
         "lon": 330.564
       },
       {
+        "type": "transit",
         "date": "2025-01-06",
         "planet": "火星",
         "symbol": "♂",
@@ -1745,6 +2946,7 @@
         "lon": 119.826
       },
       {
+        "type": "transit",
         "date": "2025-01-09",
         "planet": "水星",
         "symbol": "☿",
@@ -1754,6 +2956,7 @@
         "lon": 270.462
       },
       {
+        "type": "transit",
         "date": "2025-01-29",
         "planet": "水星",
         "symbol": "☿",
@@ -1763,6 +2966,7 @@
         "lon": 301.094
       },
       {
+        "type": "transit",
         "date": "2025-01-30",
         "planet": "北交點",
         "symbol": "☊",
@@ -1772,6 +2976,29 @@
         "lon": 359.962
       },
       {
+        "type": "station",
+        "date": "2025-01-31",
+        "planet": "天王星",
+        "symbol": "♅",
+        "direction": "D-start",
+        "lon": 52.919,
+        "sign": "金牛座",
+        "deg": 22,
+        "min": 55
+      },
+      {
+        "type": "station",
+        "date": "2025-02-04",
+        "planet": "木星",
+        "symbol": "♃",
+        "direction": "D-start",
+        "lon": 70.888,
+        "sign": "雙子座",
+        "deg": 10,
+        "min": 53
+      },
+      {
+        "type": "transit",
         "date": "2025-02-05",
         "planet": "金星",
         "symbol": "♀",
@@ -1781,6 +3008,7 @@
         "lon": 0.144
       },
       {
+        "type": "transit",
         "date": "2025-02-15",
         "planet": "水星",
         "symbol": "☿",
@@ -1790,6 +3018,29 @@
         "lon": 330.572
       },
       {
+        "type": "station",
+        "date": "2025-02-24",
+        "planet": "火星",
+        "symbol": "♂",
+        "direction": "D-start",
+        "lon": 106.67,
+        "sign": "巨蟹座",
+        "deg": 16,
+        "min": 40
+      },
+      {
+        "type": "station",
+        "date": "2025-03-02",
+        "planet": "金星",
+        "symbol": "♀",
+        "direction": "R-start",
+        "lon": 10.497,
+        "sign": "白羊座",
+        "deg": 10,
+        "min": 29
+      },
+      {
+        "type": "transit",
         "date": "2025-03-04",
         "planet": "水星",
         "symbol": "☿",
@@ -1799,6 +3050,18 @@
         "lon": 0.562
       },
       {
+        "type": "station",
+        "date": "2025-03-15",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "R-start",
+        "lon": 9.236,
+        "sign": "白羊座",
+        "deg": 9,
+        "min": 14
+      },
+      {
+        "type": "transit",
         "date": "2025-03-27",
         "planet": "金星",
         "symbol": "♀",
@@ -1808,6 +3071,7 @@
         "lon": 359.882
       },
       {
+        "type": "transit",
         "date": "2025-03-30",
         "planet": "水星",
         "symbol": "☿",
@@ -1817,6 +3081,18 @@
         "lon": 359.722
       },
       {
+        "type": "station",
+        "date": "2025-04-07",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "D-start",
+        "lon": 356.488,
+        "sign": "雙魚座",
+        "deg": 26,
+        "min": 29
+      },
+      {
+        "type": "transit",
         "date": "2025-04-10",
         "planet": "海王星",
         "symbol": "♆",
@@ -1826,6 +3102,18 @@
         "lon": 0.032
       },
       {
+        "type": "station",
+        "date": "2025-04-13",
+        "planet": "金星",
+        "symbol": "♀",
+        "direction": "D-start",
+        "lon": 354.289,
+        "sign": "雙魚座",
+        "deg": 24,
+        "min": 17
+      },
+      {
+        "type": "transit",
         "date": "2025-04-17",
         "planet": "水星",
         "symbol": "☿",
@@ -1835,6 +3123,7 @@
         "lon": 0.172
       },
       {
+        "type": "transit",
         "date": "2025-04-20",
         "planet": "火星",
         "symbol": "♂",
@@ -1844,6 +3133,7 @@
         "lon": 120.411
       },
       {
+        "type": "transit",
         "date": "2025-05-02",
         "planet": "金星",
         "symbol": "♀",
@@ -1853,6 +3143,18 @@
         "lon": 0.381
       },
       {
+        "type": "station",
+        "date": "2025-05-04",
+        "planet": "冥王星",
+        "symbol": "♇",
+        "direction": "R-start",
+        "lon": 303.453,
+        "sign": "水瓶座",
+        "deg": 3,
+        "min": 27
+      },
+      {
+        "type": "transit",
         "date": "2025-05-11",
         "planet": "水星",
         "symbol": "☿",
@@ -1862,6 +3164,7 @@
         "lon": 30.487
       },
       {
+        "type": "transit",
         "date": "2025-05-27",
         "planet": "水星",
         "symbol": "☿",
@@ -1871,6 +3174,7 @@
         "lon": 61.735
       },
       {
+        "type": "transit",
         "date": "2025-05-29",
         "planet": "土星",
         "symbol": "♄",
@@ -1880,6 +3184,7 @@
         "lon": 0.003
       },
       {
+        "type": "transit",
         "date": "2025-06-07",
         "planet": "金星",
         "symbol": "♀",
@@ -1889,6 +3194,7 @@
         "lon": 30.452
       },
       {
+        "type": "transit",
         "date": "2025-06-10",
         "planet": "水星",
         "symbol": "☿",
@@ -1898,6 +3204,7 @@
         "lon": 91.755
       },
       {
+        "type": "transit",
         "date": "2025-06-12",
         "planet": "木星",
         "symbol": "♃",
@@ -1907,6 +3214,7 @@
         "lon": 90.117
       },
       {
+        "type": "transit",
         "date": "2025-06-18",
         "planet": "火星",
         "symbol": "♂",
@@ -1916,6 +3224,7 @@
         "lon": 150.015
       },
       {
+        "type": "transit",
         "date": "2025-06-28",
         "planet": "水星",
         "symbol": "☿",
@@ -1925,6 +3234,18 @@
         "lon": 121.192
       },
       {
+        "type": "station",
+        "date": "2025-07-05",
+        "planet": "海王星",
+        "symbol": "♆",
+        "direction": "R-start",
+        "lon": 1.809,
+        "sign": "白羊座",
+        "deg": 1,
+        "min": 48
+      },
+      {
+        "type": "transit",
         "date": "2025-07-05",
         "planet": "金星",
         "symbol": "♀",
@@ -1934,6 +3255,18 @@
         "lon": 60.04
       },
       {
+        "type": "station",
+        "date": "2025-07-13",
+        "planet": "土星",
+        "symbol": "♄",
+        "direction": "R-start",
+        "lon": 1.656,
+        "sign": "白羊座",
+        "deg": 1,
+        "min": 39
+      },
+      {
+        "type": "transit",
         "date": "2025-07-16",
         "planet": "天王星",
         "symbol": "♅",
@@ -1943,6 +3276,18 @@
         "lon": 60.021
       },
       {
+        "type": "station",
+        "date": "2025-07-18",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "R-start",
+        "lon": 135.216,
+        "sign": "獅子座",
+        "deg": 15,
+        "min": 12
+      },
+      {
+        "type": "transit",
         "date": "2025-08-01",
         "planet": "金星",
         "symbol": "♀",
@@ -1952,6 +3297,7 @@
         "lon": 90.614
       },
       {
+        "type": "transit",
         "date": "2025-08-08",
         "planet": "火星",
         "symbol": "♂",
@@ -1961,6 +3307,18 @@
         "lon": 180.292
       },
       {
+        "type": "station",
+        "date": "2025-08-11",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "D-start",
+        "lon": 123.895,
+        "sign": "獅子座",
+        "deg": 3,
+        "min": 53
+      },
+      {
+        "type": "transit",
         "date": "2025-08-26",
         "planet": "金星",
         "symbol": "♀",
@@ -1970,6 +3328,7 @@
         "lon": 120.021
       },
       {
+        "type": "transit",
         "date": "2025-08-29",
         "planet": "土星",
         "symbol": "♄",
@@ -1979,6 +3338,7 @@
         "lon": 359.948
       },
       {
+        "type": "transit",
         "date": "2025-09-03",
         "planet": "水星",
         "symbol": "☿",
@@ -1988,6 +3348,18 @@
         "lon": 150.495
       },
       {
+        "type": "station",
+        "date": "2025-09-06",
+        "planet": "天王星",
+        "symbol": "♅",
+        "direction": "R-start",
+        "lon": 61.111,
+        "sign": "雙子座",
+        "deg": 1,
+        "min": 6
+      },
+      {
+        "type": "transit",
         "date": "2025-09-19",
         "planet": "水星",
         "symbol": "☿",
@@ -1997,6 +3369,7 @@
         "lon": 180.683
       },
       {
+        "type": "transit",
         "date": "2025-09-20",
         "planet": "金星",
         "symbol": "♀",
@@ -2006,6 +3379,7 @@
         "lon": 150.223
       },
       {
+        "type": "transit",
         "date": "2025-09-23",
         "planet": "火星",
         "symbol": "♂",
@@ -2015,6 +3389,7 @@
         "lon": 210.103
       },
       {
+        "type": "transit",
         "date": "2025-10-07",
         "planet": "水星",
         "symbol": "☿",
@@ -2024,6 +3399,7 @@
         "lon": 210.106
       },
       {
+        "type": "transit",
         "date": "2025-10-08",
         "planet": "海王星",
         "symbol": "♆",
@@ -2033,6 +3409,18 @@
         "lon": 359.987
       },
       {
+        "type": "station",
+        "date": "2025-10-14",
+        "planet": "冥王星",
+        "symbol": "♇",
+        "direction": "D-start",
+        "lon": 300.996,
+        "sign": "水瓶座",
+        "deg": 0,
+        "min": 59
+      },
+      {
+        "type": "transit",
         "date": "2025-10-15",
         "planet": "金星",
         "symbol": "♀",
@@ -2042,6 +3430,7 @@
         "lon": 181.026
       },
       {
+        "type": "transit",
         "date": "2025-10-30",
         "planet": "天王星",
         "symbol": "♅",
@@ -2051,6 +3440,7 @@
         "lon": 59.993
       },
       {
+        "type": "transit",
         "date": "2025-10-30",
         "planet": "水星",
         "symbol": "☿",
@@ -2060,6 +3450,7 @@
         "lon": 240.182
       },
       {
+        "type": "transit",
         "date": "2025-11-06",
         "planet": "火星",
         "symbol": "♂",
@@ -2069,6 +3460,7 @@
         "lon": 240.694
       },
       {
+        "type": "transit",
         "date": "2025-11-08",
         "planet": "金星",
         "symbol": "♀",
@@ -2078,6 +3470,29 @@
         "lon": 210.969
       },
       {
+        "type": "station",
+        "date": "2025-11-10",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "R-start",
+        "lon": 246.496,
+        "sign": "射手座",
+        "deg": 6,
+        "min": 29
+      },
+      {
+        "type": "station",
+        "date": "2025-11-12",
+        "planet": "木星",
+        "symbol": "♃",
+        "direction": "R-start",
+        "lon": 114.79,
+        "sign": "巨蟹座",
+        "deg": 24,
+        "min": 47
+      },
+      {
+        "type": "transit",
         "date": "2025-11-19",
         "planet": "水星",
         "symbol": "☿",
@@ -2087,6 +3502,29 @@
         "lon": 239.818
       },
       {
+        "type": "station",
+        "date": "2025-11-28",
+        "planet": "土星",
+        "symbol": "♄",
+        "direction": "D-start",
+        "lon": 354.87,
+        "sign": "雙魚座",
+        "deg": 24,
+        "min": 52
+      },
+      {
+        "type": "station",
+        "date": "2025-11-30",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "D-start",
+        "lon": 230.347,
+        "sign": "天蠍座",
+        "deg": 20,
+        "min": 20
+      },
+      {
+        "type": "transit",
         "date": "2025-12-02",
         "planet": "金星",
         "symbol": "♀",
@@ -2096,6 +3534,18 @@
         "lon": 241.101
       },
       {
+        "type": "station",
+        "date": "2025-12-10",
+        "planet": "海王星",
+        "symbol": "♆",
+        "direction": "D-start",
+        "lon": 358.999,
+        "sign": "雙魚座",
+        "deg": 28,
+        "min": 59
+      },
+      {
+        "type": "transit",
         "date": "2025-12-13",
         "planet": "水星",
         "symbol": "☿",
@@ -2105,6 +3555,7 @@
         "lon": 240.964
       },
       {
+        "type": "transit",
         "date": "2025-12-16",
         "planet": "火星",
         "symbol": "♂",
@@ -2114,6 +3565,7 @@
         "lon": 270.162
       },
       {
+        "type": "transit",
         "date": "2025-12-25",
         "planet": "金星",
         "symbol": "♀",
@@ -2125,6 +3577,7 @@
     ],
     "2026": [
       {
+        "type": "transit",
         "date": "2026-01-03",
         "planet": "水星",
         "symbol": "☿",
@@ -2134,6 +3587,7 @@
         "lon": 271.361
       },
       {
+        "type": "transit",
         "date": "2026-01-18",
         "planet": "金星",
         "symbol": "♀",
@@ -2143,6 +3597,7 @@
         "lon": 300.238
       },
       {
+        "type": "transit",
         "date": "2026-01-21",
         "planet": "水星",
         "symbol": "☿",
@@ -2152,6 +3607,7 @@
         "lon": 300.156
       },
       {
+        "type": "transit",
         "date": "2026-01-24",
         "planet": "火星",
         "symbol": "♂",
@@ -2161,6 +3617,18 @@
         "lon": 300.117
       },
       {
+        "type": "station",
+        "date": "2026-02-04",
+        "planet": "天王星",
+        "symbol": "♅",
+        "direction": "D-start",
+        "lon": 57.096,
+        "sign": "金牛座",
+        "deg": 27,
+        "min": 5
+      },
+      {
+        "type": "transit",
         "date": "2026-02-08",
         "planet": "水星",
         "symbol": "☿",
@@ -2170,6 +3638,7 @@
         "lon": 331.484
       },
       {
+        "type": "transit",
         "date": "2026-02-09",
         "planet": "海王星",
         "symbol": "♆",
@@ -2179,6 +3648,7 @@
         "lon": 0.002
       },
       {
+        "type": "transit",
         "date": "2026-02-11",
         "planet": "金星",
         "symbol": "♀",
@@ -2188,6 +3658,7 @@
         "lon": 330.363
       },
       {
+        "type": "transit",
         "date": "2026-02-17",
         "planet": "土星",
         "symbol": "♄",
@@ -2197,6 +3668,18 @@
         "lon": 0.04
       },
       {
+        "type": "station",
+        "date": "2026-02-26",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "R-start",
+        "lon": 352.195,
+        "sign": "雙魚座",
+        "deg": 22,
+        "min": 11
+      },
+      {
+        "type": "transit",
         "date": "2026-03-04",
         "planet": "火星",
         "symbol": "♂",
@@ -2206,6 +3689,7 @@
         "lon": 330.743
       },
       {
+        "type": "transit",
         "date": "2026-03-07",
         "planet": "金星",
         "symbol": "♀",
@@ -2215,6 +3699,29 @@
         "lon": 0.334
       },
       {
+        "type": "station",
+        "date": "2026-03-11",
+        "planet": "木星",
+        "symbol": "♃",
+        "direction": "D-start",
+        "lon": 104.719,
+        "sign": "巨蟹座",
+        "deg": 14,
+        "min": 43
+      },
+      {
+        "type": "station",
+        "date": "2026-03-21",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "D-start",
+        "lon": 338.13,
+        "sign": "雙魚座",
+        "deg": 8,
+        "min": 7
+      },
+      {
+        "type": "transit",
         "date": "2026-03-31",
         "planet": "金星",
         "symbol": "♀",
@@ -2224,6 +3731,7 @@
         "lon": 30.055
       },
       {
+        "type": "transit",
         "date": "2026-04-11",
         "planet": "火星",
         "symbol": "♂",
@@ -2233,6 +3741,7 @@
         "lon": 0.554
       },
       {
+        "type": "transit",
         "date": "2026-04-16",
         "planet": "水星",
         "symbol": "☿",
@@ -2242,6 +3751,7 @@
         "lon": 0.864
       },
       {
+        "type": "transit",
         "date": "2026-04-25",
         "planet": "金星",
         "symbol": "♀",
@@ -2251,6 +3761,7 @@
         "lon": 60.653
       },
       {
+        "type": "transit",
         "date": "2026-05-03",
         "planet": "天王星",
         "symbol": "♅",
@@ -2260,6 +3771,7 @@
         "lon": 60.025
       },
       {
+        "type": "transit",
         "date": "2026-05-04",
         "planet": "水星",
         "symbol": "☿",
@@ -2269,6 +3781,18 @@
         "lon": 31.35
       },
       {
+        "type": "station",
+        "date": "2026-05-06",
+        "planet": "冥王星",
+        "symbol": "♇",
+        "direction": "R-start",
+        "lon": 305.131,
+        "sign": "水瓶座",
+        "deg": 5,
+        "min": 7
+      },
+      {
+        "type": "transit",
         "date": "2026-05-18",
         "planet": "水星",
         "symbol": "☿",
@@ -2278,6 +3802,7 @@
         "lon": 60.88
       },
       {
+        "type": "transit",
         "date": "2026-05-20",
         "planet": "火星",
         "symbol": "♂",
@@ -2287,6 +3812,7 @@
         "lon": 30.431
       },
       {
+        "type": "transit",
         "date": "2026-05-20",
         "planet": "金星",
         "symbol": "♀",
@@ -2296,6 +3822,7 @@
         "lon": 90.781
       },
       {
+        "type": "transit",
         "date": "2026-06-02",
         "planet": "水星",
         "symbol": "☿",
@@ -2305,6 +3832,7 @@
         "lon": 90.488
       },
       {
+        "type": "transit",
         "date": "2026-06-14",
         "planet": "金星",
         "symbol": "♀",
@@ -2314,6 +3842,18 @@
         "lon": 120.279
       },
       {
+        "type": "station",
+        "date": "2026-06-30",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "R-start",
+        "lon": 115.884,
+        "sign": "巨蟹座",
+        "deg": 25,
+        "min": 53
+      },
+      {
+        "type": "transit",
         "date": "2026-06-30",
         "planet": "火星",
         "symbol": "♂",
@@ -2323,6 +3863,7 @@
         "lon": 60.476
       },
       {
+        "type": "transit",
         "date": "2026-07-02",
         "planet": "木星",
         "symbol": "♃",
@@ -2332,6 +3873,18 @@
         "lon": 120.022
       },
       {
+        "type": "station",
+        "date": "2026-07-07",
+        "planet": "海王星",
+        "symbol": "♆",
+        "direction": "R-start",
+        "lon": 4.036,
+        "sign": "白羊座",
+        "deg": 4,
+        "min": 2
+      },
+      {
+        "type": "transit",
         "date": "2026-07-11",
         "planet": "金星",
         "symbol": "♀",
@@ -2341,6 +3894,29 @@
         "lon": 151.052
       },
       {
+        "type": "station",
+        "date": "2026-07-24",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "D-start",
+        "lon": 105.943,
+        "sign": "巨蟹座",
+        "deg": 15,
+        "min": 56
+      },
+      {
+        "type": "station",
+        "date": "2026-07-27",
+        "planet": "土星",
+        "symbol": "♄",
+        "direction": "R-start",
+        "lon": 14.454,
+        "sign": "白羊座",
+        "deg": 14,
+        "min": 27
+      },
+      {
+        "type": "transit",
         "date": "2026-08-08",
         "planet": "金星",
         "symbol": "♀",
@@ -2350,6 +3926,7 @@
         "lon": 180.835
       },
       {
+        "type": "transit",
         "date": "2026-08-10",
         "planet": "水星",
         "symbol": "☿",
@@ -2359,6 +3936,7 @@
         "lon": 120.131
       },
       {
+        "type": "transit",
         "date": "2026-08-12",
         "planet": "火星",
         "symbol": "♂",
@@ -2368,6 +3946,7 @@
         "lon": 90.054
       },
       {
+        "type": "transit",
         "date": "2026-08-19",
         "planet": "北交點",
         "symbol": "☊",
@@ -2377,6 +3956,7 @@
         "lon": 329.99
       },
       {
+        "type": "transit",
         "date": "2026-08-26",
         "planet": "水星",
         "symbol": "☿",
@@ -2386,6 +3966,18 @@
         "lon": 150.708
       },
       {
+        "type": "station",
+        "date": "2026-09-11",
+        "planet": "天王星",
+        "symbol": "♅",
+        "direction": "R-start",
+        "lon": 65.323,
+        "sign": "雙子座",
+        "deg": 5,
+        "min": 19
+      },
+      {
+        "type": "transit",
         "date": "2026-09-11",
         "planet": "水星",
         "symbol": "☿",
@@ -2395,6 +3987,7 @@
         "lon": 180.173
       },
       {
+        "type": "transit",
         "date": "2026-09-11",
         "planet": "金星",
         "symbol": "♀",
@@ -2404,6 +3997,7 @@
         "lon": 210.053
       },
       {
+        "type": "transit",
         "date": "2026-09-29",
         "planet": "火星",
         "symbol": "♂",
@@ -2413,6 +4007,7 @@
         "lon": 120.145
       },
       {
+        "type": "transit",
         "date": "2026-10-01",
         "planet": "水星",
         "symbol": "☿",
@@ -2422,6 +4017,40 @@
         "lon": 210.31
       },
       {
+        "type": "station",
+        "date": "2026-10-03",
+        "planet": "金星",
+        "symbol": "♀",
+        "direction": "R-start",
+        "lon": 218.11,
+        "sign": "天蠍座",
+        "deg": 8,
+        "min": 6
+      },
+      {
+        "type": "station",
+        "date": "2026-10-16",
+        "planet": "冥王星",
+        "symbol": "♇",
+        "direction": "D-start",
+        "lon": 302.686,
+        "sign": "水瓶座",
+        "deg": 2,
+        "min": 41
+      },
+      {
+        "type": "station",
+        "date": "2026-10-24",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "R-start",
+        "lon": 230.593,
+        "sign": "天蠍座",
+        "deg": 20,
+        "min": 35
+      },
+      {
+        "type": "transit",
         "date": "2026-10-25",
         "planet": "金星",
         "symbol": "♀",
@@ -2431,6 +4060,29 @@
         "lon": 209.847
       },
       {
+        "type": "station",
+        "date": "2026-11-14",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "D-start",
+        "lon": 214.663,
+        "sign": "天蠍座",
+        "deg": 4,
+        "min": 39
+      },
+      {
+        "type": "station",
+        "date": "2026-11-14",
+        "planet": "金星",
+        "symbol": "♀",
+        "direction": "D-start",
+        "lon": 202.475,
+        "sign": "天秤座",
+        "deg": 22,
+        "min": 28
+      },
+      {
+        "type": "transit",
         "date": "2026-11-27",
         "planet": "火星",
         "symbol": "♂",
@@ -2440,6 +4092,7 @@
         "lon": 150.026
       },
       {
+        "type": "transit",
         "date": "2026-12-05",
         "planet": "金星",
         "symbol": "♀",
@@ -2449,6 +4102,7 @@
         "lon": 210.044
       },
       {
+        "type": "transit",
         "date": "2026-12-07",
         "planet": "水星",
         "symbol": "☿",
@@ -2458,6 +4112,40 @@
         "lon": 240.604
       },
       {
+        "type": "station",
+        "date": "2026-12-11",
+        "planet": "土星",
+        "symbol": "♄",
+        "direction": "D-start",
+        "lon": 7.629,
+        "sign": "白羊座",
+        "deg": 7,
+        "min": 37
+      },
+      {
+        "type": "station",
+        "date": "2026-12-13",
+        "planet": "木星",
+        "symbol": "♃",
+        "direction": "R-start",
+        "lon": 146.677,
+        "sign": "獅子座",
+        "deg": 26,
+        "min": 40
+      },
+      {
+        "type": "station",
+        "date": "2026-12-13",
+        "planet": "海王星",
+        "symbol": "♆",
+        "direction": "D-start",
+        "lon": 1.225,
+        "sign": "白羊座",
+        "deg": 1,
+        "min": 13
+      },
+      {
+        "type": "transit",
         "date": "2026-12-26",
         "planet": "水星",
         "symbol": "☿",
@@ -2469,6 +4157,7 @@
     ],
     "2027": [
       {
+        "type": "transit",
         "date": "2027-01-08",
         "planet": "金星",
         "symbol": "♀",
@@ -2478,6 +4167,18 @@
         "lon": 240.279
       },
       {
+        "type": "station",
+        "date": "2027-01-11",
+        "planet": "火星",
+        "symbol": "♂",
+        "direction": "R-start",
+        "lon": 160.045,
+        "sign": "處女座",
+        "deg": 10,
+        "min": 2
+      },
+      {
+        "type": "transit",
         "date": "2027-01-14",
         "planet": "水星",
         "symbol": "☿",
@@ -2487,6 +4188,7 @@
         "lon": 300.881
       },
       {
+        "type": "transit",
         "date": "2027-02-02",
         "planet": "水星",
         "symbol": "☿",
@@ -2496,6 +4198,7 @@
         "lon": 330.749
       },
       {
+        "type": "transit",
         "date": "2027-02-04",
         "planet": "金星",
         "symbol": "♀",
@@ -2505,6 +4208,29 @@
         "lon": 270.078
       },
       {
+        "type": "station",
+        "date": "2027-02-08",
+        "planet": "天王星",
+        "symbol": "♅",
+        "direction": "D-start",
+        "lon": 61.299,
+        "sign": "雙子座",
+        "deg": 1,
+        "min": 17
+      },
+      {
+        "type": "station",
+        "date": "2027-02-10",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "R-start",
+        "lon": 335.593,
+        "sign": "雙魚座",
+        "deg": 5,
+        "min": 35
+      },
+      {
+        "type": "transit",
         "date": "2027-02-19",
         "planet": "水星",
         "symbol": "☿",
@@ -2514,6 +4240,7 @@
         "lon": 329.063
       },
       {
+        "type": "transit",
         "date": "2027-02-21",
         "planet": "火星",
         "symbol": "♂",
@@ -2523,6 +4250,7 @@
         "lon": 149.85
       },
       {
+        "type": "transit",
         "date": "2027-03-02",
         "planet": "金星",
         "symbol": "♀",
@@ -2532,6 +4260,18 @@
         "lon": 300.49
       },
       {
+        "type": "station",
+        "date": "2027-03-04",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "D-start",
+        "lon": 320.555,
+        "sign": "水瓶座",
+        "deg": 20,
+        "min": 33
+      },
+      {
+        "type": "transit",
         "date": "2027-03-19",
         "planet": "水星",
         "symbol": "☿",
@@ -2541,6 +4281,7 @@
         "lon": 330.238
       },
       {
+        "type": "transit",
         "date": "2027-03-27",
         "planet": "金星",
         "symbol": "♀",
@@ -2550,6 +4291,18 @@
         "lon": 330.415
       },
       {
+        "type": "station",
+        "date": "2027-04-02",
+        "planet": "火星",
+        "symbol": "♂",
+        "direction": "D-start",
+        "lon": 140.543,
+        "sign": "獅子座",
+        "deg": 20,
+        "min": 32
+      },
+      {
+        "type": "transit",
         "date": "2027-04-10",
         "planet": "水星",
         "symbol": "☿",
@@ -2559,6 +4312,18 @@
         "lon": 1.362
       },
       {
+        "type": "station",
+        "date": "2027-04-13",
+        "planet": "木星",
+        "symbol": "♃",
+        "direction": "D-start",
+        "lon": 136.643,
+        "sign": "獅子座",
+        "deg": 16,
+        "min": 38
+      },
+      {
+        "type": "transit",
         "date": "2027-04-21",
         "planet": "金星",
         "symbol": "♀",
@@ -2568,6 +4333,7 @@
         "lon": 0.636
       },
       {
+        "type": "transit",
         "date": "2027-04-26",
         "planet": "水星",
         "symbol": "☿",
@@ -2577,6 +4343,18 @@
         "lon": 31.864
       },
       {
+        "type": "station",
+        "date": "2027-05-08",
+        "planet": "冥王星",
+        "symbol": "♇",
+        "direction": "R-start",
+        "lon": 306.788,
+        "sign": "水瓶座",
+        "deg": 6,
+        "min": 47
+      },
+      {
+        "type": "transit",
         "date": "2027-05-10",
         "planet": "水星",
         "symbol": "☿",
@@ -2586,6 +4364,7 @@
         "lon": 61.468
       },
       {
+        "type": "transit",
         "date": "2027-05-16",
         "planet": "火星",
         "symbol": "♂",
@@ -2595,6 +4374,7 @@
         "lon": 150.135
       },
       {
+        "type": "transit",
         "date": "2027-05-16",
         "planet": "金星",
         "symbol": "♀",
@@ -2604,6 +4384,7 @@
         "lon": 30.988
       },
       {
+        "type": "transit",
         "date": "2027-05-30",
         "planet": "水星",
         "symbol": "☿",
@@ -2613,6 +4394,7 @@
         "lon": 90.787
       },
       {
+        "type": "transit",
         "date": "2027-06-09",
         "planet": "金星",
         "symbol": "♀",
@@ -2622,6 +4404,18 @@
         "lon": 60.203
       },
       {
+        "type": "station",
+        "date": "2027-06-11",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "R-start",
+        "lon": 95.971,
+        "sign": "巨蟹座",
+        "deg": 5,
+        "min": 58
+      },
+      {
+        "type": "transit",
         "date": "2027-06-26",
         "planet": "水星",
         "symbol": "☿",
@@ -2631,6 +4425,7 @@
         "lon": 89.779
       },
       {
+        "type": "transit",
         "date": "2027-07-04",
         "planet": "金星",
         "symbol": "♀",
@@ -2640,6 +4435,29 @@
         "lon": 90.743
       },
       {
+        "type": "station",
+        "date": "2027-07-05",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "D-start",
+        "lon": 87.084,
+        "sign": "雙子座",
+        "deg": 27,
+        "min": 5
+      },
+      {
+        "type": "station",
+        "date": "2027-07-10",
+        "planet": "海王星",
+        "symbol": "♆",
+        "direction": "R-start",
+        "lon": 6.264,
+        "sign": "白羊座",
+        "deg": 6,
+        "min": 15
+      },
+      {
+        "type": "transit",
         "date": "2027-07-14",
         "planet": "水星",
         "symbol": "☿",
@@ -2649,6 +4467,7 @@
         "lon": 90.636
       },
       {
+        "type": "transit",
         "date": "2027-07-16",
         "planet": "火星",
         "symbol": "♂",
@@ -2658,6 +4477,7 @@
         "lon": 180.056
       },
       {
+        "type": "transit",
         "date": "2027-07-28",
         "planet": "木星",
         "symbol": "♃",
@@ -2667,6 +4487,7 @@
         "lon": 150.019
       },
       {
+        "type": "transit",
         "date": "2027-07-28",
         "planet": "金星",
         "symbol": "♀",
@@ -2676,6 +4497,7 @@
         "lon": 120.212
       },
       {
+        "type": "transit",
         "date": "2027-08-03",
         "planet": "水星",
         "symbol": "☿",
@@ -2685,6 +4507,18 @@
         "lon": 120.734
       },
       {
+        "type": "station",
+        "date": "2027-08-10",
+        "planet": "土星",
+        "symbol": "♄",
+        "direction": "R-start",
+        "lon": 27.565,
+        "sign": "白羊座",
+        "deg": 27,
+        "min": 33
+      },
+      {
+        "type": "transit",
         "date": "2027-08-18",
         "planet": "水星",
         "symbol": "☿",
@@ -2694,6 +4528,7 @@
         "lon": 151.168
       },
       {
+        "type": "transit",
         "date": "2027-08-22",
         "planet": "金星",
         "symbol": "♀",
@@ -2703,6 +4538,7 @@
         "lon": 151.082
       },
       {
+        "type": "transit",
         "date": "2027-09-03",
         "planet": "火星",
         "symbol": "♂",
@@ -2712,6 +4548,7 @@
         "lon": 210.227
       },
       {
+        "type": "transit",
         "date": "2027-09-04",
         "planet": "水星",
         "symbol": "☿",
@@ -2721,6 +4558,18 @@
         "lon": 180.415
       },
       {
+        "type": "station",
+        "date": "2027-09-15",
+        "planet": "天王星",
+        "symbol": "♅",
+        "direction": "R-start",
+        "lon": 69.564,
+        "sign": "雙子座",
+        "deg": 9,
+        "min": 33
+      },
+      {
+        "type": "transit",
         "date": "2027-09-15",
         "planet": "金星",
         "symbol": "♀",
@@ -2730,6 +4579,7 @@
         "lon": 180.842
       },
       {
+        "type": "transit",
         "date": "2027-09-28",
         "planet": "水星",
         "symbol": "☿",
@@ -2739,6 +4589,18 @@
         "lon": 210.129
       },
       {
+        "type": "station",
+        "date": "2027-10-08",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "R-start",
+        "lon": 214.526,
+        "sign": "天蠍座",
+        "deg": 4,
+        "min": 31
+      },
+      {
+        "type": "transit",
         "date": "2027-10-09",
         "planet": "金星",
         "symbol": "♀",
@@ -2748,6 +4610,7 @@
         "lon": 210.656
       },
       {
+        "type": "transit",
         "date": "2027-10-16",
         "planet": "水星",
         "symbol": "☿",
@@ -2757,6 +4620,7 @@
         "lon": 209.951
       },
       {
+        "type": "transit",
         "date": "2027-10-17",
         "planet": "火星",
         "symbol": "♂",
@@ -2766,6 +4630,29 @@
         "lon": 240.361
       },
       {
+        "type": "station",
+        "date": "2027-10-18",
+        "planet": "冥王星",
+        "symbol": "♇",
+        "direction": "D-start",
+        "lon": 304.354,
+        "sign": "水瓶座",
+        "deg": 4,
+        "min": 21
+      },
+      {
+        "type": "station",
+        "date": "2027-10-29",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "D-start",
+        "lon": 198.937,
+        "sign": "天秤座",
+        "deg": 18,
+        "min": 56
+      },
+      {
+        "type": "transit",
         "date": "2027-11-02",
         "planet": "金星",
         "symbol": "♀",
@@ -2775,6 +4662,7 @@
         "lon": 240.469
       },
       {
+        "type": "transit",
         "date": "2027-11-11",
         "planet": "水星",
         "symbol": "☿",
@@ -2784,6 +4672,7 @@
         "lon": 211.002
       },
       {
+        "type": "transit",
         "date": "2027-11-26",
         "planet": "金星",
         "symbol": "♀",
@@ -2793,6 +4682,7 @@
         "lon": 270.239
       },
       {
+        "type": "transit",
         "date": "2027-11-27",
         "planet": "火星",
         "symbol": "♂",
@@ -2802,6 +4692,7 @@
         "lon": 270.552
       },
       {
+        "type": "transit",
         "date": "2027-11-30",
         "planet": "水星",
         "symbol": "☿",
@@ -2811,6 +4702,18 @@
         "lon": 240.511
       },
       {
+        "type": "station",
+        "date": "2027-12-15",
+        "planet": "海王星",
+        "symbol": "♆",
+        "direction": "D-start",
+        "lon": 3.452,
+        "sign": "白羊座",
+        "deg": 3,
+        "min": 27
+      },
+      {
+        "type": "transit",
         "date": "2027-12-19",
         "planet": "水星",
         "symbol": "☿",
@@ -2820,6 +4723,7 @@
         "lon": 270.413
       },
       {
+        "type": "transit",
         "date": "2027-12-21",
         "planet": "金星",
         "symbol": "♀",
@@ -2827,10 +4731,22 @@
         "to": "水瓶座",
         "retrograde": false,
         "lon": 301.119
+      },
+      {
+        "type": "station",
+        "date": "2027-12-24",
+        "planet": "土星",
+        "symbol": "♄",
+        "direction": "D-start",
+        "lon": 20.703,
+        "sign": "白羊座",
+        "deg": 20,
+        "min": 42
       }
     ],
     "2028": [
       {
+        "type": "transit",
         "date": "2028-01-05",
         "planet": "火星",
         "symbol": "♂",
@@ -2840,6 +4756,7 @@
         "lon": 300.666
       },
       {
+        "type": "transit",
         "date": "2028-01-07",
         "planet": "水星",
         "symbol": "☿",
@@ -2849,6 +4766,18 @@
         "lon": 300.794
       },
       {
+        "type": "station",
+        "date": "2028-01-12",
+        "planet": "木星",
+        "symbol": "♃",
+        "direction": "R-start",
+        "lon": 177.163,
+        "sign": "處女座",
+        "deg": 27,
+        "min": 9
+      },
+      {
+        "type": "transit",
         "date": "2028-01-14",
         "planet": "金星",
         "symbol": "♀",
@@ -2858,6 +4787,18 @@
         "lon": 330.452
       },
       {
+        "type": "station",
+        "date": "2028-01-24",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "R-start",
+        "lon": 319.286,
+        "sign": "水瓶座",
+        "deg": 19,
+        "min": 17
+      },
+      {
+        "type": "transit",
         "date": "2028-02-08",
         "planet": "金星",
         "symbol": "♀",
@@ -2867,6 +4808,7 @@
         "lon": 0.289
       },
       {
+        "type": "transit",
         "date": "2028-02-12",
         "planet": "火星",
         "symbol": "♂",
@@ -2876,6 +4818,29 @@
         "lon": 330.655
       },
       {
+        "type": "station",
+        "date": "2028-02-13",
+        "planet": "天王星",
+        "symbol": "♅",
+        "direction": "D-start",
+        "lon": 65.531,
+        "sign": "雙子座",
+        "deg": 5,
+        "min": 31
+      },
+      {
+        "type": "station",
+        "date": "2028-02-15",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "D-start",
+        "lon": 303.605,
+        "sign": "水瓶座",
+        "deg": 3,
+        "min": 36
+      },
+      {
+        "type": "transit",
         "date": "2028-03-06",
         "planet": "金星",
         "symbol": "♀",
@@ -2885,6 +4850,7 @@
         "lon": 30.871
       },
       {
+        "type": "transit",
         "date": "2028-03-08",
         "planet": "北交點",
         "symbol": "☊",
@@ -2894,6 +4860,7 @@
         "lon": 299.965
       },
       {
+        "type": "transit",
         "date": "2028-03-14",
         "planet": "水星",
         "symbol": "☿",
@@ -2903,6 +4870,7 @@
         "lon": 330.635
       },
       {
+        "type": "transit",
         "date": "2028-03-21",
         "planet": "火星",
         "symbol": "♂",
@@ -2912,6 +4880,7 @@
         "lon": 0.534
       },
       {
+        "type": "transit",
         "date": "2028-04-01",
         "planet": "水星",
         "symbol": "☿",
@@ -2921,6 +4890,7 @@
         "lon": 0.503
       },
       {
+        "type": "transit",
         "date": "2028-04-05",
         "planet": "金星",
         "symbol": "♀",
@@ -2930,6 +4900,7 @@
         "lon": 60.599
       },
       {
+        "type": "transit",
         "date": "2028-04-16",
         "planet": "土星",
         "symbol": "♄",
@@ -2939,6 +4910,7 @@
         "lon": 30.035
       },
       {
+        "type": "transit",
         "date": "2028-04-16",
         "planet": "水星",
         "symbol": "☿",
@@ -2948,6 +4920,7 @@
         "lon": 30.689
       },
       {
+        "type": "transit",
         "date": "2028-04-29",
         "planet": "火星",
         "symbol": "♂",
@@ -2957,6 +4930,7 @@
         "lon": 30.409
       },
       {
+        "type": "transit",
         "date": "2028-05-02",
         "planet": "水星",
         "symbol": "☿",
@@ -2966,6 +4940,51 @@
         "lon": 61.023
       },
       {
+        "type": "station",
+        "date": "2028-05-09",
+        "planet": "冥王星",
+        "symbol": "♇",
+        "direction": "R-start",
+        "lon": 308.424,
+        "sign": "水瓶座",
+        "deg": 8,
+        "min": 25
+      },
+      {
+        "type": "station",
+        "date": "2028-05-11",
+        "planet": "金星",
+        "symbol": "♀",
+        "direction": "R-start",
+        "lon": 79.293,
+        "sign": "雙子座",
+        "deg": 19,
+        "min": 17
+      },
+      {
+        "type": "station",
+        "date": "2028-05-14",
+        "planet": "木星",
+        "symbol": "♃",
+        "direction": "D-start",
+        "lon": 167.186,
+        "sign": "處女座",
+        "deg": 17,
+        "min": 11
+      },
+      {
+        "type": "station",
+        "date": "2028-05-21",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "R-start",
+        "lon": 75.915,
+        "sign": "雙子座",
+        "deg": 15,
+        "min": 54
+      },
+      {
+        "type": "transit",
         "date": "2028-06-09",
         "planet": "火星",
         "symbol": "♂",
@@ -2975,6 +4994,29 @@
         "lon": 60.486
       },
       {
+        "type": "station",
+        "date": "2028-06-14",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "D-start",
+        "lon": 67.365,
+        "sign": "雙子座",
+        "deg": 7,
+        "min": 21
+      },
+      {
+        "type": "station",
+        "date": "2028-06-23",
+        "planet": "金星",
+        "symbol": "♀",
+        "direction": "D-start",
+        "lon": 62.784,
+        "sign": "雙子座",
+        "deg": 2,
+        "min": 47
+      },
+      {
+        "type": "transit",
         "date": "2028-07-10",
         "planet": "水星",
         "symbol": "☿",
@@ -2984,6 +5026,18 @@
         "lon": 91.225
       },
       {
+        "type": "station",
+        "date": "2028-07-11",
+        "planet": "海王星",
+        "symbol": "♆",
+        "direction": "R-start",
+        "lon": 8.493,
+        "sign": "白羊座",
+        "deg": 8,
+        "min": 29
+      },
+      {
+        "type": "transit",
         "date": "2028-07-22",
         "planet": "火星",
         "symbol": "♂",
@@ -2993,6 +5047,7 @@
         "lon": 90.381
       },
       {
+        "type": "transit",
         "date": "2028-07-25",
         "planet": "水星",
         "symbol": "☿",
@@ -3002,6 +5057,7 @@
         "lon": 121.572
       },
       {
+        "type": "transit",
         "date": "2028-08-09",
         "planet": "水星",
         "symbol": "☿",
@@ -3011,6 +5067,7 @@
         "lon": 151.013
       },
       {
+        "type": "transit",
         "date": "2028-08-09",
         "planet": "金星",
         "symbol": "♀",
@@ -3020,6 +5077,18 @@
         "lon": 90.878
       },
       {
+        "type": "station",
+        "date": "2028-08-23",
+        "planet": "土星",
+        "symbol": "♄",
+        "direction": "R-start",
+        "lon": 40.978,
+        "sign": "金牛座",
+        "deg": 10,
+        "min": 58
+      },
+      {
+        "type": "transit",
         "date": "2028-08-26",
         "planet": "木星",
         "symbol": "♃",
@@ -3029,6 +5098,7 @@
         "lon": 180.001
       },
       {
+        "type": "transit",
         "date": "2028-08-28",
         "planet": "水星",
         "symbol": "☿",
@@ -3038,6 +5108,7 @@
         "lon": 180.19
       },
       {
+        "type": "transit",
         "date": "2028-09-06",
         "planet": "火星",
         "symbol": "♂",
@@ -3047,6 +5118,7 @@
         "lon": 120.476
       },
       {
+        "type": "transit",
         "date": "2028-09-07",
         "planet": "金星",
         "symbol": "♀",
@@ -3056,6 +5128,29 @@
         "lon": 120.732
       },
       {
+        "type": "station",
+        "date": "2028-09-19",
+        "planet": "天王星",
+        "symbol": "♅",
+        "direction": "R-start",
+        "lon": 73.834,
+        "sign": "雙子座",
+        "deg": 13,
+        "min": 50
+      },
+      {
+        "type": "station",
+        "date": "2028-09-20",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "R-start",
+        "lon": 198.184,
+        "sign": "天秤座",
+        "deg": 18,
+        "min": 11
+      },
+      {
+        "type": "transit",
         "date": "2028-10-03",
         "planet": "金星",
         "symbol": "♀",
@@ -3065,6 +5160,29 @@
         "lon": 150.278
       },
       {
+        "type": "station",
+        "date": "2028-10-11",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "D-start",
+        "lon": 183.094,
+        "sign": "天秤座",
+        "deg": 3,
+        "min": 5
+      },
+      {
+        "type": "station",
+        "date": "2028-10-19",
+        "planet": "冥王星",
+        "symbol": "♇",
+        "direction": "D-start",
+        "lon": 306.0,
+        "sign": "水瓶座",
+        "deg": 5,
+        "min": 59
+      },
+      {
+        "type": "transit",
         "date": "2028-10-25",
         "planet": "火星",
         "symbol": "♂",
@@ -3074,6 +5192,7 @@
         "lon": 150.137
       },
       {
+        "type": "transit",
         "date": "2028-10-28",
         "planet": "金星",
         "symbol": "♀",
@@ -3083,6 +5202,7 @@
         "lon": 180.112
       },
       {
+        "type": "transit",
         "date": "2028-11-03",
         "planet": "水星",
         "symbol": "☿",
@@ -3092,6 +5212,7 @@
         "lon": 210.216
       },
       {
+        "type": "transit",
         "date": "2028-11-22",
         "planet": "水星",
         "symbol": "☿",
@@ -3101,6 +5222,7 @@
         "lon": 240.917
       },
       {
+        "type": "transit",
         "date": "2028-11-22",
         "planet": "金星",
         "symbol": "♀",
@@ -3110,6 +5232,7 @@
         "lon": 210.785
       },
       {
+        "type": "transit",
         "date": "2028-12-11",
         "planet": "水星",
         "symbol": "☿",
@@ -3119,6 +5242,7 @@
         "lon": 270.557
       },
       {
+        "type": "transit",
         "date": "2028-12-16",
         "planet": "金星",
         "symbol": "♀",
@@ -3128,6 +5252,18 @@
         "lon": 240.656
       },
       {
+        "type": "station",
+        "date": "2028-12-17",
+        "planet": "海王星",
+        "symbol": "♆",
+        "direction": "D-start",
+        "lon": 5.68,
+        "sign": "白羊座",
+        "deg": 5,
+        "min": 40
+      },
+      {
+        "type": "transit",
         "date": "2028-12-23",
         "planet": "火星",
         "symbol": "♂",
@@ -3139,6 +5275,7 @@
     ],
     "2029": [
       {
+        "type": "transit",
         "date": "2029-01-02",
         "planet": "水星",
         "symbol": "☿",
@@ -3148,6 +5285,29 @@
         "lon": 300.839
       },
       {
+        "type": "station",
+        "date": "2029-01-06",
+        "planet": "土星",
+        "symbol": "♄",
+        "direction": "D-start",
+        "lon": 34.081,
+        "sign": "金牛座",
+        "deg": 4,
+        "min": 4
+      },
+      {
+        "type": "station",
+        "date": "2029-01-07",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "R-start",
+        "lon": 303.212,
+        "sign": "水瓶座",
+        "deg": 3,
+        "min": 12
+      },
+      {
+        "type": "transit",
         "date": "2029-01-09",
         "planet": "金星",
         "symbol": "♀",
@@ -3157,6 +5317,7 @@
         "lon": 270.705
       },
       {
+        "type": "transit",
         "date": "2029-01-14",
         "planet": "水星",
         "symbol": "☿",
@@ -3166,6 +5327,18 @@
         "lon": 299.023
       },
       {
+        "type": "station",
+        "date": "2029-01-28",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "D-start",
+        "lon": 287.13,
+        "sign": "摩羯座",
+        "deg": 17,
+        "min": 7
+      },
+      {
+        "type": "transit",
         "date": "2029-02-02",
         "planet": "金星",
         "symbol": "♀",
@@ -3175,6 +5348,29 @@
         "lon": 300.795
       },
       {
+        "type": "station",
+        "date": "2029-02-11",
+        "planet": "木星",
+        "symbol": "♃",
+        "direction": "R-start",
+        "lon": 207.054,
+        "sign": "天秤座",
+        "deg": 27,
+        "min": 3
+      },
+      {
+        "type": "station",
+        "date": "2029-02-14",
+        "planet": "火星",
+        "symbol": "♂",
+        "direction": "R-start",
+        "lon": 193.495,
+        "sign": "天秤座",
+        "deg": 13,
+        "min": 29
+      },
+      {
+        "type": "transit",
         "date": "2029-02-15",
         "planet": "水星",
         "symbol": "☿",
@@ -3184,6 +5380,18 @@
         "lon": 301.104
       },
       {
+        "type": "station",
+        "date": "2029-02-16",
+        "planet": "天王星",
+        "symbol": "♅",
+        "direction": "D-start",
+        "lon": 69.793,
+        "sign": "雙子座",
+        "deg": 9,
+        "min": 47
+      },
+      {
+        "type": "transit",
         "date": "2029-02-26",
         "planet": "金星",
         "symbol": "♀",
@@ -3193,6 +5401,7 @@
         "lon": 330.844
       },
       {
+        "type": "transit",
         "date": "2029-03-08",
         "planet": "水星",
         "symbol": "☿",
@@ -3202,6 +5411,7 @@
         "lon": 331.633
       },
       {
+        "type": "transit",
         "date": "2029-03-22",
         "planet": "金星",
         "symbol": "♀",
@@ -3211,6 +5421,7 @@
         "lon": 0.787
       },
       {
+        "type": "transit",
         "date": "2029-03-24",
         "planet": "水星",
         "symbol": "☿",
@@ -3220,6 +5431,7 @@
         "lon": 0.555
       },
       {
+        "type": "transit",
         "date": "2029-04-07",
         "planet": "火星",
         "symbol": "♂",
@@ -3229,6 +5441,7 @@
         "lon": 179.751
       },
       {
+        "type": "transit",
         "date": "2029-04-08",
         "planet": "水星",
         "symbol": "☿",
@@ -3238,6 +5451,7 @@
         "lon": 30.824
       },
       {
+        "type": "transit",
         "date": "2029-04-15",
         "planet": "金星",
         "symbol": "♀",
@@ -3247,6 +5461,29 @@
         "lon": 30.573
       },
       {
+        "type": "station",
+        "date": "2029-05-02",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "R-start",
+        "lon": 56.265,
+        "sign": "金牛座",
+        "deg": 26,
+        "min": 15
+      },
+      {
+        "type": "station",
+        "date": "2029-05-06",
+        "planet": "火星",
+        "symbol": "♂",
+        "direction": "D-start",
+        "lon": 174.499,
+        "sign": "處女座",
+        "deg": 24,
+        "min": 29
+      },
+      {
+        "type": "transit",
         "date": "2029-05-09",
         "planet": "金星",
         "symbol": "♀",
@@ -3256,6 +5493,29 @@
         "lon": 60.175
       },
       {
+        "type": "station",
+        "date": "2029-05-11",
+        "planet": "冥王星",
+        "symbol": "♇",
+        "direction": "R-start",
+        "lon": 310.038,
+        "sign": "水瓶座",
+        "deg": 10,
+        "min": 2
+      },
+      {
+        "type": "station",
+        "date": "2029-05-26",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "D-start",
+        "lon": 47.153,
+        "sign": "金牛座",
+        "deg": 17,
+        "min": 9
+      },
+      {
+        "type": "transit",
         "date": "2029-06-03",
         "planet": "金星",
         "symbol": "♀",
@@ -3265,6 +5525,7 @@
         "lon": 90.811
       },
       {
+        "type": "transit",
         "date": "2029-06-07",
         "planet": "火星",
         "symbol": "♂",
@@ -3274,6 +5535,18 @@
         "lon": 180.14
       },
       {
+        "type": "station",
+        "date": "2029-06-14",
+        "planet": "木星",
+        "symbol": "♃",
+        "direction": "D-start",
+        "lon": 197.133,
+        "sign": "天秤座",
+        "deg": 17,
+        "min": 7
+      },
+      {
+        "type": "transit",
         "date": "2029-06-15",
         "planet": "水星",
         "symbol": "☿",
@@ -3283,6 +5556,7 @@
         "lon": 61.25
       },
       {
+        "type": "transit",
         "date": "2029-06-27",
         "planet": "金星",
         "symbol": "♀",
@@ -3292,6 +5566,7 @@
         "lon": 120.019
       },
       {
+        "type": "transit",
         "date": "2029-07-02",
         "planet": "水星",
         "symbol": "☿",
@@ -3301,6 +5576,18 @@
         "lon": 90.64
       },
       {
+        "type": "station",
+        "date": "2029-07-14",
+        "planet": "海王星",
+        "symbol": "♆",
+        "direction": "R-start",
+        "lon": 10.723,
+        "sign": "白羊座",
+        "deg": 10,
+        "min": 43
+      },
+      {
+        "type": "transit",
         "date": "2029-07-16",
         "planet": "水星",
         "symbol": "☿",
@@ -3310,6 +5597,7 @@
         "lon": 120.488
       },
       {
+        "type": "transit",
         "date": "2029-07-22",
         "planet": "金星",
         "symbol": "♀",
@@ -3319,6 +5607,7 @@
         "lon": 150.175
       },
       {
+        "type": "transit",
         "date": "2029-08-02",
         "planet": "水星",
         "symbol": "☿",
@@ -3328,6 +5617,7 @@
         "lon": 151.2
       },
       {
+        "type": "transit",
         "date": "2029-08-09",
         "planet": "火星",
         "symbol": "♂",
@@ -3337,6 +5627,7 @@
         "lon": 210.37
       },
       {
+        "type": "transit",
         "date": "2029-08-17",
         "planet": "金星",
         "symbol": "♀",
@@ -3346,6 +5637,7 @@
         "lon": 181.108
       },
       {
+        "type": "transit",
         "date": "2029-08-28",
         "planet": "水星",
         "symbol": "☿",
@@ -3355,6 +5647,29 @@
         "lon": 180.046
       },
       {
+        "type": "station",
+        "date": "2029-09-03",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "R-start",
+        "lon": 181.406,
+        "sign": "天秤座",
+        "deg": 1,
+        "min": 24
+      },
+      {
+        "type": "station",
+        "date": "2029-09-06",
+        "planet": "土星",
+        "symbol": "♄",
+        "direction": "R-start",
+        "lon": 54.661,
+        "sign": "金牛座",
+        "deg": 24,
+        "min": 39
+      },
+      {
+        "type": "transit",
         "date": "2029-09-08",
         "planet": "水星",
         "symbol": "☿",
@@ -3364,6 +5679,7 @@
         "lon": 179.857
       },
       {
+        "type": "transit",
         "date": "2029-09-11",
         "planet": "金星",
         "symbol": "♀",
@@ -3373,6 +5689,18 @@
         "lon": 210.213
       },
       {
+        "type": "station",
+        "date": "2029-09-24",
+        "planet": "天王星",
+        "symbol": "♅",
+        "direction": "R-start",
+        "lon": 78.134,
+        "sign": "雙子座",
+        "deg": 18,
+        "min": 8
+      },
+      {
+        "type": "transit",
         "date": "2029-09-24",
         "planet": "火星",
         "symbol": "♂",
@@ -3382,6 +5710,18 @@
         "lon": 240.036
       },
       {
+        "type": "station",
+        "date": "2029-09-25",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "D-start",
+        "lon": 167.033,
+        "sign": "處女座",
+        "deg": 17,
+        "min": 1
+      },
+      {
+        "type": "transit",
         "date": "2029-09-25",
         "planet": "北交點",
         "symbol": "☊",
@@ -3391,6 +5731,7 @@
         "lon": 269.993
       },
       {
+        "type": "transit",
         "date": "2029-09-27",
         "planet": "木星",
         "symbol": "♃",
@@ -3400,6 +5741,7 @@
         "lon": 210.176
       },
       {
+        "type": "transit",
         "date": "2029-10-08",
         "planet": "金星",
         "symbol": "♀",
@@ -3409,6 +5751,7 @@
         "lon": 240.454
       },
       {
+        "type": "transit",
         "date": "2029-10-09",
         "planet": "水星",
         "symbol": "☿",
@@ -3418,6 +5761,18 @@
         "lon": 180.333
       },
       {
+        "type": "station",
+        "date": "2029-10-21",
+        "planet": "冥王星",
+        "symbol": "♇",
+        "direction": "D-start",
+        "lon": 307.625,
+        "sign": "水瓶座",
+        "deg": 7,
+        "min": 37
+      },
+      {
+        "type": "transit",
         "date": "2029-10-27",
         "planet": "水星",
         "symbol": "☿",
@@ -3427,6 +5782,7 @@
         "lon": 210.844
       },
       {
+        "type": "transit",
         "date": "2029-11-05",
         "planet": "火星",
         "symbol": "♂",
@@ -3436,6 +5792,7 @@
         "lon": 270.319
       },
       {
+        "type": "transit",
         "date": "2029-11-07",
         "planet": "金星",
         "symbol": "♀",
@@ -3445,6 +5802,7 @@
         "lon": 270.899
       },
       {
+        "type": "transit",
         "date": "2029-11-15",
         "planet": "水星",
         "symbol": "☿",
@@ -3454,6 +5812,7 @@
         "lon": 241.253
       },
       {
+        "type": "transit",
         "date": "2029-12-05",
         "planet": "水星",
         "symbol": "☿",
@@ -3463,6 +5822,7 @@
         "lon": 271.064
       },
       {
+        "type": "transit",
         "date": "2029-12-14",
         "planet": "火星",
         "symbol": "♂",
@@ -3470,10 +5830,66 @@
         "to": "水瓶座",
         "retrograde": false,
         "lon": 300.192
+      },
+      {
+        "type": "station",
+        "date": "2029-12-17",
+        "planet": "金星",
+        "symbol": "♀",
+        "direction": "R-start",
+        "lon": 293.6,
+        "sign": "摩羯座",
+        "deg": 23,
+        "min": 35
+      },
+      {
+        "type": "station",
+        "date": "2029-12-19",
+        "planet": "海王星",
+        "symbol": "♆",
+        "direction": "D-start",
+        "lon": 7.909,
+        "sign": "白羊座",
+        "deg": 7,
+        "min": 54
+      },
+      {
+        "type": "station",
+        "date": "2029-12-22",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "R-start",
+        "lon": 287.276,
+        "sign": "摩羯座",
+        "deg": 17,
+        "min": 16
       }
     ],
     "2030": [
       {
+        "type": "station",
+        "date": "2030-01-11",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "D-start",
+        "lon": 271.012,
+        "sign": "摩羯座",
+        "deg": 1,
+        "min": 0
+      },
+      {
+        "type": "station",
+        "date": "2030-01-19",
+        "planet": "土星",
+        "symbol": "♄",
+        "direction": "D-start",
+        "lon": 47.734,
+        "sign": "金牛座",
+        "deg": 17,
+        "min": 44
+      },
+      {
+        "type": "transit",
         "date": "2030-01-21",
         "planet": "火星",
         "symbol": "♂",
@@ -3483,6 +5899,18 @@
         "lon": 330.034
       },
       {
+        "type": "station",
+        "date": "2030-01-27",
+        "planet": "金星",
+        "symbol": "♀",
+        "direction": "D-start",
+        "lon": 278.209,
+        "sign": "摩羯座",
+        "deg": 8,
+        "min": 12
+      },
+      {
+        "type": "transit",
         "date": "2030-02-09",
         "planet": "水星",
         "symbol": "☿",
@@ -3492,6 +5920,18 @@
         "lon": 300.186
       },
       {
+        "type": "station",
+        "date": "2030-02-21",
+        "planet": "天王星",
+        "symbol": "♅",
+        "direction": "D-start",
+        "lon": 74.084,
+        "sign": "雙子座",
+        "deg": 14,
+        "min": 5
+      },
+      {
+        "type": "transit",
         "date": "2030-02-28",
         "planet": "水星",
         "symbol": "☿",
@@ -3501,6 +5941,7 @@
         "lon": 330.681
       },
       {
+        "type": "transit",
         "date": "2030-03-01",
         "planet": "火星",
         "symbol": "♂",
@@ -3510,6 +5951,7 @@
         "lon": 0.522
       },
       {
+        "type": "transit",
         "date": "2030-03-08",
         "planet": "金星",
         "symbol": "♀",
@@ -3519,6 +5961,18 @@
         "lon": 300.901
       },
       {
+        "type": "station",
+        "date": "2030-03-14",
+        "planet": "木星",
+        "symbol": "♃",
+        "direction": "R-start",
+        "lon": 237.229,
+        "sign": "天蠍座",
+        "deg": 27,
+        "min": 13
+      },
+      {
+        "type": "transit",
         "date": "2030-03-16",
         "planet": "水星",
         "symbol": "☿",
@@ -3528,6 +5982,7 @@
         "lon": 0.851
       },
       {
+        "type": "transit",
         "date": "2030-04-02",
         "planet": "水星",
         "symbol": "☿",
@@ -3537,6 +5992,7 @@
         "lon": 30.577
       },
       {
+        "type": "transit",
         "date": "2030-04-06",
         "planet": "金星",
         "symbol": "♀",
@@ -3546,6 +6002,7 @@
         "lon": 330.238
       },
       {
+        "type": "transit",
         "date": "2030-04-09",
         "planet": "火星",
         "symbol": "♂",
@@ -3555,6 +6012,18 @@
         "lon": 30.163
       },
       {
+        "type": "station",
+        "date": "2030-04-13",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "R-start",
+        "lon": 37.369,
+        "sign": "金牛座",
+        "deg": 7,
+        "min": 22
+      },
+      {
+        "type": "transit",
         "date": "2030-04-28",
         "planet": "水星",
         "symbol": "☿",
@@ -3564,6 +6033,7 @@
         "lon": 29.911
       },
       {
+        "type": "transit",
         "date": "2030-05-03",
         "planet": "金星",
         "symbol": "♀",
@@ -3573,6 +6043,29 @@
         "lon": 0.406
       },
       {
+        "type": "station",
+        "date": "2030-05-07",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "D-start",
+        "lon": 27.006,
+        "sign": "白羊座",
+        "deg": 27,
+        "min": 0
+      },
+      {
+        "type": "station",
+        "date": "2030-05-13",
+        "planet": "冥王星",
+        "symbol": "♇",
+        "direction": "R-start",
+        "lon": 311.633,
+        "sign": "水瓶座",
+        "deg": 11,
+        "min": 37
+      },
+      {
+        "type": "transit",
         "date": "2030-05-16",
         "planet": "水星",
         "symbol": "☿",
@@ -3582,6 +6075,7 @@
         "lon": 30.168
       },
       {
+        "type": "transit",
         "date": "2030-05-20",
         "planet": "火星",
         "symbol": "♂",
@@ -3591,6 +6085,7 @@
         "lon": 60.013
       },
       {
+        "type": "transit",
         "date": "2030-05-29",
         "planet": "金星",
         "symbol": "♀",
@@ -3600,6 +6095,7 @@
         "lon": 30.578
       },
       {
+        "type": "transit",
         "date": "2030-06-05",
         "planet": "土星",
         "symbol": "♄",
@@ -3609,6 +6105,7 @@
         "lon": 60.126
       },
       {
+        "type": "transit",
         "date": "2030-06-09",
         "planet": "水星",
         "symbol": "☿",
@@ -3618,6 +6115,7 @@
         "lon": 60.888
       },
       {
+        "type": "transit",
         "date": "2030-06-23",
         "planet": "金星",
         "symbol": "♀",
@@ -3627,6 +6125,7 @@
         "lon": 60.154
       },
       {
+        "type": "transit",
         "date": "2030-06-24",
         "planet": "水星",
         "symbol": "☿",
@@ -3636,6 +6135,7 @@
         "lon": 91.783
       },
       {
+        "type": "transit",
         "date": "2030-07-03",
         "planet": "火星",
         "symbol": "♂",
@@ -3645,6 +6145,7 @@
         "lon": 90.497
       },
       {
+        "type": "transit",
         "date": "2030-07-08",
         "planet": "水星",
         "symbol": "☿",
@@ -3654,6 +6155,29 @@
         "lon": 120.642
       },
       {
+        "type": "station",
+        "date": "2030-07-15",
+        "planet": "木星",
+        "symbol": "♃",
+        "direction": "D-start",
+        "lon": 227.353,
+        "sign": "天蠍座",
+        "deg": 17,
+        "min": 21
+      },
+      {
+        "type": "station",
+        "date": "2030-07-16",
+        "planet": "海王星",
+        "symbol": "♆",
+        "direction": "R-start",
+        "lon": 12.953,
+        "sign": "白羊座",
+        "deg": 12,
+        "min": 57
+      },
+      {
+        "type": "transit",
         "date": "2030-07-18",
         "planet": "金星",
         "symbol": "♀",
@@ -3663,6 +6187,7 @@
         "lon": 90.141
       },
       {
+        "type": "transit",
         "date": "2030-07-27",
         "planet": "水星",
         "symbol": "☿",
@@ -3672,6 +6197,7 @@
         "lon": 150.04
       },
       {
+        "type": "transit",
         "date": "2030-08-12",
         "planet": "金星",
         "symbol": "♀",
@@ -3681,6 +6207,18 @@
         "lon": 120.522
       },
       {
+        "type": "station",
+        "date": "2030-08-16",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "R-start",
+        "lon": 164.064,
+        "sign": "處女座",
+        "deg": 14,
+        "min": 3
+      },
+      {
+        "type": "transit",
         "date": "2030-08-17",
         "planet": "火星",
         "symbol": "♂",
@@ -3690,6 +6228,7 @@
         "lon": 120.22
       },
       {
+        "type": "transit",
         "date": "2030-09-05",
         "planet": "金星",
         "symbol": "♀",
@@ -3699,6 +6238,40 @@
         "lon": 150.046
       },
       {
+        "type": "station",
+        "date": "2030-09-08",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "D-start",
+        "lon": 150.685,
+        "sign": "處女座",
+        "deg": 0,
+        "min": 41
+      },
+      {
+        "type": "station",
+        "date": "2030-09-21",
+        "planet": "土星",
+        "symbol": "♄",
+        "direction": "R-start",
+        "lon": 68.564,
+        "sign": "雙子座",
+        "deg": 8,
+        "min": 33
+      },
+      {
+        "type": "station",
+        "date": "2030-09-28",
+        "planet": "天王星",
+        "symbol": "♅",
+        "direction": "R-start",
+        "lon": 82.466,
+        "sign": "雙子座",
+        "deg": 22,
+        "min": 27
+      },
+      {
+        "type": "transit",
         "date": "2030-09-30",
         "planet": "金星",
         "symbol": "♀",
@@ -3708,6 +6281,7 @@
         "lon": 181.106
       },
       {
+        "type": "transit",
         "date": "2030-10-02",
         "planet": "水星",
         "symbol": "☿",
@@ -3717,6 +6291,7 @@
         "lon": 180.572
       },
       {
+        "type": "transit",
         "date": "2030-10-04",
         "planet": "火星",
         "symbol": "♂",
@@ -3726,6 +6301,7 @@
         "lon": 150.553
       },
       {
+        "type": "transit",
         "date": "2030-10-19",
         "planet": "水星",
         "symbol": "☿",
@@ -3735,6 +6311,18 @@
         "lon": 210.055
       },
       {
+        "type": "station",
+        "date": "2030-10-23",
+        "planet": "冥王星",
+        "symbol": "♇",
+        "direction": "D-start",
+        "lon": 309.23,
+        "sign": "水瓶座",
+        "deg": 9,
+        "min": 13
+      },
+      {
+        "type": "transit",
         "date": "2030-10-24",
         "planet": "金星",
         "symbol": "♀",
@@ -3744,6 +6332,7 @@
         "lon": 211.109
       },
       {
+        "type": "transit",
         "date": "2030-10-25",
         "planet": "木星",
         "symbol": "♃",
@@ -3753,6 +6342,7 @@
         "lon": 240.004
       },
       {
+        "type": "transit",
         "date": "2030-11-08",
         "planet": "水星",
         "symbol": "☿",
@@ -3762,6 +6352,7 @@
         "lon": 241.014
       },
       {
+        "type": "transit",
         "date": "2030-11-17",
         "planet": "金星",
         "symbol": "♀",
@@ -3771,6 +6362,7 @@
         "lon": 241.198
       },
       {
+        "type": "transit",
         "date": "2030-11-23",
         "planet": "火星",
         "symbol": "♂",
@@ -3780,6 +6372,7 @@
         "lon": 180.53
       },
       {
+        "type": "transit",
         "date": "2030-12-02",
         "planet": "水星",
         "symbol": "☿",
@@ -3789,6 +6382,18 @@
         "lon": 270.139
       },
       {
+        "type": "station",
+        "date": "2030-12-06",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "R-start",
+        "lon": 271.426,
+        "sign": "摩羯座",
+        "deg": 1,
+        "min": 25
+      },
+      {
+        "type": "transit",
         "date": "2030-12-10",
         "planet": "金星",
         "symbol": "♀",
@@ -3798,6 +6403,7 @@
         "lon": 270.054
       },
       {
+        "type": "transit",
         "date": "2030-12-11",
         "planet": "水星",
         "symbol": "☿",
@@ -3805,6 +6411,28 @@
         "to": "射手座",
         "retrograde": true,
         "lon": 269.243
+      },
+      {
+        "type": "station",
+        "date": "2030-12-22",
+        "planet": "海王星",
+        "symbol": "♆",
+        "direction": "D-start",
+        "lon": 10.139,
+        "sign": "白羊座",
+        "deg": 10,
+        "min": 8
+      },
+      {
+        "type": "station",
+        "date": "2030-12-26",
+        "planet": "水星",
+        "symbol": "☿",
+        "direction": "D-start",
+        "lon": 255.121,
+        "sign": "射手座",
+        "deg": 15,
+        "min": 7
       }
     ]
   }
