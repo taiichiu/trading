@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>K線走勢｜市場韻腳資料庫</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
+<script src="../js/celestial.js" defer></script>
+<link rel="stylesheet" href="../css/celestial-overlay.css">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -62,6 +64,22 @@
   <button class="overlay-btn" data-overlay="buffett">巴菲特指標</button>
 </div>
 
+<div class="celestial-row">
+  <label class="section">天體層：</label>
+  <button class="planet-pill" data-planet="水星"   style="--c:#facc15"><span class="sym">☿</span>水星</button>
+  <button class="planet-pill" data-planet="金星"   style="--c:#10b981"><span class="sym">♀</span>金星</button>
+  <button class="planet-pill" data-planet="火星"   style="--c:#ef4444"><span class="sym">♂</span>火星</button>
+  <button class="planet-pill" data-planet="木星"   style="--c:#3b82f6"><span class="sym">♃</span>木星</button>
+  <button class="planet-pill" data-planet="土星"   style="--c:#a16207"><span class="sym">♄</span>土星</button>
+  <button class="planet-pill" data-planet="北交點" style="--c:#a855f7"><span class="sym">☊</span>北交點</button>
+</div>
+<div class="celestial-row">
+  <label class="section">顯示：</label>
+  <button class="celestial-toggle on" data-vis="arrows">轉換箭頭</button>
+  <button class="celestial-toggle on" data-vis="labels">星座標籤</button>
+  <button class="celestial-toggle on" data-vis="retro">順逆行標記</button>
+</div>
+
 <div id="chart"></div>
 
 <div class="note">
@@ -85,9 +103,11 @@ const VOLUME_DOWN = '#064e3b';
 
 const BUFFETT_COLOR = '#fbbf24';  // amber
 
-let chart, rawDaily = [], buffettData = null;
+let chart, rawDaily = [], buffettData = null, celestial = null;
 let currentRange = '1y', currentTimeframe = 'daily';
 let overlayBuffett = false;
+const selectedPlanets = new Set();   // zh names: 火星, 金星, ...
+const visToggles = { arrows: true, labels: true, retro: true };
 
 // Bars per range, by timeframe — used to compute initial data zoom window.
 const BARS_PER_RANGE = {
@@ -97,21 +117,104 @@ const BARS_PER_RANGE = {
 };
 
 async function init() {
-  const [indicesRes, buffettRes] = await Promise.all([
+  const [indicesRes, buffettRes, celestialRes] = await Promise.all([
     fetch('../data/indices.json').then(r => r.json()),
     fetch('../data/buffett.json').then(r => r.ok ? r.json() : null).catch(() => null),
+    (window.Celestial ? Celestial.load() : Promise.resolve(null)).catch(() => null),
   ]);
   rawDaily = (indicesRes.TAIEX && indicesRes.TAIEX.daily) || [];
   buffettData = buffettRes;
+  celestial = celestialRes;
 
   document.getElementById('lastUpdated').textContent =
     '數據最後更新：' + (indicesRes.lastUpdated || '—') +
-    '　｜　日K筆數：' + rawDaily.length.toLocaleString();
+    '　｜　日K筆數：' + rawDaily.length.toLocaleString() +
+    (celestial ? '　｜　天體事件：' + celestial.all.length : '');
 
   bindButtons('.tf-btn',    'tf',    v => { currentTimeframe = v; });
   bindButtons('.range-btn', 'range', v => { currentRange = v; });
   bindOverlayButtons();
+  bindCelestialButtons();
   renderChart();
+}
+
+function bindCelestialButtons() {
+  document.querySelectorAll('.planet-pill').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const p = btn.dataset.planet;
+      if (selectedPlanets.has(p)) selectedPlanets.delete(p);
+      else selectedPlanets.add(p);
+      btn.classList.toggle('on');
+      renderChart();
+    });
+  });
+  document.querySelectorAll('.celestial-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const k = btn.dataset.vis;
+      visToggles[k] = !visToggles[k];
+      btn.classList.toggle('on');
+      renderChart();
+    });
+  });
+}
+
+// Build markLine entries for currently active celestial events.
+// Aligns event date to the closest series x-axis category (handles
+// weekends + monthly aggregation).
+function buildCelestialMarks(seriesDates) {
+  if (!celestial || !visToggles.arrows || selectedPlanets.size === 0) return null;
+  const events = celestial.all.filter(e => selectedPlanets.has(e.planet));
+  if (!events.length) return null;
+
+  const dateSet = new Set(seriesDates);
+  const sortedDates = seriesDates;
+  function nearestSeriesDate(d) {
+    if (dateSet.has(d)) return d;
+    if (currentTimeframe === 'monthly') {
+      const ym = d.slice(0, 7);
+      return dateSet.has(ym) ? ym : null;
+    }
+    // Find the nearest series date by scan (binary search would be better)
+    let lo = 0, hi = sortedDates.length - 1, best = null, bestDiff = Infinity;
+    if (sortedDates.length === 0) return null;
+    if (d < sortedDates[0] || d > sortedDates[hi]) return null;
+    // Linear scan is cheap enough since events are <500
+    for (const sd of sortedDates) {
+      const diff = Math.abs(Date.parse(sd) - Date.parse(d));
+      if (diff < bestDiff) { bestDiff = diff; best = sd; }
+    }
+    return best;
+  }
+
+  const lines = [];
+  for (const ev of events) {
+    const x = nearestSeriesDate(ev.date);
+    if (!x) continue;
+    const meta = Celestial.planetMeta(ev.planet);
+    const color = meta ? meta.color : '#94a3b8';
+    const label = visToggles.labels
+      ? Celestial.eventLabel(ev, { showRetro: visToggles.retro })
+      : (visToggles.retro ? Celestial.eventLabel(ev, { compact: true, showRetro: true })
+                          : Celestial.eventLabel(ev, { compact: true }));
+
+    lines.push({
+      xAxis: x,
+      lineStyle: { color, width: 1, type: 'solid', opacity: 0.55 },
+      label: {
+        show: true,
+        formatter: label,
+        position: 'insideEndTop',
+        color: '#0f172a',
+        backgroundColor: color,
+        padding: [2, 5],
+        borderRadius: 3,
+        fontSize: 10,
+        fontWeight: 500,
+        distance: 4,
+      },
+    });
+  }
+  return lines.length ? { silent: true, symbol: 'none', data: lines } : null;
 }
 
 // Overlay buttons toggle (multi-select-able, currently just 巴菲特)
@@ -361,7 +464,8 @@ function renderChart() {
         itemStyle: {
           color: UP_COLOR, color0: DOWN_COLOR,
           borderColor: UP_COLOR, borderColor0: DOWN_COLOR
-        }
+        },
+        markLine: buildCelestialMarks(dates) || undefined
       },
       {
         name: '成交量', type: 'bar',
