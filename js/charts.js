@@ -1,7 +1,8 @@
 const DATA_URL = '../data/indices.json';
 
 async function loadData() {
-  const res = await fetch(DATA_URL);
+  // Bypass GitHub Pages CDN cache (max-age=600) so updates show up immediately.
+  const res = await fetch(DATA_URL + '?t=' + Date.now(), { cache: 'no-cache' });
   return res.json();
 }
 

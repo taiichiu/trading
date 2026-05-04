@@ -85,7 +85,7 @@ let scaleSel = 'all';
 let confSel = 'all';
 
 async function init() {
-  const res = await fetch('../data/rhymes.json');
+  const res = await fetch('../data/rhymes.json?t=' + Date.now(), { cache: 'no-cache' });
   DATA = await res.json();
   buildFilters();
   render();

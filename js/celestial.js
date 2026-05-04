@@ -161,7 +161,7 @@
     const url = path || (location.pathname.includes('/pages/')
       ? '../data/celestial.json'
       : 'data/celestial.json');
-    const res = await fetch(url);
+    const res = await fetch(url + '?t=' + Date.now(), { cache: 'no-cache' });
     const json = await res.json();
     const all = [];
     Object.keys(json.by_year || {}).sort().forEach(y => {

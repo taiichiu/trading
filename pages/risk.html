@@ -59,7 +59,7 @@ const PARAM_LABEL = {
 };
 
 async function init() {
-  const res = await fetch('../data/rhymes.json');
+  const res = await fetch('../data/rhymes.json?t=' + Date.now(), { cache: 'no-cache' });
   const data = await res.json();
   const stack = document.getElementById('stack');
   data.risk_management.frameworks.forEach(f => stack.appendChild(buildFramework(f)));

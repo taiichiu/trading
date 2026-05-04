@@ -96,7 +96,7 @@
 <div id="lastUpdated">載入中...</div>
 
 <script>
-fetch('data/indices.json').then(r => r.json()).then(d => {
+fetch('data/indices.json?t=' + Date.now(), { cache: 'no-cache' }).then(r => r.json()).then(d => {
   document.getElementById('lastUpdated').textContent = '指數資料最後更新：' + d.lastUpdated;
 }).catch(() => {
   document.getElementById('lastUpdated').textContent = '指數資料尚未載入，請先執行 GitHub Actions';

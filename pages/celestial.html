@@ -145,9 +145,11 @@ const tBody = document.getElementById('transitsBody');
 let allEvents = [];
 
 function isoToday() {
-  const d = new Date();
-  const tw = new Date(d.getTime() + (8 * 60 + d.getTimezoneOffset()) * 60000);
-  return tw.toISOString().slice(0, 10);
+  // YYYY-MM-DD as seen in Taipei (UTC+8), independent of viewer timezone.
+  return new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Asia/Taipei',
+    year: 'numeric', month: '2-digit', day: '2-digit',
+  }).format(new Date());
 }
 
 function fmtDeg(p) {

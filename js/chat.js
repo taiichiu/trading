@@ -175,8 +175,10 @@
   async function loadData() {
     if (cachedData) return cachedData;
     const [indices, rhymes] = await Promise.all([
-      fetch(dataPath('indices.json')).then(r => r.ok ? r.json() : null).catch(() => null),
-      fetch(dataPath('rhymes.json')).then(r => r.ok ? r.json() : null).catch(() => null),
+      fetch(dataPath('indices.json') + '?t=' + Date.now(), { cache: 'no-cache' })
+        .then(r => r.ok ? r.json() : null).catch(() => null),
+      fetch(dataPath('rhymes.json') + '?t=' + Date.now(), { cache: 'no-cache' })
+        .then(r => r.ok ? r.json() : null).catch(() => null),
     ]);
     cachedData = { indices, rhymes };
     return cachedData;

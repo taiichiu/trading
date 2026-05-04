@@ -121,8 +121,8 @@ const BARS_PER_RANGE = {
 
 async function init() {
   const [indicesRes, buffettRes, celestialRes] = await Promise.all([
-    fetch('../data/indices.json').then(r => r.json()),
-    fetch('../data/buffett.json').then(r => r.ok ? r.json() : null).catch(() => null),
+    fetch('../data/indices.json?t=' + Date.now(), { cache: 'no-cache' }).then(r => r.json()),
+    fetch('../data/buffett.json?t=' + Date.now(), { cache: 'no-cache' }).then(r => r.ok ? r.json() : null).catch(() => null),
     (window.Celestial ? Celestial.load() : Promise.resolve(null)).catch(() => null),
   ]);
   rawDaily = (indicesRes.TAIEX && indicesRes.TAIEX.daily) || [];

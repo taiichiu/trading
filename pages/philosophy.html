@@ -71,7 +71,7 @@
 
 <script>
 async function init() {
-  const res = await fetch('../data/rhymes.json');
+  const res = await fetch('../data/rhymes.json?t=' + Date.now(), { cache: 'no-cache' });
   const { philosophy } = await res.json();
 
   document.getElementById('coreBelief').textContent = philosophy.core_belief;
