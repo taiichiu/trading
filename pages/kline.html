@@ -119,20 +119,35 @@ const BARS_PER_RANGE = {
   monthly: { '3m': 3,   '6m': 6,   '1y': 12  },
 };
 
+let baseStatus = '';
+function updateStatus() {
+  let s = baseStatus;
+  if (celestial && selectedPlanets.size > 0) {
+    const visible = celestial.all.filter(e =>
+      (e.type || 'transit') === 'transit' && selectedPlanets.has(e.planet)
+    ).length;
+    s += `　｜　已選 ${selectedPlanets.size} 顆，事件 ${visible}`;
+  }
+  document.getElementById('lastUpdated').textContent = s;
+}
+
 async function init() {
   const [indicesRes, buffettRes, celestialRes] = await Promise.all([
     fetch('../data/indices.json?t=' + Date.now(), { cache: 'no-cache' }).then(r => r.json()),
     fetch('../data/buffett.json?t=' + Date.now(), { cache: 'no-cache' }).then(r => r.ok ? r.json() : null).catch(() => null),
-    (window.Celestial ? Celestial.load() : Promise.resolve(null)).catch(() => null),
+    (window.Celestial ? Celestial.load() : Promise.resolve(null)).catch(err => {
+      console.error('Celestial load failed:', err);
+      return null;
+    }),
   ]);
   rawDaily = (indicesRes.TAIEX && indicesRes.TAIEX.daily) || [];
   buffettData = buffettRes;
   celestial = celestialRes;
 
-  document.getElementById('lastUpdated').textContent =
-    '數據最後更新：' + (indicesRes.lastUpdated || '—') +
+  baseStatus = '數據最後更新：' + (indicesRes.lastUpdated || '—') +
     '　｜　日K筆數：' + rawDaily.length.toLocaleString() +
-    (celestial ? '　｜　天體事件：' + celestial.all.length : '');
+    (celestial ? '　｜　天體事件：' + celestial.all.length : '　｜　天體未載入');
+  updateStatus();
 
   bindButtons('.tf-btn',    'tf',    v => { currentTimeframe = v; });
   bindButtons('.range-btn', 'range', v => { currentRange = v; });
@@ -148,6 +163,7 @@ function bindCelestialButtons() {
       if (selectedPlanets.has(p)) selectedPlanets.delete(p);
       else selectedPlanets.add(p);
       btn.classList.toggle('on');
+      updateStatus();
       renderChart();
     });
   });
@@ -161,15 +177,16 @@ function bindCelestialButtons() {
   });
 }
 
-// Build markLine entries for currently active celestial events.
-// Uses x-axis INDEX (not date string) for reliable rendering on a
-// category axis, with binary search for performance.
-function buildCelestialMarks(seriesDates) {
-  if (!celestial || !visToggles.arrows || selectedPlanets.size === 0) return null;
+// Build a scatter series that places a colored marker + label at each
+// celestial transit event. Using a real series instead of markLine because
+// markLine on a candlestick + category-axis can render unreliably across
+// ECharts versions; scatter is first-class and always paints.
+function buildCelestialSeries(seriesDates, candles) {
+  if (!celestial || !visToggles.arrows || selectedPlanets.size === 0) return [];
   const events = celestial.all.filter(e =>
     (e.type || 'transit') === 'transit' && selectedPlanets.has(e.planet)
   );
-  if (!events.length) return null;
+  if (!events.length) return [];
 
   // Pre-build date → index map and timestamp array for binary search.
   const dateToIdx = new Map();
@@ -177,11 +194,8 @@ function buildCelestialMarks(seriesDates) {
   for (let i = 0; i < seriesDates.length; i++) {
     const d = seriesDates[i];
     dateToIdx.set(d, i);
-    // Monthly view stores 'YYYY-MM'; treat as mid-month for distance.
     seriesTs[i] = Date.parse(d.length === 7 ? d + '-15' : d);
   }
-  const tsMin = seriesTs[0], tsMax = seriesTs[seriesTs.length - 1];
-
   function nearestIdx(d) {
     if (dateToIdx.has(d)) return dateToIdx.get(d);
     if (currentTimeframe === 'monthly') {
@@ -189,8 +203,7 @@ function buildCelestialMarks(seriesDates) {
       return dateToIdx.has(ym) ? dateToIdx.get(ym) : -1;
     }
     const ts = Date.parse(d);
-    if (isNaN(ts) || ts < tsMin || ts > tsMax) return -1;
-    // Binary search for the closest timestamp.
+    if (isNaN(ts) || ts < seriesTs[0] || ts > seriesTs[seriesTs.length - 1]) return -1;
     let lo = 0, hi = seriesTs.length - 1;
     while (lo < hi - 1) {
       const mid = (lo + hi) >> 1;
@@ -199,7 +212,16 @@ function buildCelestialMarks(seriesDates) {
     return Math.abs(seriesTs[lo] - ts) <= Math.abs(seriesTs[hi] - ts) ? lo : hi;
   }
 
-  const lines = [];
+  // Place markers slightly above the max high in the visible candle data.
+  let yMax = -Infinity;
+  for (const c of candles) {
+    const h = c[3];
+    if (h != null && h > yMax) yMax = h;
+  }
+  if (yMax === -Infinity) return [];
+  const yPos = yMax * 1.04;
+
+  const points = [];
   for (const ev of events) {
     const idx = nearestIdx(ev.date);
     if (idx < 0) continue;
@@ -207,30 +229,39 @@ function buildCelestialMarks(seriesDates) {
     const color = meta ? meta.color : '#94a3b8';
     const label = visToggles.labels
       ? Celestial.eventLabel(ev, { showRetro: visToggles.retro })
-      : (visToggles.retro
-          ? Celestial.eventLabel(ev, { compact: true, showRetro: true })
-          : Celestial.eventLabel(ev, { compact: true }));
-
-    lines.push({
-      xAxis: idx,
-      lineStyle: { color, width: 1, type: 'solid', opacity: 0.6 },
+      : Celestial.eventLabel(ev, { compact: true, showRetro: visToggles.retro });
+    points.push({
+      value: [idx, yPos],
+      symbol: ev.retrograde ? 'arrow' : 'pin',
+      symbolRotate: ev.retrograde ? 180 : 0,
+      symbolSize: 14,
+      itemStyle: { color, borderColor: '#0f172a', borderWidth: 0.5 },
       label: {
         show: true,
         formatter: label,
-        position: 'end',
+        position: 'top',
+        distance: 4,
         color: '#0f172a',
         backgroundColor: color,
         padding: [2, 5],
         borderRadius: 3,
         fontSize: 10,
         fontWeight: 500,
-        distance: 2,
       },
     });
   }
-  return lines.length
-    ? { silent: true, symbol: 'none', data: lines }
-    : null;
+  if (!points.length) return [];
+
+  return [{
+    name: '天體事件',
+    type: 'scatter',
+    xAxisIndex: 0,
+    yAxisIndex: 0,
+    data: points,
+    z: 10,
+    silent: true,           // don't fight candlestick tooltip
+    animation: false,
+  }];
 }
 
 // Overlay buttons toggle (multi-select-able, currently just 巴菲特)
@@ -480,8 +511,7 @@ function renderChart() {
         itemStyle: {
           color: UP_COLOR, color0: DOWN_COLOR,
           borderColor: UP_COLOR, borderColor0: DOWN_COLOR
-        },
-        markLine: buildCelestialMarks(dates) || undefined
+        }
       },
       {
         name: '成交量', type: 'bar',
@@ -489,6 +519,7 @@ function renderChart() {
         data: volumes,
         barWidth: '60%'
       },
+      ...buildCelestialSeries(dates, candles),
       ...(overlayBuffett ? [{
         name: '巴菲特指標',
         type: 'line',
