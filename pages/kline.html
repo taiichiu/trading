@@ -162,8 +162,8 @@ function bindCelestialButtons() {
 }
 
 // Build markLine entries for currently active celestial events.
-// Aligns event date to the closest series x-axis category (handles
-// weekends + monthly aggregation).
+// Uses x-axis INDEX (not date string) for reliable rendering on a
+// category axis, with binary search for performance.
 function buildCelestialMarks(seriesDates) {
   if (!celestial || !visToggles.arrows || selectedPlanets.size === 0) return null;
   const events = celestial.all.filter(e =>
@@ -171,55 +171,66 @@ function buildCelestialMarks(seriesDates) {
   );
   if (!events.length) return null;
 
-  const dateSet = new Set(seriesDates);
-  const sortedDates = seriesDates;
-  function nearestSeriesDate(d) {
-    if (dateSet.has(d)) return d;
+  // Pre-build date → index map and timestamp array for binary search.
+  const dateToIdx = new Map();
+  const seriesTs = new Array(seriesDates.length);
+  for (let i = 0; i < seriesDates.length; i++) {
+    const d = seriesDates[i];
+    dateToIdx.set(d, i);
+    // Monthly view stores 'YYYY-MM'; treat as mid-month for distance.
+    seriesTs[i] = Date.parse(d.length === 7 ? d + '-15' : d);
+  }
+  const tsMin = seriesTs[0], tsMax = seriesTs[seriesTs.length - 1];
+
+  function nearestIdx(d) {
+    if (dateToIdx.has(d)) return dateToIdx.get(d);
     if (currentTimeframe === 'monthly') {
       const ym = d.slice(0, 7);
-      return dateSet.has(ym) ? ym : null;
+      return dateToIdx.has(ym) ? dateToIdx.get(ym) : -1;
     }
-    // Find the nearest series date by scan (binary search would be better)
-    let lo = 0, hi = sortedDates.length - 1, best = null, bestDiff = Infinity;
-    if (sortedDates.length === 0) return null;
-    if (d < sortedDates[0] || d > sortedDates[hi]) return null;
-    // Linear scan is cheap enough since events are <500
-    for (const sd of sortedDates) {
-      const diff = Math.abs(Date.parse(sd) - Date.parse(d));
-      if (diff < bestDiff) { bestDiff = diff; best = sd; }
+    const ts = Date.parse(d);
+    if (isNaN(ts) || ts < tsMin || ts > tsMax) return -1;
+    // Binary search for the closest timestamp.
+    let lo = 0, hi = seriesTs.length - 1;
+    while (lo < hi - 1) {
+      const mid = (lo + hi) >> 1;
+      if (seriesTs[mid] < ts) lo = mid; else hi = mid;
     }
-    return best;
+    return Math.abs(seriesTs[lo] - ts) <= Math.abs(seriesTs[hi] - ts) ? lo : hi;
   }
 
   const lines = [];
   for (const ev of events) {
-    const x = nearestSeriesDate(ev.date);
-    if (!x) continue;
+    const idx = nearestIdx(ev.date);
+    if (idx < 0) continue;
     const meta = Celestial.planetMeta(ev.planet);
     const color = meta ? meta.color : '#94a3b8';
     const label = visToggles.labels
       ? Celestial.eventLabel(ev, { showRetro: visToggles.retro })
-      : (visToggles.retro ? Celestial.eventLabel(ev, { compact: true, showRetro: true })
-                          : Celestial.eventLabel(ev, { compact: true }));
+      : (visToggles.retro
+          ? Celestial.eventLabel(ev, { compact: true, showRetro: true })
+          : Celestial.eventLabel(ev, { compact: true }));
 
     lines.push({
-      xAxis: x,
-      lineStyle: { color, width: 1, type: 'solid', opacity: 0.55 },
+      xAxis: idx,
+      lineStyle: { color, width: 1, type: 'solid', opacity: 0.6 },
       label: {
         show: true,
         formatter: label,
-        position: 'insideEndTop',
+        position: 'end',
         color: '#0f172a',
         backgroundColor: color,
         padding: [2, 5],
         borderRadius: 3,
         fontSize: 10,
         fontWeight: 500,
-        distance: 4,
+        distance: 2,
       },
     });
   }
-  return lines.length ? { silent: true, symbol: 'none', data: lines } : null;
+  return lines.length
+    ? { silent: true, symbol: 'none', data: lines }
+    : null;
 }
 
 // Overlay buttons toggle (multi-select-able, currently just 巴菲特)
@@ -391,7 +402,7 @@ function renderChart() {
       // [2] Buffett indicator (right-side %, on main grid)
       {
         scale: true, gridIndex: 0, position: 'right',
-        name: '巴菲特(%)',
+        name: overlayBuffett ? '巴菲特(%)' : '',
         nameTextStyle: { color: BUFFETT_COLOR, fontSize: 10 },
         axisLine: { show: overlayBuffett, lineStyle: { color: BUFFETT_COLOR } },
         axisTick: { show: overlayBuffett },
