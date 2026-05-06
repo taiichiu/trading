@@ -81,6 +81,7 @@
   <button class="celestial-toggle on" data-vis="arrows">轉換箭頭</button>
   <button class="celestial-toggle on" data-vis="labels">星座標籤</button>
   <button class="celestial-toggle on" data-vis="retro">順逆行標記</button>
+  <span id="celestialStatus" style="margin-left:12px; font-size:0.78rem; color:#64748b;">天體資料載入中…</span>
 </div>
 
 <div id="chart"></div>
@@ -121,6 +122,7 @@ const BARS_PER_RANGE = {
 
 let baseStatus = '';
 function updateStatus() {
+  // bottom status line (existing)
   let s = baseStatus;
   if (celestial && selectedPlanets.size > 0) {
     let transit = 0, station = 0;
@@ -133,6 +135,27 @@ function updateStatus() {
     s += `　｜　已選 ${selectedPlanets.size} 顆，轉星座 ${transit} / 順逆行 ${station}`;
   }
   document.getElementById('lastUpdated').textContent = s;
+
+  // top status pill next to controls — always visible
+  const cs = document.getElementById('celestialStatus');
+  if (!cs) return;
+  if (!celestial) {
+    cs.textContent = '⚠ 天體資料未載入（看 console 錯誤）';
+    cs.style.color = '#f87171';
+  } else if (selectedPlanets.size === 0) {
+    cs.textContent = `已載入 ${celestial.all.length} 個事件，請點選行星`;
+    cs.style.color = '#64748b';
+  } else {
+    let transit = 0, station = 0;
+    for (const e of celestial.all) {
+      if (!selectedPlanets.has(e.planet)) continue;
+      const t = e.type || 'transit';
+      if (t === 'transit') transit++;
+      else if (t === 'station') station++;
+    }
+    cs.textContent = `已選 ${selectedPlanets.size} 顆 → 應渲染 ${transit + station} 點 (轉星座 ${transit} + 順逆行 ${station})`;
+    cs.style.color = '#fbbf24';
+  }
 }
 
 async function init() {
@@ -218,37 +241,31 @@ function buildCelestialSeries(seriesDates, candles) {
     return Math.abs(seriesTs[lo] - ts) <= Math.abs(seriesTs[hi] - ts) ? lo : hi;
   }
 
-  // Place markers above each K-bar's HIGH so labels sit just above the candle.
-  // Falls back to overall yMax when high is missing.
-  let yMaxAll = -Infinity;
-  for (const c of candles) {
-    const h = c[3];
-    if (h != null && h > yMaxAll) yMaxAll = h;
-  }
-  if (yMaxAll === -Infinity) return [];
+  // Use a fixed top-band y in the hidden axis (yAxisIndex:3, range 0..100).
+  // Stagger by planet so multiple planets' markers don't overlap on same x.
+  const planetYBand = {
+    '水星': 95, '金星': 88, '火星': 81,
+    '木星': 74, '土星': 67, '天王星': 60,
+    '海王星': 53, '冥王星': 46, '北交點': 39,
+  };
 
   const points = [];
   for (const ev of events) {
     const idx = nearestIdx(ev.date);
     if (idx < 0) continue;
-    const candle = candles[idx];
-    const high = (candle && candle[3] != null) ? candle[3] : yMaxAll;
-    const yPos = high * 1.015;  // just above the bar
-
     const meta = Celestial.planetMeta(ev.planet);
     const color = meta ? meta.color : '#94a3b8';
     const label = visToggles.labels
       ? Celestial.eventLabel(ev, { showRetro: visToggles.retro })
       : Celestial.eventLabel(ev, { compact: true, showRetro: visToggles.retro });
 
-    // Stations (planet starts retrograde / direct) get an arrow pointing
-    // down at the bar; transits use a circle.
     const isStation = (ev.type === 'station');
     const symbol = isStation ? 'arrow' : 'circle';
     const rotate = isStation ? 180 : 0;
+    const y = planetYBand[ev.planet] || 50;
 
     points.push({
-      value: [idx, yPos],
+      value: [idx, y],
       symbol,
       symbolRotate: rotate,
       symbolSize: isStation ? 12 : 8,
@@ -257,7 +274,7 @@ function buildCelestialSeries(seriesDates, candles) {
         show: true,
         formatter: label,
         position: 'top',
-        distance: 4,
+        distance: 3,
         color: '#0f172a',
         backgroundColor: color,
         padding: [2, 5],
@@ -267,17 +284,20 @@ function buildCelestialSeries(seriesDates, candles) {
       },
     });
   }
+  console.log('[celestial] buildCelestialSeries →',
+    { selected: [...selectedPlanets], events: events.length, rendered: points.length });
   if (!points.length) return [];
 
   return [{
     name: '天體事件',
     type: 'scatter',
     xAxisIndex: 0,
-    yAxisIndex: 0,
+    yAxisIndex: 3,            // dedicated hidden 0..100 axis (top band)
     data: points,
     z: 10,
-    silent: true,           // don't fight candlestick tooltip
+    silent: true,
     animation: false,
+    clip: false,
   }];
 }
 
@@ -457,6 +477,11 @@ function renderChart() {
         axisLabel: { show: overlayBuffett, color: BUFFETT_COLOR, fontSize: 10,
           formatter: '{value}%' },
         splitLine: { show: false },
+      },
+      // [3] Hidden axis just for celestial scatter markers (0..100, top of chart)
+      {
+        gridIndex: 0, type: 'value', min: 0, max: 100,
+        show: false,
       }
     ],
     dataZoom: [
