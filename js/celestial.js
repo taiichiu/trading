@@ -184,6 +184,15 @@
   function eventLabel(ev, opts = {}) {
     const meta = planetMeta(ev.planet);
     const sym = meta ? meta.symbol : ev.planet;
+    const shortName = (ev.planet || '').replace(/星|交點/g, '');
+
+    if (ev.type === 'station') {
+      const dirText = ev.direction === 'R-start' ? '逆' : '順';
+      const arrow   = ev.direction === 'R-start' ? '↙' : '↗';
+      const tail    = opts.showRetro ? (opts.compact ? arrow : ' ' + arrow) : '';
+      return `${shortName}${dirText}${tail}`;
+    }
+
     const arrow = ev.retrograde ? '↙' : '↗';
     if (opts.compact) {
       return opts.showRetro ? `${sym}${arrow}` : sym;

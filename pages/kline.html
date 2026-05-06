@@ -123,10 +123,14 @@ let baseStatus = '';
 function updateStatus() {
   let s = baseStatus;
   if (celestial && selectedPlanets.size > 0) {
-    const visible = celestial.all.filter(e =>
-      (e.type || 'transit') === 'transit' && selectedPlanets.has(e.planet)
-    ).length;
-    s += `　｜　已選 ${selectedPlanets.size} 顆，事件 ${visible}`;
+    let transit = 0, station = 0;
+    for (const e of celestial.all) {
+      if (!selectedPlanets.has(e.planet)) continue;
+      const t = e.type || 'transit';
+      if (t === 'transit') transit++;
+      else if (t === 'station') station++;
+    }
+    s += `　｜　已選 ${selectedPlanets.size} 顆，轉星座 ${transit} / 順逆行 ${station}`;
   }
   document.getElementById('lastUpdated').textContent = s;
 }
@@ -183,9 +187,11 @@ function bindCelestialButtons() {
 // ECharts versions; scatter is first-class and always paints.
 function buildCelestialSeries(seriesDates, candles) {
   if (!celestial || !visToggles.arrows || selectedPlanets.size === 0) return [];
-  const events = celestial.all.filter(e =>
-    (e.type || 'transit') === 'transit' && selectedPlanets.has(e.planet)
-  );
+  // Show BOTH transits (sign change) and stations (forward<->retrograde flip)
+  const events = celestial.all.filter(e => {
+    const t = e.type || 'transit';
+    return (t === 'transit' || t === 'station') && selectedPlanets.has(e.planet);
+  });
   if (!events.length) return [];
 
   // Pre-build date → index map and timestamp array for binary search.
@@ -212,29 +218,40 @@ function buildCelestialSeries(seriesDates, candles) {
     return Math.abs(seriesTs[lo] - ts) <= Math.abs(seriesTs[hi] - ts) ? lo : hi;
   }
 
-  // Place markers slightly above the max high in the visible candle data.
-  let yMax = -Infinity;
+  // Place markers above each K-bar's HIGH so labels sit just above the candle.
+  // Falls back to overall yMax when high is missing.
+  let yMaxAll = -Infinity;
   for (const c of candles) {
     const h = c[3];
-    if (h != null && h > yMax) yMax = h;
+    if (h != null && h > yMaxAll) yMaxAll = h;
   }
-  if (yMax === -Infinity) return [];
-  const yPos = yMax * 1.04;
+  if (yMaxAll === -Infinity) return [];
 
   const points = [];
   for (const ev of events) {
     const idx = nearestIdx(ev.date);
     if (idx < 0) continue;
+    const candle = candles[idx];
+    const high = (candle && candle[3] != null) ? candle[3] : yMaxAll;
+    const yPos = high * 1.015;  // just above the bar
+
     const meta = Celestial.planetMeta(ev.planet);
     const color = meta ? meta.color : '#94a3b8';
     const label = visToggles.labels
       ? Celestial.eventLabel(ev, { showRetro: visToggles.retro })
       : Celestial.eventLabel(ev, { compact: true, showRetro: visToggles.retro });
+
+    // Stations (planet starts retrograde / direct) get an arrow pointing
+    // down at the bar; transits use a circle.
+    const isStation = (ev.type === 'station');
+    const symbol = isStation ? 'arrow' : 'circle';
+    const rotate = isStation ? 180 : 0;
+
     points.push({
       value: [idx, yPos],
-      symbol: ev.retrograde ? 'arrow' : 'pin',
-      symbolRotate: ev.retrograde ? 180 : 0,
-      symbolSize: 14,
+      symbol,
+      symbolRotate: rotate,
+      symbolSize: isStation ? 12 : 8,
       itemStyle: { color, borderColor: '#0f172a', borderWidth: 0.5 },
       label: {
         show: true,
