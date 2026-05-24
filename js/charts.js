@@ -33,6 +33,7 @@ function getAnnualByDecade(annual, startYear) {
 const INDICES = [
   { key: 'TAIEX', label: '台股 TAIEX' },
   { key: 'NASDAQ', label: '納指 NASDAQ' },
+  { key: 'SOX', label: '費半 SOX' },
 ];
 
 const MONTH_LABELS = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];

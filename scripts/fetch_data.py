@@ -28,12 +28,14 @@ except ImportError:
 YAHOO_INDICES = {
     "TAIEX": "^TWII",
     "NASDAQ": "^IXIC",
+    "SOX": "^SOX",   # PHLX Semiconductor Sector Index (費城半導體指數)
 }
 
 # Stooq CSV symbols tried in order. Whichever returns the most monthly rows wins.
 STOOQ_CANDIDATES = {
     "TAIEX": ["^twse"],
     "NASDAQ": ["^ndq", "^ixic"],
+    "SOX": ["^sox"],
 }
 
 

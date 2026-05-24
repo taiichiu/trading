@@ -208,16 +208,16 @@ function bindCelestialButtons() {
 // celestial transit event. Using a real series instead of markLine because
 // markLine on a candlestick + category-axis can render unreliably across
 // ECharts versions; scatter is first-class and always paints.
-function buildCelestialSeries(seriesDates, candles) {
-  if (!celestial || !visToggles.arrows || selectedPlanets.size === 0) return [];
-  // Show BOTH transits (sign change) and stations (forward<->retrograde flip)
+// Build markPoint config to attach to the candlestick series.
+// markPoint is ECharts' standard way to annotate candlestick bars.
+function buildCelestialMarkPoint(seriesDates, candles) {
+  if (!celestial || !visToggles.arrows || selectedPlanets.size === 0) return undefined;
   const events = celestial.all.filter(e => {
     const t = e.type || 'transit';
     return (t === 'transit' || t === 'station') && selectedPlanets.has(e.planet);
   });
-  if (!events.length) return [];
+  if (!events.length) return undefined;
 
-  // Pre-build date → index map and timestamp array for binary search.
   const dateToIdx = new Map();
   const seriesTs = new Array(seriesDates.length);
   for (let i = 0; i < seriesDates.length; i++) {
@@ -241,12 +241,19 @@ function buildCelestialSeries(seriesDates, candles) {
     return Math.abs(seriesTs[lo] - ts) <= Math.abs(seriesTs[hi] - ts) ? lo : hi;
   }
 
-  // Use a fixed top-band y in the hidden axis (yAxisIndex:3, range 0..100).
-  // Stagger by planet so multiple planets' markers don't overlap on same x.
-  const planetYBand = {
-    '水星': 95, '金星': 88, '火星': 81,
-    '木星': 74, '土星': 67, '天王星': 60,
-    '海王星': 53, '冥王星': 46, '北交點': 39,
+  // Stagger each planet to its own vertical band above the chart by using
+  // candle.high as base + a planet-specific multiplier.
+  let yMax = -Infinity, yMin = Infinity;
+  for (const c of candles) {
+    if (c[3] != null && c[3] > yMax) yMax = c[3];
+    if (c[2] != null && c[2] < yMin) yMin = c[2];
+  }
+  if (yMax === -Infinity) return undefined;
+  const yRange = yMax - yMin;
+  const planetBand = {
+    '水星': 0.18, '金星': 0.16, '火星': 0.14,
+    '木星': 0.12, '土星': 0.10, '天王星': 0.08,
+    '海王星': 0.06, '冥王星': 0.04, '北交點': 0.02,
   };
 
   const points = [];
@@ -260,45 +267,34 @@ function buildCelestialSeries(seriesDates, candles) {
       : Celestial.eventLabel(ev, { compact: true, showRetro: visToggles.retro });
 
     const isStation = (ev.type === 'station');
-    const symbol = isStation ? 'arrow' : 'circle';
-    const rotate = isStation ? 180 : 0;
-    const y = planetYBand[ev.planet] || 50;
+    const offset = planetBand[ev.planet] ?? 0.10;
+    const y = yMax + yRange * offset;
 
     points.push({
-      value: [idx, y],
-      symbol,
-      symbolRotate: rotate,
-      symbolSize: isStation ? 12 : 8,
+      coord: [idx, y],
+      symbol: isStation ? 'arrow' : 'circle',
+      symbolRotate: isStation ? 180 : 0,
+      symbolSize: isStation ? 14 : 8,
       itemStyle: { color, borderColor: '#0f172a', borderWidth: 0.5 },
       label: {
         show: true,
         formatter: label,
-        position: 'top',
-        distance: 3,
+        position: isStation ? 'top' : 'right',
+        distance: 4,
         color: '#0f172a',
         backgroundColor: color,
         padding: [2, 5],
         borderRadius: 3,
-        fontSize: 10,
+        fontSize: 11,
         fontWeight: 500,
       },
     });
   }
-  console.log('[celestial] buildCelestialSeries →',
-    { selected: [...selectedPlanets], events: events.length, rendered: points.length });
-  if (!points.length) return [];
-
-  return [{
-    name: '天體事件',
-    type: 'scatter',
-    xAxisIndex: 0,
-    yAxisIndex: 3,            // dedicated hidden 0..100 axis (top band)
-    data: points,
-    z: 10,
-    silent: true,
-    animation: false,
-    clip: false,
-  }];
+  console.log('[celestial] buildCelestialMarkPoint →',
+    { selected: [...selectedPlanets], events: events.length, rendered: points.length,
+      yMax, yMin, sample: points[0] });
+  if (!points.length) return undefined;
+  return { silent: true, animation: false, data: points };
 }
 
 // Overlay buttons toggle (multi-select-able, currently just 巴菲特)
@@ -477,11 +473,6 @@ function renderChart() {
         axisLabel: { show: overlayBuffett, color: BUFFETT_COLOR, fontSize: 10,
           formatter: '{value}%' },
         splitLine: { show: false },
-      },
-      // [3] Hidden axis just for celestial scatter markers (0..100, top of chart)
-      {
-        gridIndex: 0, type: 'value', min: 0, max: 100,
-        show: false,
       }
     ],
     dataZoom: [
@@ -553,7 +544,8 @@ function renderChart() {
         itemStyle: {
           color: UP_COLOR, color0: DOWN_COLOR,
           borderColor: UP_COLOR, borderColor0: DOWN_COLOR
-        }
+        },
+        markPoint: buildCelestialMarkPoint(dates, candles),
       },
       {
         name: '成交量', type: 'bar',
@@ -561,7 +553,6 @@ function renderChart() {
         data: volumes,
         barWidth: '60%'
       },
-      ...buildCelestialSeries(dates, candles),
       ...(overlayBuffett ? [{
         name: '巴菲特指標',
         type: 'line',
