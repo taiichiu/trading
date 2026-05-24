@@ -1861,158 +1861,6 @@
     ],
     "daily": [
       {
-        "date": "2016-04-25",
-        "open": 8541.11,
-        "high": 8560.25,
-        "low": 8513.7,
-        "close": 8560.25,
-        "volume": 1113800
-      },
-      {
-        "date": "2016-04-26",
-        "open": 8556.34,
-        "high": 8622.39,
-        "low": 8554.52,
-        "close": 8581.54,
-        "volume": 1291300
-      },
-      {
-        "date": "2016-04-27",
-        "open": 8561.34,
-        "high": 8597.61,
-        "low": 8537.0,
-        "close": 8563.02,
-        "volume": 1429000
-      },
-      {
-        "date": "2016-04-28",
-        "open": 8586.89,
-        "high": 8595.96,
-        "low": 8456.35,
-        "close": 8473.84,
-        "volume": 1614700
-      },
-      {
-        "date": "2016-04-29",
-        "open": 8424.01,
-        "high": 8424.01,
-        "low": 8352.2,
-        "close": 8377.87,
-        "volume": 1575700
-      },
-      {
-        "date": "2016-05-03",
-        "open": 8362.32,
-        "high": 8363.56,
-        "low": 8268.38,
-        "close": 8294.09,
-        "volume": 1644000
-      },
-      {
-        "date": "2016-05-04",
-        "open": 8282.49,
-        "high": 8285.93,
-        "low": 8153.54,
-        "close": 8185.44,
-        "volume": 1801400
-      },
-      {
-        "date": "2016-05-05",
-        "open": 8182.02,
-        "high": 8207.95,
-        "low": 8122.31,
-        "close": 8167.93,
-        "volume": 1609100
-      },
-      {
-        "date": "2016-05-06",
-        "open": 8169.51,
-        "high": 8170.65,
-        "low": 8104.13,
-        "close": 8146.4,
-        "volume": 1678500
-      },
-      {
-        "date": "2016-05-09",
-        "open": 8156.62,
-        "high": 8177.33,
-        "low": 8106.1,
-        "close": 8131.8,
-        "volume": 1365700
-      },
-      {
-        "date": "2016-05-10",
-        "open": 8119.68,
-        "high": 8168.1,
-        "low": 8075.55,
-        "close": 8156.26,
-        "volume": 1320800
-      },
-      {
-        "date": "2016-05-11",
-        "open": 8182.89,
-        "high": 8204.48,
-        "low": 8115.41,
-        "close": 8135.53,
-        "volume": 1584800
-      },
-      {
-        "date": "2016-05-12",
-        "open": 8122.75,
-        "high": 8162.41,
-        "low": 8105.46,
-        "close": 8108.02,
-        "volume": 1359700
-      },
-      {
-        "date": "2016-05-13",
-        "open": 8095.9,
-        "high": 8095.9,
-        "low": 7999.95,
-        "close": 8053.66,
-        "volume": 2020700
-      },
-      {
-        "date": "2016-05-16",
-        "open": 8035.18,
-        "high": 8091.45,
-        "low": 8003.9,
-        "close": 8067.57,
-        "volume": 1449600
-      },
-      {
-        "date": "2016-05-17",
-        "open": 8081.86,
-        "high": 8151.17,
-        "low": 8047.28,
-        "close": 8140.45,
-        "volume": 1500000
-      },
-      {
-        "date": "2016-05-18",
-        "open": 8115.58,
-        "high": 8159.65,
-        "low": 8061.23,
-        "close": 8159.65,
-        "volume": 1482200
-      },
-      {
-        "date": "2016-05-19",
-        "open": 8159.9,
-        "high": 8166.93,
-        "low": 8067.3,
-        "close": 8095.95,
-        "volume": 1377200
-      },
-      {
-        "date": "2016-05-20",
-        "open": 8108.65,
-        "high": 8165.95,
-        "low": 8080.62,
-        "close": 8131.23,
-        "volume": 1228000
-      },
-      {
         "date": "2016-05-23",
         "open": 8150.35,
         "high": 8356.93,
@@ -24113,5 +23961,2068 @@
       }
     ]
   },
-  "lastUpdated": "2026-05-23 18:12 (TWT)"
+  "SOX": {
+    "monthly": [
+      {
+        "year": 1994,
+        "month": 5,
+        "close": 121.72
+      },
+      {
+        "year": 1994,
+        "month": 6,
+        "close": 119.41
+      },
+      {
+        "year": 1994,
+        "month": 7,
+        "close": 122.4
+      },
+      {
+        "year": 1994,
+        "month": 8,
+        "close": 134.83
+      },
+      {
+        "year": 1994,
+        "month": 9,
+        "close": 128.7
+      },
+      {
+        "year": 1994,
+        "month": 10,
+        "close": 141.7
+      },
+      {
+        "year": 1994,
+        "month": 11,
+        "close": 138.3
+      },
+      {
+        "year": 1994,
+        "month": 12,
+        "close": 140.02
+      },
+      {
+        "year": 1995,
+        "month": 1,
+        "close": 139.45
+      },
+      {
+        "year": 1995,
+        "month": 2,
+        "close": 162.09
+      },
+      {
+        "year": 1995,
+        "month": 3,
+        "close": 174.35
+      },
+      {
+        "year": 1995,
+        "month": 4,
+        "close": 197.15
+      },
+      {
+        "year": 1995,
+        "month": 5,
+        "close": 213.97
+      },
+      {
+        "year": 1995,
+        "month": 6,
+        "close": 243.89
+      },
+      {
+        "year": 1995,
+        "month": 7,
+        "close": 282.01
+      },
+      {
+        "year": 1995,
+        "month": 8,
+        "close": 275.5
+      },
+      {
+        "year": 1995,
+        "month": 9,
+        "close": 274.95
+      },
+      {
+        "year": 1995,
+        "month": 10,
+        "close": 254.48
+      },
+      {
+        "year": 1995,
+        "month": 11,
+        "close": 227.4
+      },
+      {
+        "year": 1995,
+        "month": 12,
+        "close": 200.56
+      },
+      {
+        "year": 1996,
+        "month": 1,
+        "close": 186.64
+      },
+      {
+        "year": 1996,
+        "month": 2,
+        "close": 186.09
+      },
+      {
+        "year": 1996,
+        "month": 3,
+        "close": 175.9
+      },
+      {
+        "year": 1996,
+        "month": 4,
+        "close": 205.99
+      },
+      {
+        "year": 1996,
+        "month": 5,
+        "close": 205.82
+      },
+      {
+        "year": 1996,
+        "month": 6,
+        "close": 174.63
+      },
+      {
+        "year": 1996,
+        "month": 7,
+        "close": 155.86
+      },
+      {
+        "year": 1996,
+        "month": 8,
+        "close": 169.38
+      },
+      {
+        "year": 1996,
+        "month": 9,
+        "close": 187.37
+      },
+      {
+        "year": 1996,
+        "month": 10,
+        "close": 187.01
+      },
+      {
+        "year": 1996,
+        "month": 11,
+        "close": 237.82
+      },
+      {
+        "year": 1996,
+        "month": 12,
+        "close": 240.18
+      },
+      {
+        "year": 1997,
+        "month": 1,
+        "close": 288.59
+      },
+      {
+        "year": 1997,
+        "month": 2,
+        "close": 272.8
+      },
+      {
+        "year": 1997,
+        "month": 3,
+        "close": 268.72
+      },
+      {
+        "year": 1997,
+        "month": 4,
+        "close": 283.12
+      },
+      {
+        "year": 1997,
+        "month": 5,
+        "close": 311.1
+      },
+      {
+        "year": 1997,
+        "month": 6,
+        "close": 305.59
+      },
+      {
+        "year": 1997,
+        "month": 7,
+        "close": 366.06
+      },
+      {
+        "year": 1997,
+        "month": 8,
+        "close": 373.02
+      },
+      {
+        "year": 1997,
+        "month": 9,
+        "close": 381.42
+      },
+      {
+        "year": 1997,
+        "month": 10,
+        "close": 301.75
+      },
+      {
+        "year": 1997,
+        "month": 11,
+        "close": 290.51
+      },
+      {
+        "year": 1997,
+        "month": 12,
+        "close": 263.5
+      },
+      {
+        "year": 1998,
+        "month": 1,
+        "close": 288.99
+      },
+      {
+        "year": 1998,
+        "month": 2,
+        "close": 316.28
+      },
+      {
+        "year": 1998,
+        "month": 3,
+        "close": 298.56
+      },
+      {
+        "year": 1998,
+        "month": 4,
+        "close": 315.74
+      },
+      {
+        "year": 1998,
+        "month": 5,
+        "close": 259.18
+      },
+      {
+        "year": 1998,
+        "month": 6,
+        "close": 245.81
+      },
+      {
+        "year": 1998,
+        "month": 7,
+        "close": 255.03
+      },
+      {
+        "year": 1998,
+        "month": 8,
+        "close": 193.38
+      },
+      {
+        "year": 1998,
+        "month": 9,
+        "close": 212.67
+      },
+      {
+        "year": 1998,
+        "month": 10,
+        "close": 262.49
+      },
+      {
+        "year": 1998,
+        "month": 11,
+        "close": 306.0
+      },
+      {
+        "year": 1998,
+        "month": 12,
+        "close": 350.39
+      },
+      {
+        "year": 1999,
+        "month": 1,
+        "close": 420.25
+      },
+      {
+        "year": 1999,
+        "month": 2,
+        "close": 356.09
+      },
+      {
+        "year": 1999,
+        "month": 3,
+        "close": 370.55
+      },
+      {
+        "year": 1999,
+        "month": 4,
+        "close": 370.09
+      },
+      {
+        "year": 1999,
+        "month": 5,
+        "close": 387.94
+      },
+      {
+        "year": 1999,
+        "month": 6,
+        "close": 484.22
+      },
+      {
+        "year": 1999,
+        "month": 7,
+        "close": 493.73
+      },
+      {
+        "year": 1999,
+        "month": 8,
+        "close": 521.71
+      },
+      {
+        "year": 1999,
+        "month": 9,
+        "close": 498.83
+      },
+      {
+        "year": 1999,
+        "month": 10,
+        "close": 555.56
+      },
+      {
+        "year": 1999,
+        "month": 11,
+        "close": 609.1
+      },
+      {
+        "year": 1999,
+        "month": 12,
+        "close": 704.22
+      },
+      {
+        "year": 2000,
+        "month": 1,
+        "close": 777.68
+      },
+      {
+        "year": 2000,
+        "month": 2,
+        "close": 1169.89
+      },
+      {
+        "year": 2000,
+        "month": 3,
+        "close": 1181.32
+      },
+      {
+        "year": 2000,
+        "month": 4,
+        "close": 1171.07
+      },
+      {
+        "year": 2000,
+        "month": 5,
+        "close": 997.95
+      },
+      {
+        "year": 2000,
+        "month": 6,
+        "close": 1139.98
+      },
+      {
+        "year": 2000,
+        "month": 7,
+        "close": 993.37
+      },
+      {
+        "year": 2000,
+        "month": 8,
+        "close": 1152.42
+      },
+      {
+        "year": 2000,
+        "month": 9,
+        "close": 851.16
+      },
+      {
+        "year": 2000,
+        "month": 10,
+        "close": 741.47
+      },
+      {
+        "year": 2000,
+        "month": 11,
+        "close": 536.73
+      },
+      {
+        "year": 2000,
+        "month": 12,
+        "close": 576.33
+      },
+      {
+        "year": 2001,
+        "month": 1,
+        "close": 731.84
+      },
+      {
+        "year": 2001,
+        "month": 2,
+        "close": 540.97
+      },
+      {
+        "year": 2001,
+        "month": 3,
+        "close": 544.78
+      },
+      {
+        "year": 2001,
+        "month": 4,
+        "close": 662.34
+      },
+      {
+        "year": 2001,
+        "month": 5,
+        "close": 598.42
+      },
+      {
+        "year": 2001,
+        "month": 6,
+        "close": 623.79
+      },
+      {
+        "year": 2001,
+        "month": 7,
+        "close": 605.59
+      },
+      {
+        "year": 2001,
+        "month": 8,
+        "close": 562.45
+      },
+      {
+        "year": 2001,
+        "month": 9,
+        "close": 373.52
+      },
+      {
+        "year": 2001,
+        "month": 10,
+        "close": 447.8
+      },
+      {
+        "year": 2001,
+        "month": 11,
+        "close": 518.7
+      },
+      {
+        "year": 2001,
+        "month": 12,
+        "close": 521.91
+      },
+      {
+        "year": 2002,
+        "month": 1,
+        "close": 558.61
+      },
+      {
+        "year": 2002,
+        "month": 2,
+        "close": 510.58
+      },
+      {
+        "year": 2002,
+        "month": 3,
+        "close": 594.95
+      },
+      {
+        "year": 2002,
+        "month": 4,
+        "close": 525.49
+      },
+      {
+        "year": 2002,
+        "month": 5,
+        "close": 476.03
+      },
+      {
+        "year": 2002,
+        "month": 6,
+        "close": 387.39
+      },
+      {
+        "year": 2002,
+        "month": 7,
+        "close": 330.78
+      },
+      {
+        "year": 2002,
+        "month": 8,
+        "close": 300.04
+      },
+      {
+        "year": 2002,
+        "month": 9,
+        "close": 238.12
+      },
+      {
+        "year": 2002,
+        "month": 10,
+        "close": 295.01
+      },
+      {
+        "year": 2002,
+        "month": 11,
+        "close": 373.35
+      },
+      {
+        "year": 2002,
+        "month": 12,
+        "close": 289.1
+      },
+      {
+        "year": 2003,
+        "month": 1,
+        "close": 271.6
+      },
+      {
+        "year": 2003,
+        "month": 2,
+        "close": 297.49
+      },
+      {
+        "year": 2003,
+        "month": 3,
+        "close": 296.13
+      },
+      {
+        "year": 2003,
+        "month": 4,
+        "close": 332.34
+      },
+      {
+        "year": 2003,
+        "month": 5,
+        "close": 382.13
+      },
+      {
+        "year": 2003,
+        "month": 6,
+        "close": 359.52
+      },
+      {
+        "year": 2003,
+        "month": 7,
+        "close": 389.44
+      },
+      {
+        "year": 2003,
+        "month": 8,
+        "close": 455.84
+      },
+      {
+        "year": 2003,
+        "month": 9,
+        "close": 419.58
+      },
+      {
+        "year": 2003,
+        "month": 10,
+        "close": 496.28
+      },
+      {
+        "year": 2003,
+        "month": 11,
+        "close": 529.02
+      },
+      {
+        "year": 2003,
+        "month": 12,
+        "close": 507.87
+      },
+      {
+        "year": 2004,
+        "month": 1,
+        "close": 514.17
+      },
+      {
+        "year": 2004,
+        "month": 2,
+        "close": 502.02
+      },
+      {
+        "year": 2004,
+        "month": 3,
+        "close": 486.88
+      },
+      {
+        "year": 2004,
+        "month": 4,
+        "close": 443.27
+      },
+      {
+        "year": 2004,
+        "month": 5,
+        "close": 488.62
+      },
+      {
+        "year": 2004,
+        "month": 6,
+        "close": 484.86
+      },
+      {
+        "year": 2004,
+        "month": 7,
+        "close": 416.23
+      },
+      {
+        "year": 2004,
+        "month": 8,
+        "close": 370.84
+      },
+      {
+        "year": 2004,
+        "month": 9,
+        "close": 384.01
+      },
+      {
+        "year": 2004,
+        "month": 10,
+        "close": 412.05
+      },
+      {
+        "year": 2004,
+        "month": 11,
+        "close": 423.67
+      },
+      {
+        "year": 2004,
+        "month": 12,
+        "close": 433.1
+      },
+      {
+        "year": 2005,
+        "month": 1,
+        "close": 403.76
+      },
+      {
+        "year": 2005,
+        "month": 2,
+        "close": 437.02
+      },
+      {
+        "year": 2005,
+        "month": 3,
+        "close": 416.79
+      },
+      {
+        "year": 2005,
+        "month": 4,
+        "close": 385.46
+      },
+      {
+        "year": 2005,
+        "month": 5,
+        "close": 428.74
+      },
+      {
+        "year": 2005,
+        "month": 6,
+        "close": 418.87
+      },
+      {
+        "year": 2005,
+        "month": 7,
+        "close": 474.21
+      },
+      {
+        "year": 2005,
+        "month": 8,
+        "close": 473.52
+      },
+      {
+        "year": 2005,
+        "month": 9,
+        "close": 475.09
+      },
+      {
+        "year": 2005,
+        "month": 10,
+        "close": 432.43
+      },
+      {
+        "year": 2005,
+        "month": 11,
+        "close": 481.41
+      },
+      {
+        "year": 2005,
+        "month": 12,
+        "close": 479.26
+      },
+      {
+        "year": 2006,
+        "month": 1,
+        "close": 538.85
+      },
+      {
+        "year": 2006,
+        "month": 2,
+        "close": 522.94
+      },
+      {
+        "year": 2006,
+        "month": 3,
+        "close": 499.41
+      },
+      {
+        "year": 2006,
+        "month": 4,
+        "close": 516.66
+      },
+      {
+        "year": 2006,
+        "month": 5,
+        "close": 464.52
+      },
+      {
+        "year": 2006,
+        "month": 6,
+        "close": 441.51
+      },
+      {
+        "year": 2006,
+        "month": 7,
+        "close": 412.56
+      },
+      {
+        "year": 2006,
+        "month": 8,
+        "close": 449.0
+      },
+      {
+        "year": 2006,
+        "month": 9,
+        "close": 454.48
+      },
+      {
+        "year": 2006,
+        "month": 10,
+        "close": 457.92
+      },
+      {
+        "year": 2006,
+        "month": 11,
+        "close": 478.79
+      },
+      {
+        "year": 2006,
+        "month": 12,
+        "close": 466.81
+      },
+      {
+        "year": 2007,
+        "month": 1,
+        "close": 458.71
+      },
+      {
+        "year": 2007,
+        "month": 2,
+        "close": 473.32
+      },
+      {
+        "year": 2007,
+        "month": 3,
+        "close": 465.34
+      },
+      {
+        "year": 2007,
+        "month": 4,
+        "close": 492.7
+      },
+      {
+        "year": 2007,
+        "month": 5,
+        "close": 488.02
+      },
+      {
+        "year": 2007,
+        "month": 6,
+        "close": 500.92
+      },
+      {
+        "year": 2007,
+        "month": 7,
+        "close": 498.84
+      },
+      {
+        "year": 2007,
+        "month": 8,
+        "close": 497.2
+      },
+      {
+        "year": 2007,
+        "month": 9,
+        "close": 499.85
+      },
+      {
+        "year": 2007,
+        "month": 10,
+        "close": 463.17
+      },
+      {
+        "year": 2007,
+        "month": 11,
+        "close": 414.38
+      },
+      {
+        "year": 2007,
+        "month": 12,
+        "close": 407.84
+      },
+      {
+        "year": 2008,
+        "month": 1,
+        "close": 358.83
+      },
+      {
+        "year": 2008,
+        "month": 2,
+        "close": 347.88
+      },
+      {
+        "year": 2008,
+        "month": 3,
+        "close": 343.77
+      },
+      {
+        "year": 2008,
+        "month": 4,
+        "close": 384.97
+      },
+      {
+        "year": 2008,
+        "month": 5,
+        "close": 415.0
+      },
+      {
+        "year": 2008,
+        "month": 6,
+        "close": 368.0
+      },
+      {
+        "year": 2008,
+        "month": 7,
+        "close": 340.7
+      },
+      {
+        "year": 2008,
+        "month": 8,
+        "close": 352.65
+      },
+      {
+        "year": 2008,
+        "month": 9,
+        "close": 306.74
+      },
+      {
+        "year": 2008,
+        "month": 10,
+        "close": 239.35
+      },
+      {
+        "year": 2008,
+        "month": 11,
+        "close": 198.14
+      },
+      {
+        "year": 2008,
+        "month": 12,
+        "close": 212.07
+      },
+      {
+        "year": 2009,
+        "month": 1,
+        "close": 208.16
+      },
+      {
+        "year": 2009,
+        "month": 2,
+        "close": 198.9
+      },
+      {
+        "year": 2009,
+        "month": 3,
+        "close": 230.8
+      },
+      {
+        "year": 2009,
+        "month": 4,
+        "close": 258.4
+      },
+      {
+        "year": 2009,
+        "month": 5,
+        "close": 271.18
+      },
+      {
+        "year": 2009,
+        "month": 6,
+        "close": 263.02
+      },
+      {
+        "year": 2009,
+        "month": 7,
+        "close": 301.59
+      },
+      {
+        "year": 2009,
+        "month": 8,
+        "close": 306.03
+      },
+      {
+        "year": 2009,
+        "month": 9,
+        "close": 325.59
+      },
+      {
+        "year": 2009,
+        "month": 10,
+        "close": 296.47
+      },
+      {
+        "year": 2009,
+        "month": 11,
+        "close": 309.9
+      },
+      {
+        "year": 2009,
+        "month": 12,
+        "close": 359.74
+      },
+      {
+        "year": 2010,
+        "month": 1,
+        "close": 315.92
+      },
+      {
+        "year": 2010,
+        "month": 2,
+        "close": 338.7
+      },
+      {
+        "year": 2010,
+        "month": 3,
+        "close": 366.39
+      },
+      {
+        "year": 2010,
+        "month": 4,
+        "close": 375.89
+      },
+      {
+        "year": 2010,
+        "month": 5,
+        "close": 355.49
+      },
+      {
+        "year": 2010,
+        "month": 6,
+        "close": 332.14
+      },
+      {
+        "year": 2010,
+        "month": 7,
+        "close": 348.64
+      },
+      {
+        "year": 2010,
+        "month": 8,
+        "close": 307.34
+      },
+      {
+        "year": 2010,
+        "month": 9,
+        "close": 349.07
+      },
+      {
+        "year": 2010,
+        "month": 10,
+        "close": 372.46
+      },
+      {
+        "year": 2010,
+        "month": 11,
+        "close": 389.93
+      },
+      {
+        "year": 2010,
+        "month": 12,
+        "close": 411.62
+      },
+      {
+        "year": 2011,
+        "month": 1,
+        "close": 440.3
+      },
+      {
+        "year": 2011,
+        "month": 2,
+        "close": 458.4
+      },
+      {
+        "year": 2011,
+        "month": 3,
+        "close": 437.15
+      },
+      {
+        "year": 2011,
+        "month": 4,
+        "close": 449.34
+      },
+      {
+        "year": 2011,
+        "month": 5,
+        "close": 439.39
+      },
+      {
+        "year": 2011,
+        "month": 6,
+        "close": 410.15
+      },
+      {
+        "year": 2011,
+        "month": 7,
+        "close": 386.75
+      },
+      {
+        "year": 2011,
+        "month": 8,
+        "close": 355.62
+      },
+      {
+        "year": 2011,
+        "month": 9,
+        "close": 338.66
+      },
+      {
+        "year": 2011,
+        "month": 10,
+        "close": 386.3
+      },
+      {
+        "year": 2011,
+        "month": 11,
+        "close": 373.14
+      },
+      {
+        "year": 2011,
+        "month": 12,
+        "close": 364.26
+      },
+      {
+        "year": 2012,
+        "month": 1,
+        "close": 408.74
+      },
+      {
+        "year": 2012,
+        "month": 2,
+        "close": 423.96
+      },
+      {
+        "year": 2012,
+        "month": 3,
+        "close": 438.43
+      },
+      {
+        "year": 2012,
+        "month": 4,
+        "close": 413.19
+      },
+      {
+        "year": 2012,
+        "month": 5,
+        "close": 368.19
+      },
+      {
+        "year": 2012,
+        "month": 6,
+        "close": 385.27
+      },
+      {
+        "year": 2012,
+        "month": 7,
+        "close": 383.53
+      },
+      {
+        "year": 2012,
+        "month": 8,
+        "close": 395.99
+      },
+      {
+        "year": 2012,
+        "month": 9,
+        "close": 382.09
+      },
+      {
+        "year": 2012,
+        "month": 10,
+        "close": 366.85
+      },
+      {
+        "year": 2012,
+        "month": 11,
+        "close": 374.17
+      },
+      {
+        "year": 2012,
+        "month": 12,
+        "close": 383.87
+      },
+      {
+        "year": 2013,
+        "month": 1,
+        "close": 412.73
+      },
+      {
+        "year": 2013,
+        "month": 2,
+        "close": 426.63
+      },
+      {
+        "year": 2013,
+        "month": 3,
+        "close": 436.66
+      },
+      {
+        "year": 2013,
+        "month": 4,
+        "close": 444.36
+      },
+      {
+        "year": 2013,
+        "month": 5,
+        "close": 468.63
+      },
+      {
+        "year": 2013,
+        "month": 6,
+        "close": 468.43
+      },
+      {
+        "year": 2013,
+        "month": 7,
+        "close": 477.78
+      },
+      {
+        "year": 2013,
+        "month": 8,
+        "close": 457.7
+      },
+      {
+        "year": 2013,
+        "month": 9,
+        "close": 490.83
+      },
+      {
+        "year": 2013,
+        "month": 10,
+        "close": 507.09
+      },
+      {
+        "year": 2013,
+        "month": 11,
+        "close": 510.25
+      },
+      {
+        "year": 2013,
+        "month": 12,
+        "close": 535.03
+      },
+      {
+        "year": 2014,
+        "month": 1,
+        "close": 529.18
+      },
+      {
+        "year": 2014,
+        "month": 2,
+        "close": 563.83
+      },
+      {
+        "year": 2014,
+        "month": 3,
+        "close": 586.74
+      },
+      {
+        "year": 2014,
+        "month": 4,
+        "close": 575.97
+      },
+      {
+        "year": 2014,
+        "month": 5,
+        "close": 599.59
+      },
+      {
+        "year": 2014,
+        "month": 6,
+        "close": 635.93
+      },
+      {
+        "year": 2014,
+        "month": 7,
+        "close": 607.55
+      },
+      {
+        "year": 2014,
+        "month": 8,
+        "close": 645.25
+      },
+      {
+        "year": 2014,
+        "month": 9,
+        "close": 638.48
+      },
+      {
+        "year": 2014,
+        "month": 10,
+        "close": 640.86
+      },
+      {
+        "year": 2014,
+        "month": 11,
+        "close": 685.74
+      },
+      {
+        "year": 2014,
+        "month": 12,
+        "close": 686.87
+      },
+      {
+        "year": 2015,
+        "month": 1,
+        "close": 653.14
+      },
+      {
+        "year": 2015,
+        "month": 2,
+        "close": 714.65
+      },
+      {
+        "year": 2015,
+        "month": 3,
+        "close": 695.48
+      },
+      {
+        "year": 2015,
+        "month": 4,
+        "close": 686.29
+      },
+      {
+        "year": 2015,
+        "month": 5,
+        "close": 745.41
+      },
+      {
+        "year": 2015,
+        "month": 6,
+        "close": 680.54
+      },
+      {
+        "year": 2015,
+        "month": 7,
+        "close": 646.29
+      },
+      {
+        "year": 2015,
+        "month": 8,
+        "close": 611.04
+      },
+      {
+        "year": 2015,
+        "month": 9,
+        "close": 602.73
+      },
+      {
+        "year": 2015,
+        "month": 10,
+        "close": 662.52
+      },
+      {
+        "year": 2015,
+        "month": 11,
+        "close": 677.14
+      },
+      {
+        "year": 2015,
+        "month": 12,
+        "close": 663.48
+      },
+      {
+        "year": 2016,
+        "month": 1,
+        "close": 613.68
+      },
+      {
+        "year": 2016,
+        "month": 2,
+        "close": 622.11
+      },
+      {
+        "year": 2016,
+        "month": 3,
+        "close": 676.89
+      },
+      {
+        "year": 2016,
+        "month": 4,
+        "close": 645.34
+      },
+      {
+        "year": 2016,
+        "month": 5,
+        "close": 699.36
+      },
+      {
+        "year": 2016,
+        "month": 6,
+        "close": 691.67
+      },
+      {
+        "year": 2016,
+        "month": 7,
+        "close": 766.78
+      },
+      {
+        "year": 2016,
+        "month": 8,
+        "close": 801.48
+      },
+      {
+        "year": 2016,
+        "month": 9,
+        "close": 835.6
+      },
+      {
+        "year": 2016,
+        "month": 10,
+        "close": 823.52
+      },
+      {
+        "year": 2016,
+        "month": 11,
+        "close": 879.47
+      },
+      {
+        "year": 2016,
+        "month": 12,
+        "close": 906.47
+      },
+      {
+        "year": 2017,
+        "month": 1,
+        "close": 944.28
+      },
+      {
+        "year": 2017,
+        "month": 2,
+        "close": 969.38
+      },
+      {
+        "year": 2017,
+        "month": 3,
+        "close": 1011.4
+      },
+      {
+        "year": 2017,
+        "month": 4,
+        "close": 1005.53
+      },
+      {
+        "year": 2017,
+        "month": 5,
+        "close": 1091.42
+      },
+      {
+        "year": 2017,
+        "month": 6,
+        "close": 1034.91
+      },
+      {
+        "year": 2017,
+        "month": 7,
+        "close": 1085.15
+      },
+      {
+        "year": 2017,
+        "month": 8,
+        "close": 1114.31
+      },
+      {
+        "year": 2017,
+        "month": 9,
+        "close": 1171.74
+      },
+      {
+        "year": 2017,
+        "month": 10,
+        "close": 1275.61
+      },
+      {
+        "year": 2017,
+        "month": 11,
+        "close": 1272.55
+      },
+      {
+        "year": 2017,
+        "month": 12,
+        "close": 1253.05
+      },
+      {
+        "year": 2018,
+        "month": 1,
+        "close": 1361.5
+      },
+      {
+        "year": 2018,
+        "month": 2,
+        "close": 1362.02
+      },
+      {
+        "year": 2018,
+        "month": 3,
+        "close": 1328.9
+      },
+      {
+        "year": 2018,
+        "month": 4,
+        "close": 1244.4
+      },
+      {
+        "year": 2018,
+        "month": 5,
+        "close": 1379.0
+      },
+      {
+        "year": 2018,
+        "month": 6,
+        "close": 1313.7
+      },
+      {
+        "year": 2018,
+        "month": 7,
+        "close": 1367.47
+      },
+      {
+        "year": 2018,
+        "month": 8,
+        "close": 1401.2
+      },
+      {
+        "year": 2018,
+        "month": 9,
+        "close": 1366.74
+      },
+      {
+        "year": 2018,
+        "month": 10,
+        "close": 1202.3
+      },
+      {
+        "year": 2018,
+        "month": 11,
+        "close": 1239.6
+      },
+      {
+        "year": 2018,
+        "month": 12,
+        "close": 1155.17
+      },
+      {
+        "year": 2019,
+        "month": 1,
+        "close": 1272.09
+      },
+      {
+        "year": 2019,
+        "month": 2,
+        "close": 1350.2
+      },
+      {
+        "year": 2019,
+        "month": 3,
+        "close": 1395.51
+      },
+      {
+        "year": 2019,
+        "month": 4,
+        "close": 1556.18
+      },
+      {
+        "year": 2019,
+        "month": 5,
+        "close": 1296.18
+      },
+      {
+        "year": 2019,
+        "month": 6,
+        "close": 1458.96
+      },
+      {
+        "year": 2019,
+        "month": 7,
+        "close": 1542.44
+      },
+      {
+        "year": 2019,
+        "month": 8,
+        "close": 1504.92
+      },
+      {
+        "year": 2019,
+        "month": 9,
+        "close": 1558.75
+      },
+      {
+        "year": 2019,
+        "month": 10,
+        "close": 1651.22
+      },
+      {
+        "year": 2019,
+        "month": 11,
+        "close": 1716.84
+      },
+      {
+        "year": 2019,
+        "month": 12,
+        "close": 1849.62
+      },
+      {
+        "year": 2020,
+        "month": 1,
+        "close": 1789.93
+      },
+      {
+        "year": 2020,
+        "month": 2,
+        "close": 1705.54
+      },
+      {
+        "year": 2020,
+        "month": 3,
+        "close": 1510.59
+      },
+      {
+        "year": 2020,
+        "month": 4,
+        "close": 1731.24
+      },
+      {
+        "year": 2020,
+        "month": 5,
+        "close": 1852.49
+      },
+      {
+        "year": 2020,
+        "month": 6,
+        "close": 1996.44
+      },
+      {
+        "year": 2020,
+        "month": 7,
+        "close": 2136.41
+      },
+      {
+        "year": 2020,
+        "month": 8,
+        "close": 2260.43
+      },
+      {
+        "year": 2020,
+        "month": 9,
+        "close": 2244.12
+      },
+      {
+        "year": 2020,
+        "month": 10,
+        "close": 2246.15
+      },
+      {
+        "year": 2020,
+        "month": 11,
+        "close": 2663.49
+      },
+      {
+        "year": 2020,
+        "month": 12,
+        "close": 2795.5
+      },
+      {
+        "year": 2021,
+        "month": 1,
+        "close": 2887.08
+      },
+      {
+        "year": 2021,
+        "month": 2,
+        "close": 3067.62
+      },
+      {
+        "year": 2021,
+        "month": 3,
+        "close": 3124.94
+      },
+      {
+        "year": 2021,
+        "month": 4,
+        "close": 3108.99
+      },
+      {
+        "year": 2021,
+        "month": 5,
+        "close": 3186.56
+      },
+      {
+        "year": 2021,
+        "month": 6,
+        "close": 3345.31
+      },
+      {
+        "year": 2021,
+        "month": 7,
+        "close": 3356.53
+      },
+      {
+        "year": 2021,
+        "month": 8,
+        "close": 3417.72
+      },
+      {
+        "year": 2021,
+        "month": 9,
+        "close": 3258.09
+      },
+      {
+        "year": 2021,
+        "month": 10,
+        "close": 3451.27
+      },
+      {
+        "year": 2021,
+        "month": 11,
+        "close": 3833.22
+      },
+      {
+        "year": 2021,
+        "month": 12,
+        "close": 3946.17
+      },
+      {
+        "year": 2022,
+        "month": 1,
+        "close": 3483.21
+      },
+      {
+        "year": 2022,
+        "month": 2,
+        "close": 3429.53
+      },
+      {
+        "year": 2022,
+        "month": 3,
+        "close": 3429.0
+      },
+      {
+        "year": 2022,
+        "month": 4,
+        "close": 2919.74
+      },
+      {
+        "year": 2022,
+        "month": 5,
+        "close": 3098.69
+      },
+      {
+        "year": 2022,
+        "month": 6,
+        "close": 2556.25
+      },
+      {
+        "year": 2022,
+        "month": 7,
+        "close": 2967.14
+      },
+      {
+        "year": 2022,
+        "month": 8,
+        "close": 2677.39
+      },
+      {
+        "year": 2022,
+        "month": 9,
+        "close": 2306.7
+      },
+      {
+        "year": 2022,
+        "month": 10,
+        "close": 2384.45
+      },
+      {
+        "year": 2022,
+        "month": 11,
+        "close": 2826.85
+      },
+      {
+        "year": 2022,
+        "month": 12,
+        "close": 2532.11
+      },
+      {
+        "year": 2023,
+        "month": 1,
+        "close": 2921.92
+      },
+      {
+        "year": 2023,
+        "month": 2,
+        "close": 2958.39
+      },
+      {
+        "year": 2023,
+        "month": 3,
+        "close": 3230.86
+      },
+      {
+        "year": 2023,
+        "month": 4,
+        "close": 2994.97
+      },
+      {
+        "year": 2023,
+        "month": 5,
+        "close": 3453.18
+      },
+      {
+        "year": 2023,
+        "month": 6,
+        "close": 3673.06
+      },
+      {
+        "year": 2023,
+        "month": 7,
+        "close": 3861.63
+      },
+      {
+        "year": 2023,
+        "month": 8,
+        "close": 3670.93
+      },
+      {
+        "year": 2023,
+        "month": 9,
+        "close": 3434.29
+      },
+      {
+        "year": 2023,
+        "month": 10,
+        "close": 3215.89
+      },
+      {
+        "year": 2023,
+        "month": 11,
+        "close": 3724.58
+      },
+      {
+        "year": 2023,
+        "month": 12,
+        "close": 4175.47
+      },
+      {
+        "year": 2024,
+        "month": 1,
+        "close": 4260.92
+      },
+      {
+        "year": 2024,
+        "month": 2,
+        "close": 4726.92
+      },
+      {
+        "year": 2024,
+        "month": 3,
+        "close": 4905.21
+      },
+      {
+        "year": 2024,
+        "month": 4,
+        "close": 4673.3
+      },
+      {
+        "year": 2024,
+        "month": 5,
+        "close": 5123.36
+      },
+      {
+        "year": 2024,
+        "month": 6,
+        "close": 5472.26
+      },
+      {
+        "year": 2024,
+        "month": 7,
+        "close": 5233.18
+      },
+      {
+        "year": 2024,
+        "month": 8,
+        "close": 5158.82
+      },
+      {
+        "year": 2024,
+        "month": 9,
+        "close": 5173.06
+      },
+      {
+        "year": 2024,
+        "month": 10,
+        "close": 4946.75
+      },
+      {
+        "year": 2024,
+        "month": 11,
+        "close": 4926.56
+      },
+      {
+        "year": 2024,
+        "month": 12,
+        "close": 4979.93
+      },
+      {
+        "year": 2025,
+        "month": 1,
+        "close": 5015.85
+      },
+      {
+        "year": 2025,
+        "month": 2,
+        "close": 4766.75
+      },
+      {
+        "year": 2025,
+        "month": 3,
+        "close": 4270.43
+      },
+      {
+        "year": 2025,
+        "month": 4,
+        "close": 4230.09
+      },
+      {
+        "year": 2025,
+        "month": 5,
+        "close": 4758.06
+      },
+      {
+        "year": 2025,
+        "month": 6,
+        "close": 5546.54
+      },
+      {
+        "year": 2025,
+        "month": 7,
+        "close": 5607.92
+      },
+      {
+        "year": 2025,
+        "month": 8,
+        "close": 5668.94
+      },
+      {
+        "year": 2025,
+        "month": 9,
+        "close": 6369.82
+      },
+      {
+        "year": 2025,
+        "month": 10,
+        "close": 7228.66
+      },
+      {
+        "year": 2025,
+        "month": 11,
+        "close": 7025.15
+      },
+      {
+        "year": 2025,
+        "month": 12,
+        "close": 7083.13
+      },
+      {
+        "year": 2026,
+        "month": 1,
+        "close": 7998.47
+      },
+      {
+        "year": 2026,
+        "month": 2,
+        "close": 8098.37
+      },
+      {
+        "year": 2026,
+        "month": 3,
+        "close": 7588.2
+      },
+      {
+        "year": 2026,
+        "month": 4,
+        "close": 10503.7
+      },
+      {
+        "year": 2026,
+        "month": 5,
+        "close": 12202.54
+      }
+    ],
+    "annual": [
+      {
+        "year": 1994,
+        "close": 140.02
+      },
+      {
+        "year": 1995,
+        "close": 200.56
+      },
+      {
+        "year": 1996,
+        "close": 240.18
+      },
+      {
+        "year": 1997,
+        "close": 263.5
+      },
+      {
+        "year": 1998,
+        "close": 350.39
+      },
+      {
+        "year": 1999,
+        "close": 704.22
+      },
+      {
+        "year": 2000,
+        "close": 576.33
+      },
+      {
+        "year": 2001,
+        "close": 521.91
+      },
+      {
+        "year": 2002,
+        "close": 289.1
+      },
+      {
+        "year": 2003,
+        "close": 507.87
+      },
+      {
+        "year": 2004,
+        "close": 433.1
+      },
+      {
+        "year": 2005,
+        "close": 479.26
+      },
+      {
+        "year": 2006,
+        "close": 466.81
+      },
+      {
+        "year": 2007,
+        "close": 407.84
+      },
+      {
+        "year": 2008,
+        "close": 212.07
+      },
+      {
+        "year": 2009,
+        "close": 359.74
+      },
+      {
+        "year": 2010,
+        "close": 411.62
+      },
+      {
+        "year": 2011,
+        "close": 364.26
+      },
+      {
+        "year": 2012,
+        "close": 383.87
+      },
+      {
+        "year": 2013,
+        "close": 535.03
+      },
+      {
+        "year": 2014,
+        "close": 686.87
+      },
+      {
+        "year": 2015,
+        "close": 663.48
+      },
+      {
+        "year": 2016,
+        "close": 906.47
+      },
+      {
+        "year": 2017,
+        "close": 1253.05
+      },
+      {
+        "year": 2018,
+        "close": 1155.17
+      },
+      {
+        "year": 2019,
+        "close": 1849.62
+      },
+      {
+        "year": 2020,
+        "close": 2795.5
+      },
+      {
+        "year": 2021,
+        "close": 3946.17
+      },
+      {
+        "year": 2022,
+        "close": 2532.11
+      },
+      {
+        "year": 2023,
+        "close": 4175.47
+      },
+      {
+        "year": 2024,
+        "close": 4979.93
+      },
+      {
+        "year": 2025,
+        "close": 7083.13
+      },
+      {
+        "year": 2026,
+        "close": 12202.54
+      }
+    ]
+  },
+  "lastUpdated": "2026-05-24 11:27 (TWT)"
 }
