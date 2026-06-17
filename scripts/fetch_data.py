@@ -43,14 +43,15 @@ def fetch_yahoo_daily(ticker, full_history=True):
     """Fetch daily OHLCV data from Yahoo Finance.
 
     Args:
-        full_history: If True, fetch 10 years of data. If False, fetch only last 5 days.
+        full_history: If True, fetch maximum available history (back to
+            ~1997 for ^TWII). If False, fetch only last 5 days.
     """
     if not HAS_YFINANCE:
         print(f"  yfinance not available for {ticker}")
         return []
 
     try:
-        period = "10y" if full_history else "5d"
+        period = "max" if full_history else "5d"
         hist = yf.Ticker(ticker).history(period=period, interval="1d")
         out = []
         for date, row in hist.iterrows():
