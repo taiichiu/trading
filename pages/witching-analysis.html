@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>四巫日分析｜市場韻腳資料庫</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #0f172a; color: #e2e8f0; min-height: 100vh; padding: 1.5rem; }
+  nav { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+  nav a { font-size: 0.85rem; color: #64748b; text-decoration: none; }
+  nav a:hover { color: #e2e8f0; }
+  nav span { color: #334155; }
+  h2 { font-size: 1.2rem; font-weight: 500; color: #f1f5f9; margin-bottom: 0.5rem; }
+  .sub { font-size: 0.82rem; color: #64748b; margin-bottom: 1.5rem; }
+  table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+  thead { background: #1a2333; }
+  th, td { padding: 10px 12px; text-align: right; border-bottom: 0.5px solid #334155; }
+  th { font-weight: 600; color: #94a3b8; font-size: 0.85rem; }
+  td { font-size: 0.9rem; }
+  td:first-child, th:first-child { text-align: left; }
+  tr:hover { background: rgba(59,130,246,0.05); }
+  .up { color: #ef4444; font-weight: 600; }
+  .down { color: #10b981; font-weight: 600; }
+  .stat { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem; }
+  .stat-box { background: #1a2333; padding: 1rem; border-radius: 8px; border: 0.5px solid #334155; }
+  .stat-label { font-size: 0.75rem; color: #64748b; margin-bottom: 0.5rem; }
+  .stat-value { font-size: 1.5rem; font-weight: 600; color: #38bdf8; }
+  .note { margin-top: 1rem; font-size: 0.78rem; color: #475569; line-height: 1.6; }
+  #lastUpdated { font-size: 0.75rem; color: #475569; margin-top: 1rem; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../index.html">← 首頁</a>
+  <span>/</span>
+  <span style="color:#94a3b8">四巫日區間分析</span>
+</nav>
+
+<h2>6月四巫日 → 9月四巫日 漲跌統計</h2>
+<p class="sub">統計每年 6 月第三個週五（四巫日）→ 9 月第三個週五的 TAIEX 漲跌點數與百分比</p>
+
+<div class="stat" id="summary"></div>
+
+<table>
+  <thead>
+    <tr>
+      <th>年份</th>
+      <th>6月四巫日<br/>開盤</th>
+      <th>9月四巫日<br/>收盤</th>
+      <th>漲跌點數</th>
+      <th>漲跌%</th>
+      <th>漲跌</th>
+    </tr>
+  </thead>
+  <tbody id="tableBody"></tbody>
+</table>
+
+<div class="note">
+  ※ 開盤/收盤時間可能不同，此處用當日最接近的交易資料<br>
+  ※ 統計範圍：自 1997 年起有完整資料的年份
+</div>
+<div id="lastUpdated"></div>
+
+<script>
+async function init() {
+  const res = await fetch('../data/indices.json?t=' + Date.now(), { cache: 'no-cache' });
+  const data = await res.json();
+  const rawDaily = (data.TAIEX && data.TAIEX.daily) || [];
+  document.getElementById('lastUpdated').textContent = '數據最後更新：' + data.lastUpdated;
+
+  if (!rawDaily.length) {
+    document.getElementById('tableBody').innerHTML = '<tr><td colspan="6">無資料</td></tr>';
+    return;
+  }
+
+  function thirdFridayISO(year, month) {
+    const first = new Date(Date.UTC(year, month - 1, 1));
+    const firstFri = 1 + ((5 - first.getUTCDay() + 7) % 7);
+    return new Date(Date.UTC(year, month - 1, firstFri + 14)).toISOString().slice(0, 10);
+  }
+
+  function tradingDayOnOrBefore(iso) {
+    let lo = 0, hi = rawDaily.length - 1, ans = -1;
+    while (lo <= hi) {
+      const mid = (lo + hi) >> 1;
+      if (rawDaily[mid].date <= iso) { ans = mid; lo = mid + 1; } else hi = mid - 1;
+    }
+    return ans >= 0 ? rawDaily[ans] : null;
+  }
+
+  // 統計 6月四巫→9月四巫
+  const rows = [];
+  const firstYear = +rawDaily[0].date.slice(0, 4);
+  const lastYear = +rawDaily[rawDaily.length - 1].date.slice(0, 4);
+
+  for (let y = firstYear; y <= lastYear; y++) {
+    const jun = thirdFridayISO(y, 6);
+    const sep = thirdFridayISO(y, 9);
+    const junBar = tradingDayOnOrBefore(jun);
+    const sepBar = tradingDayOnOrBefore(sep);
+
+    if (!junBar || !sepBar) continue;
+    if (junBar.date > jun || sepBar.date > sep) continue; // 確保資料存在
+
+    const junOpen = junBar.open || junBar.close;
+    const sepClose = sepBar.close;
+    const change = sepClose - junOpen;
+    const changePct = junOpen ? (change / junOpen * 100) : 0;
+    const isUp = change >= 0;
+
+    rows.push({
+      year: y,
+      junDate: junBar.date,
+      junOpen: junOpen,
+      sepDate: sepBar.date,
+      sepClose: sepClose,
+      change: change,
+      changePct: changePct,
+      isUp: isUp,
+    });
+  }
+
+  // 渲染表格
+  const tbody = document.getElementById('tableBody');
+  tbody.innerHTML = rows.map(r => `
+    <tr>
+      <td><strong>${r.year}</strong></td>
+      <td>${r.junOpen.toLocaleString(undefined, { maximumFractionDigits: 2 })}</td>
+      <td>${r.sepClose.toLocaleString(undefined, { maximumFractionDigits: 2 })}</td>
+      <td class="${r.isUp ? 'up' : 'down'}">${r.isUp ? '+' : ''}${r.change.toLocaleString(undefined, { maximumFractionDigits: 0 })}</td>
+      <td class="${r.isUp ? 'up' : 'down'}">${r.isUp ? '+' : ''}${r.changePct.toFixed(2)}%</td>
+      <td>${r.isUp ? '📈 上漲' : '📉 下跌'}</td>
+    </tr>
+  `).join('');
+
+  // 統計
+  const upCount = rows.filter(r => r.isUp).length;
+  const downCount = rows.filter(r => !r.isUp).length;
+  const upPct = rows.length ? (upCount / rows.length * 100) : 0;
+  const downPct = rows.length ? (downCount / rows.length * 100) : 0;
+  const avgChange = rows.length ? rows.reduce((s, r) => s + r.change, 0) / rows.length : 0;
+  const avgPct = rows.length ? rows.reduce((s, r) => s + r.changePct, 0) / rows.length : 0;
+
+  // 渲染統計框
+  document.getElementById('summary').innerHTML = `
+    <div class="stat-box">
+      <div class="stat-label">上漲年數 / 概率</div>
+      <div class="stat-value" style="color:#ef4444;">${upCount} / ${upPct.toFixed(1)}%</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">下跌年數 / 概率</div>
+      <div class="stat-value" style="color:#10b981;">${downCount} / ${downPct.toFixed(1)}%</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">平均漲跌</div>
+      <div class="stat-value" style="color:${avgChange>=0?'#ef4444':'#10b981'}">${avgChange>=0?'+':''}${avgChange.toLocaleString(undefined,{maximumFractionDigits:0})} (${avgPct>=0?'+':''}${avgPct.toFixed(2)}%)</div>
+    </div>
+  `;
+}
+
+init();
+</script>
+</body>
+</html>
