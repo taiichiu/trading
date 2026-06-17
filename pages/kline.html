@@ -412,6 +412,19 @@ function renderChart() {
   );
   // ECharts candlestick expects [open, close, low, high]
   const candles = series.map(d => [d.open, d.close, d.low, d.high]);
+
+  // Compute price range so we can extend yAxis max when celestial markers are active.
+  // markPoint coords above yAxis.max are clipped — we must explicitly set max.
+  let priceMax = -Infinity, priceMin = Infinity;
+  for (const c of candles) {
+    if (c[3] != null && c[3] > priceMax) priceMax = c[3]; // high
+    if (c[2] != null && c[2] < priceMin) priceMin = c[2]; // low
+  }
+  const priceRange = priceMax !== -Infinity ? priceMax - priceMin : 0;
+  const celestialAxisMax = (celestial && selectedPlanets.size > 0 && visToggles.arrows && priceMax !== -Infinity)
+    ? priceMax + priceRange * 0.22   // 0.22 > max planetBand offset (0.18 for 水星) + padding
+    : undefined;
+
   const volumes = series.map(d => ({
     value: d.volume || 0,
     itemStyle: {
@@ -449,6 +462,7 @@ function renderChart() {
     yAxis: [
       {
         scale: true,
+        max: celestialAxisMax,
         name: '點數', nameTextStyle: { color: tc, fontSize: 10, padding: [0, 0, 0, narrow ? 20 : 40] },
         axisLine: { lineStyle: { color: lc } },
         axisLabel: { color: tc, fontSize: narrow ? 10 : 11,
