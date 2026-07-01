@@ -240,8 +240,11 @@ function getChartData() {
         isUp: change >= 0,
       });
 
-      // 為圖表積累資料
-      if (!seriesMap.has(year)) seriesMap.set(year, []);
+      // 為圖表積累資料（預先填充整個陣列，缺失點填 null）
+      if (!seriesMap.has(year)) {
+        const arr = new Array(daysBefore + daysAfter + 1);
+        seriesMap.set(year, arr);
+      }
       windowData.forEach(d => {
         seriesMap.get(year)[d.offset + daysBefore] = d.close;
       });
@@ -263,6 +266,7 @@ function getChartData() {
     type: 'line',
     data: data,
     smooth: 0.2,
+    connectNulls: true,
     symbol: 'circle', symbolSize: 4,
     lineStyle: { color: COLORS[idx % COLORS.length], width: 2 },
     itemStyle: { color: COLORS[idx % COLORS.length] },
