@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>規律分析儀表板｜市場韻腳資料庫</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
+<script src="../js/charts.js"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -15,8 +16,18 @@
   nav span { color: #334155; }
   h2 { font-size: 1.2rem; font-weight: 500; color: #f1f5f9; margin-bottom: 0.5rem; }
   .sub { font-size: 0.82rem; color: #64748b; margin-bottom: 1.5rem; }
+
+  button { font-size: 0.8rem; padding: 5px 14px; border-radius: 6px; cursor: pointer;
+    border: 0.5px solid #334155; background: transparent; color: #94a3b8; transition: all 0.15s; }
+  button.active { background: #1e3a5f; color: #60a5fa; border-color: #3b82f6; }
+  button:hover:not(.active) { border-color: #64748b; color: #e2e8f0; }
+  .btn-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .mode-row { display: flex; gap: 8px; margin-bottom: 1.25rem; }
+  .mode-row button { font-size: 0.88rem; padding: 8px 18px; }
+
   .controls { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
-  .control-group { display: flex; flex-direction: column; gap: 0.3rem; }
+  .control-group { display: flex; flex-direction: column; gap: 0.35rem; }
+  .control-group.wide { grid-column: span 2; }
   .control-label { font-size: 0.75rem; color: #94a3b8; font-weight: 600; }
   select, input { background: #1a2333; border: 0.5px solid #334155; color: #e2e8f0;
     padding: 6px 8px; border-radius: 4px; font-size: 0.85rem; }
@@ -24,11 +35,14 @@
   .slider-container { display: flex; gap: 0.5rem; align-items: center; }
   input[type="range"] { flex: 1; }
   .slider-value { font-size: 0.75rem; color: #64748b; min-width: 30px; text-align: right; }
+  .inline-note { font-size: 0.72rem; color: #475569; margin-top: 2px; }
+
   #chart { width: 100%; height: 500px; margin-bottom: 2rem; }
   .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
   .stat-box { background: #1a2333; padding: 1rem; border-radius: 8px; border: 0.5px solid #334155; }
   .stat-label { font-size: 0.75rem; color: #64748b; margin-bottom: 0.5rem; }
   .stat-value { font-size: 1.3rem; font-weight: 600; color: #38bdf8; }
+
   table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
   thead { background: #1a2333; }
   th, td { padding: 10px 12px; text-align: right; border-bottom: 0.5px solid #334155; font-size: 0.85rem; }
@@ -37,13 +51,17 @@
   tr:hover { background: rgba(59,130,246,0.05); }
   .up { color: #ef4444; font-weight: 600; }
   .down { color: #10b981; font-weight: 600; }
-  .note { margin-top: 1rem; font-size: 0.78rem; color: #475569; line-height: 1.6; }
+
+  .note { margin-top: 1rem; font-size: 0.78rem; color: #475569; line-height: 1.7; }
   #lastUpdated { font-size: 0.75rem; color: #475569; margin-top: 1rem; }
+
   @media (max-width: 1024px) {
     .controls { grid-template-columns: 1fr 1fr; }
+    .control-group.wide { grid-column: span 2; }
   }
   @media (max-width: 640px) {
     .controls { grid-template-columns: 1fr; }
+    .control-group.wide { grid-column: span 1; }
     #chart { height: 400px; }
   }
 </style>
@@ -57,9 +75,16 @@
 </nav>
 
 <h2>規律分析儀表板</h2>
-<p class="sub">選擇時間型態，自動疊加歷史走勢，找出規律</p>
+<p class="sub">選擇顯示模式，自動疊加歷史走勢，找出規律</p>
 
-<div class="controls">
+<div class="mode-row">
+  <button class="mode-btn active" data-mode="event">🗓️ 事件窗口</button>
+  <button class="mode-btn" data-mode="monthly">📅 全年月度</button>
+  <button class="mode-btn" data-mode="decade">📊 十年週期</button>
+</div>
+
+<!-- 事件窗口模式：關鍵日期前後 N 天疊加，以節日當天為 0% 基準 -->
+<div class="controls" id="eventControls">
   <div class="control-group">
     <label class="control-label">關鍵日期</label>
     <select id="patternSelect">
@@ -71,6 +96,7 @@
       <option value="witching">四巫日 (3/6/9/12月第三週五)</option>
       <option value="double-ten">雙十國慶 (10/10)</option>
     </select>
+    <div class="inline-note">僅台股 TAIEX 有日K資料</div>
   </div>
 
   <div class="control-group">
@@ -102,11 +128,45 @@
   </div>
 </div>
 
+<!-- 全年月度模式：同尾數年 1-12月疊加 -->
+<div class="controls" id="monthlyControls" style="display:none;">
+  <div class="control-group">
+    <label class="control-label">指數</label>
+    <div class="btn-row" id="monthlyIndexBtns"></div>
+  </div>
+  <div class="control-group wide">
+    <label class="control-label">年份尾數</label>
+    <div class="btn-row" id="digitBtns"></div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">標準化</label>
+    <div class="btn-row">
+      <button id="btnNorm" class="active">起始=100</button>
+      <button id="btnRaw">原始點數</button>
+    </div>
+  </div>
+</div>
+
+<!-- 十年週期模式：各十年 Y1-Y10 疊加 -->
+<div class="controls" id="decadeControls" style="display:none;">
+  <div class="control-group">
+    <label class="control-label">指數</label>
+    <div class="btn-row" id="decadeIndexBtns"></div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">Y軸</label>
+    <div class="btn-row">
+      <button id="btnLog" class="active">對數</button>
+      <button id="btnLinear">線性</button>
+    </div>
+  </div>
+</div>
+
 <div id="chart"></div>
 
 <div class="stats" id="stats"></div>
 
-<table>
+<table id="eventTable">
   <thead>
     <tr>
       <th>年份</th>
@@ -122,19 +182,16 @@
   <tbody id="tableBody"></tbody>
 </table>
 
-<div class="note">
-  ※ 圖表顯示多年同期走勢，以「節日當天」為 0% 基準點對齊（白色虛線標記）<br>
-  ※ 每日百分比 ＝ 該日收盤價相對節日當天收盤價的漲跌幅<br>
-  ※ 節日遇假日／非交易日時，自動往前找最近一個交易日作為基準<br>
-  ※ 資料範圍：TAIEX 1997-2026
-</div>
+<div class="note" id="note"></div>
 <div id="lastUpdated"></div>
 
 <script>
-let allDaily = [];
+let allData = null, allDaily = [];
 let chart = null;
+let currentMode = 'event'; // event | monthly | decade
+let firstYear, lastYear;
 
-// 關鍵日期定義
+// ===== 事件窗口模式 =====
 const patterns = {
   independence: { dates: [], desc: '7/4 美國獨立日' },
   qingming: { dates: ['2016-04-04','2017-04-04','2018-04-05','2019-04-05','2020-04-04','2021-04-05','2022-04-05','2023-04-05','2024-04-04','2025-04-04','2026-04-05'], desc: '清明節' },
@@ -145,13 +202,27 @@ const patterns = {
   'double-ten': { dates: [], desc: '雙十國慶' },
 };
 
-let firstYear, lastYear;
+// ===== 全年月度模式 =====
+let monthlyIndex = 'TAIEX', selectedDigit = 6, monthlyNormalized = true;
+
+// ===== 十年週期模式 =====
+let decadeIndex = 'TAIEX', decadeScale = 'log';
+const DECADES = [
+  { name: '1970s', start: 1970, color: '#ec4899' },
+  { name: '1980s', start: 1980, color: '#ef4444' },
+  { name: '1990s', start: 1990, color: '#f59e0b' },
+  { name: '2000s', start: 2000, color: '#3b82f6' },
+  { name: '2010s', start: 2010, color: '#10b981' },
+  { name: '2020s', start: 2020, color: '#a855f7' },
+];
+
+const COLORS = ['#ef4444', '#f59e0b', '#3b82f6', '#10b981', '#a855f7', '#ec4899',
+                '#14b8a6', '#f97316', '#06b6d4', '#84cc16'];
 
 async function init() {
-  const res = await fetch('../data/indices.json?t=' + Date.now(), { cache: 'no-cache' });
-  const data = await res.json();
-  allDaily = (data.TAIEX && data.TAIEX.daily) || [];
-  document.getElementById('lastUpdated').textContent = '數據最後更新：' + data.lastUpdated;
+  allData = await loadData();
+  allDaily = (allData.TAIEX && allData.TAIEX.daily) || [];
+  document.getElementById('lastUpdated').textContent = '數據最後更新：' + allData.lastUpdated;
 
   if (!allDaily.length) {
     document.getElementById('chart').innerHTML = '<div style="color:#64748b;padding:2rem;text-align:center;">無資料</div>';
@@ -160,64 +231,75 @@ async function init() {
 
   firstYear = +allDaily[0].date.slice(0, 4);
   lastYear = +allDaily[allDaily.length - 1].date.slice(0, 4);
+  selectedDigit = lastYear % 10;
 
-  // 獨立日：每年 7/4
+  buildEventDates();
+  bindModeButtons();
+  bindEventControls();
+  buildMonthlyControls();
+  buildDecadeControls();
+  render();
+}
+
+function bindModeButtons() {
+  document.querySelectorAll('.mode-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentMode = btn.dataset.mode;
+      document.querySelectorAll('.mode-btn').forEach(b => b.classList.toggle('active', b === btn));
+      document.getElementById('eventControls').style.display = currentMode === 'event' ? 'grid' : 'none';
+      document.getElementById('monthlyControls').style.display = currentMode === 'monthly' ? 'grid' : 'none';
+      document.getElementById('decadeControls').style.display = currentMode === 'decade' ? 'grid' : 'none';
+      render();
+    });
+  });
+}
+
+function render() {
+  if (!chart) chart = echarts.init(document.getElementById('chart'), 'dark');
+  if (currentMode === 'event') renderEventMode();
+  else if (currentMode === 'monthly') renderMonthlyMode();
+  else renderDecadeMode();
+}
+
+// ================= 事件窗口模式 =================
+
+function buildEventDates() {
   patterns.independence.dates = [];
-  for (let y = firstYear; y <= lastYear; y++) {
-    patterns.independence.dates.push(`${y}-07-04`);
-  }
+  for (let y = firstYear; y <= lastYear; y++) patterns.independence.dates.push(`${y}-07-04`);
 
-  // 四巫日（3/6/9/12月第三個週五）
-  patterns.witching.dates = [];
   function thirdFridayISO(year, month) {
     const first = new Date(Date.UTC(year, month - 1, 1));
     const firstFri = 1 + ((5 - first.getUTCDay() + 7) % 7);
     return new Date(Date.UTC(year, month - 1, firstFri + 14)).toISOString().slice(0, 10);
   }
+  patterns.witching.dates = [];
   for (let y = firstYear; y <= lastYear; y++) {
-    for (const m of [3, 6, 9, 12]) {
-      patterns.witching.dates.push(thirdFridayISO(y, m));
-    }
+    for (const m of [3, 6, 9, 12]) patterns.witching.dates.push(thirdFridayISO(y, m));
   }
 
-  // 雙十：每年 10/10
   patterns['double-ten'].dates = [];
-  for (let y = firstYear; y <= lastYear; y++) {
-    patterns['double-ten'].dates.push(`${y}-10-10`);
-  }
-
-  bindControls();
-  render();
+  for (let y = firstYear; y <= lastYear; y++) patterns['double-ten'].dates.push(`${y}-10-10`);
 }
 
-function bindControls() {
+function bindEventControls() {
   ['patternSelect', 'daysBefore', 'daysAfter', 'yearRange'].forEach(id => {
-    document.getElementById(id).addEventListener('change', () => {
-      if (id === 'daysBefore') {
-        document.getElementById('beforeValue').textContent = event.target.value;
-      } else if (id === 'daysAfter') {
-        document.getElementById('afterValue').textContent = event.target.value;
-      }
-      render();
-    });
-    // 滑塊即時更新顯示
+    document.getElementById(id).addEventListener('change', render);
     if (id === 'daysBefore' || id === 'daysAfter') {
       document.getElementById(id).addEventListener('input', (e) => {
-        if (id === 'daysBefore') document.getElementById('beforeValue').textContent = e.target.value;
-        else document.getElementById('afterValue').textContent = e.target.value;
+        document.getElementById(id === 'daysBefore' ? 'beforeValue' : 'afterValue').textContent = e.target.value;
       });
     }
   });
 }
 
-function getChartData() {
+function getEventChartData() {
   const pattern = document.getElementById('patternSelect').value;
   const daysBefore = +document.getElementById('daysBefore').value;
   const daysAfter = +document.getElementById('daysAfter').value;
   const yearRange = document.getElementById('yearRange').value;
 
   const baseDates = patterns[pattern].dates || [];
-  if (!baseDates.length) return { series: [], dates: [], rows: [] };
+  if (!baseDates.length) return { series: [], xLabels: [], rows: [] };
 
   const dayMap = new Map();
   for (const d of allDaily) dayMap.set(d.date, d);
@@ -229,9 +311,8 @@ function getChartData() {
     const baseTs = Date.parse(baseDate);
     const year = +baseDate.slice(0, 4);
 
-    // 年份篩選邏輯
-    if (yearRange === '10' && year < lastYear - 9) continue; // 近10年 = 當年 - 9年 前
-    if (yearRange === '5' && year < lastYear - 4) continue;  // 近5年 = 當年 - 4年 前
+    if (yearRange === '10' && year < lastYear - 9) continue;
+    if (yearRange === '5' && year < lastYear - 4) continue;
     if (yearRange === 'midterm' && ![2014, 2018, 2022, 2026].includes(year)) continue;
     if (yearRange === 'election' && ![2016, 2020, 2024, 2028].includes(year)) continue;
     if (yearRange === 'digit') {
@@ -242,33 +323,23 @@ function getChartData() {
     // 找到基準交易日（節日當天或前一個交易日）
     let realBaseDate = baseDate;
     for (let lookBack = 0; lookBack <= 7; lookBack++) {
-      const testTs = baseTs - lookBack * 86400000;
-      const testDateStr = new Date(testTs).toISOString().slice(0, 10);
-      if (dayMap.get(testDateStr)) {
-        realBaseDate = testDateStr;
-        break;
-      }
+      const testDateStr = new Date(baseTs - lookBack * 86400000).toISOString().slice(0, 10);
+      if (dayMap.get(testDateStr)) { realBaseDate = testDateStr; break; }
     }
-    if (!dayMap.get(realBaseDate)) continue; // 找不到交易日就跳過
+    if (!dayMap.get(realBaseDate)) continue;
 
     const realBaseTs = Date.parse(realBaseDate);
-
-    // 收集窗口內全部交易日資料
-    const collected = []; // { offset, bar }
+    const collected = [];
     for (let offset = -daysBefore; offset <= daysAfter; offset++) {
-      const ts = realBaseTs + offset * 86400000;
-      const dateStr = new Date(ts).toISOString().slice(0, 10);
+      const dateStr = new Date(realBaseTs + offset * 86400000).toISOString().slice(0, 10);
       const bar = dayMap.get(dateStr);
       if (bar) collected.push({ offset, bar });
     }
 
-    // 基準點固定為「節日當天（offset=0，即 realBaseDate）」的收盤價
-    // 這樣 offset=0 的漲跌% 必為 0%，圖上的 0 軸線才會精準對齊每條線
+    // 基準點固定為「節日當天（offset=0）」的收盤價，確保 offset=0 必為 0%
     const zeroPoint = collected.find(d => d.offset === 0);
-    if (!zeroPoint) continue; // 找不到基準日資料，跳過該年
-
+    if (!zeroPoint || !zeroPoint.bar.close) continue;
     const basePrice = zeroPoint.bar.close;
-    if (!basePrice) continue;
 
     const lastPoint = collected[collected.length - 1];
     const windowClose = lastPoint.bar.close;
@@ -287,12 +358,7 @@ function getChartData() {
       isUp: change >= 0,
     });
 
-    // 為圖表積累資料（預先填充整個陣列，缺失點填 null）
-    if (!seriesMap.has(year)) {
-      const arr = new Array(daysBefore + daysAfter + 1);
-      seriesMap.set(year, arr);
-    }
-    // 每一天的收盤價相對基準日（節日當天）收盤價的漲跌 %
+    if (!seriesMap.has(year)) seriesMap.set(year, new Array(daysBefore + daysAfter + 1));
     collected.forEach(d => {
       const pctChange = ((d.bar.close - basePrice) / basePrice * 100);
       seriesMap.get(year)[d.offset + daysBefore] = +pctChange.toFixed(2);
@@ -301,30 +367,19 @@ function getChartData() {
 
   rows.sort((a, b) => a.year - b.year);
 
-  // 構建圖表 series
-  const COLORS = ['#ef4444', '#f59e0b', '#3b82f6', '#10b981', '#a855f7', '#ec4899',
-                  '#14b8a6', '#f97316', '#06b6d4', '#84cc16'];
   const xLabels = [];
-  for (let i = -daysBefore; i <= daysAfter; i++) {
-    xLabels.push(i === 0 ? '0' : (i < 0 ? i : '+' + i));
-  }
+  for (let i = -daysBefore; i <= daysAfter; i++) xLabels.push(i === 0 ? '0' : (i < 0 ? i : '+' + i));
 
   const series = Array.from(seriesMap.entries()).map(([year, data], idx) => ({
-    name: String(year),
-    type: 'line',
-    data: data,
-    smooth: false,
-    connectNulls: true,
+    name: String(year), type: 'line', data, smooth: false, connectNulls: true,
     symbol: 'circle', symbolSize: 3,
     lineStyle: { color: COLORS[idx % COLORS.length], width: 1.5 },
     itemStyle: { color: COLORS[idx % COLORS.length] },
   }));
 
-  // 在「節日當天（0軸）」畫一條直立標記線，讓基準點清楚可見
   if (series.length > 0) {
     series[0].markLine = {
-      silent: true,
-      symbol: 'none',
+      silent: true, symbol: 'none',
       lineStyle: { color: '#f8fafc', type: 'dashed', width: 1.5, opacity: 0.85 },
       label: {
         show: true, formatter: '節日(0)', color: '#0f172a',
@@ -338,42 +393,33 @@ function getChartData() {
   return { series, xLabels, rows };
 }
 
-function render() {
-  const { series, xLabels, rows } = getChartData();
+function renderEventMode() {
+  const { series, xLabels, rows } = getEventChartData();
 
-  // 渲染圖表
-  if (!chart) chart = echarts.init(document.getElementById('chart'), 'dark');
   chart.setOption({
-    backgroundColor: 'transparent',
-    animation: false,
+    backgroundColor: 'transparent', animation: false,
     grid: { left: 60, right: 16, top: 20, bottom: 40 },
     xAxis: {
       type: 'category', data: xLabels,
-      axisLabel: {
-        color: (value) => value === '0' ? '#f8fafc' : '#64748b',
-        fontSize: 10,
-      },
+      axisLabel: { color: (value) => value === '0' ? '#f8fafc' : '#64748b', fontSize: 10 },
       axisLine: { lineStyle: { color: '#2a3547' } },
       splitLine: { lineStyle: { color: '#1e2533', type: 'dashed' } },
     },
     yAxis: {
-      scale: true,
-      name: '相對節日當天 (%)',
+      scale: true, name: '相對節日當天 (%)',
       nameTextStyle: { color: '#64748b', fontSize: 10 },
-      axisLabel: { color: '#64748b', fontSize: 10,
-        formatter: '{value}%' },
+      axisLabel: { color: '#64748b', fontSize: 10, formatter: '{value}%' },
       axisLine: { lineStyle: { color: '#2a3547' } },
       splitLine: { lineStyle: { color: '#1e2533' } },
     },
-    tooltip: {
-      trigger: 'axis', backgroundColor: '#1a2233', borderColor: '#334155',
-      textStyle: { color: '#e2e8f0', fontSize: 11 },
-    },
-    legend: { textStyle: { color: '#94a3b8' }, top: 10 },
+    tooltip: { trigger: 'axis', backgroundColor: '#1a2233', borderColor: '#334155', textStyle: { color: '#e2e8f0', fontSize: 11 } },
+    legend: { textStyle: { color: '#94a3b8' }, top: 10, type: 'scroll' },
     series,
   }, true);
 
-  // 渲染統計框
+  document.getElementById('stats').style.display = 'grid';
+  document.getElementById('eventTable').style.display = 'table';
+
   if (rows.length > 0) {
     const upCount = rows.filter(r => r.isUp).length;
     const downCount = rows.length - upCount;
@@ -399,9 +445,10 @@ function render() {
         <div class="stat-value" style="color:${avgPct>=0?'#ef4444':'#10b981'}">${avgPct>=0?'+':''}${avgPct}%</div>
       </div>
     `;
+  } else {
+    document.getElementById('stats').innerHTML = '';
   }
 
-  // 渲染表格
   const tbody = document.getElementById('tableBody');
   tbody.innerHTML = rows.map(r => `
     <tr>
@@ -416,10 +463,241 @@ function render() {
     </tr>
   `).join('') || '<tr><td colspan="8" style="text-align:center;color:#64748b;">無符合資料</td></tr>';
 
-  window.addEventListener('resize', () => { if (chart) chart.resize(); });
+  document.getElementById('note').innerHTML = `
+    ※ 圖表顯示多年同期走勢，以「節日當天」為 0% 基準點對齊（白色虛線標記）<br>
+    ※ 每日百分比 ＝ 該日收盤價相對節日當天收盤價的漲跌幅<br>
+    ※ 節日遇假日／非交易日時，自動往前找最近一個交易日作為基準<br>
+    ※ 資料範圍：TAIEX ${firstYear}-${lastYear}
+  `;
 }
 
+// ================= 全年月度模式 =================
+
+function buildMonthlyControls() {
+  const idxEl = document.getElementById('monthlyIndexBtns');
+  INDICES.forEach(idx => {
+    const btn = document.createElement('button');
+    btn.textContent = idx.label;
+    btn.className = idx.key === monthlyIndex ? 'active' : '';
+    btn.onclick = () => {
+      monthlyIndex = idx.key;
+      idxEl.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      render();
+    };
+    idxEl.appendChild(btn);
+  });
+
+  const digitEl = document.getElementById('digitBtns');
+  for (let d = 0; d <= 9; d++) {
+    const btn = document.createElement('button');
+    btn.textContent = d;
+    if (d === selectedDigit) btn.classList.add('active');
+    btn.onclick = () => {
+      selectedDigit = d;
+      digitEl.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      render();
+    };
+    digitEl.appendChild(btn);
+  }
+
+  document.getElementById('btnNorm').addEventListener('click', () => setMonthlyNorm(true));
+  document.getElementById('btnRaw').addEventListener('click', () => setMonthlyNorm(false));
+}
+
+function setMonthlyNorm(v) {
+  monthlyNormalized = v;
+  document.getElementById('btnNorm').classList.toggle('active', v);
+  document.getElementById('btnRaw').classList.toggle('active', !v);
+  render();
+}
+
+function getYearsForDigit(monthlyArr, digit) {
+  const years = [];
+  monthlyArr.forEach(d => { if (d.year % 10 === digit && !years.includes(d.year)) years.push(d.year); });
+  return years.sort((a, b) => a - b);
+}
+
+function renderMonthlyMode() {
+  document.getElementById('stats').style.display = 'none';
+  document.getElementById('eventTable').style.display = 'none';
+
+  const tc = '#64748b', gc = '#1e2533', lc = '#2a3547';
+  const monthly = (allData[monthlyIndex] && allData[monthlyIndex].monthly) || [];
+  const years = getYearsForDigit(monthly, selectedDigit);
+
+  const series = years.map((yr, i) => {
+    const raw = getMonthlyByYear(monthly, yr);
+    const data = monthlyNormalized ? normalizeToBase100(raw) : raw;
+    return {
+      name: String(yr), type: 'line', data, smooth: 0.2, symbol: 'circle', symbolSize: 5,
+      connectNulls: false,
+      lineStyle: { color: COLORS[i % COLORS.length], width: 2 },
+      itemStyle: { color: COLORS[i % COLORS.length] },
+    };
+  });
+
+  const narrow = window.innerWidth < 640;
+  const xLabels = narrow ? ['1','2','3','4','5','6','7','8','9','10','11','12'] : MONTH_LABELS;
+
+  chart.setOption({
+    backgroundColor: 'transparent',
+    grid: { left: narrow ? 44 : 64, right: 12, top: 20, bottom: 40 },
+    xAxis: {
+      type: 'category', data: xLabels,
+      axisLabel: { color: tc, fontSize: narrow ? 10 : 11, interval: 0 },
+      axisLine: { lineStyle: { color: lc } },
+      splitLine: { lineStyle: { color: gc, type: 'dashed' } },
+    },
+    yAxis: {
+      scale: true, name: monthlyNormalized ? '起始月=100' : '點數',
+      nameTextStyle: { color: tc, fontSize: 10 },
+      axisLabel: { color: tc, fontSize: narrow ? 10 : 11,
+        formatter: v => v >= 1000 ? (v/1000).toFixed(1)+'K' : v },
+      axisLine: { lineStyle: { color: lc } },
+      splitLine: { lineStyle: { color: gc } },
+    },
+    tooltip: {
+      trigger: 'axis', backgroundColor: '#1a2233', borderColor: '#334155',
+      textStyle: { color: '#e2e8f0', fontSize: 12 },
+      formatter: params => {
+        const mi = params[0].dataIndex;
+        let html = `<b>${MONTH_LABELS[mi]}</b><br/>`;
+        params.forEach(p => {
+          if (p.value == null) return;
+          const val = monthlyNormalized ? p.value + '' : p.value.toLocaleString();
+          html += `<span style="color:${p.color}">●</span> ${p.seriesName}: <b>${val}</b><br/>`;
+        });
+        return html;
+      }
+    },
+    legend: { textStyle: { color: '#94a3b8' }, top: 10, type: 'scroll' },
+    series
+  }, true);
+
+  document.getElementById('note').innerHTML = `
+    ※ Y軸為標準化指數（各年1月=100），可切換為原始點數<br>
+    ※ 點擊圖例可顯示/隱藏特定年份<br>
+    ※ 資料範圍：monthly 資料視所選指數而定
+  `;
+}
+
+// ================= 十年週期模式 =================
+
+function buildDecadeControls() {
+  const idxEl = document.getElementById('decadeIndexBtns');
+  INDICES.forEach(idx => {
+    const btn = document.createElement('button');
+    btn.textContent = idx.label;
+    btn.className = idx.key === decadeIndex ? 'active' : '';
+    btn.onclick = () => {
+      decadeIndex = idx.key;
+      idxEl.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      render();
+    };
+    idxEl.appendChild(btn);
+  });
+
+  document.getElementById('btnLog').addEventListener('click', () => setDecadeScale('log'));
+  document.getElementById('btnLinear').addEventListener('click', () => setDecadeScale('linear'));
+}
+
+function setDecadeScale(s) {
+  decadeScale = s;
+  document.getElementById('btnLog').classList.toggle('active', s === 'log');
+  document.getElementById('btnLinear').classList.toggle('active', s === 'linear');
+  render();
+}
+
+function renderDecadeMode() {
+  document.getElementById('stats').style.display = 'none';
+  document.getElementById('eventTable').style.display = 'none';
+
+  const tc = '#64748b', gc = '#1e2533', lc = '#2a3547';
+  const currentYearNow = new Date().getFullYear();
+  const pos2020 = currentYearNow - 2020;
+  const annual = (allData[decadeIndex] && allData[decadeIndex].annual) || [];
+
+  const series = DECADES.map((d, si) => {
+    const raw = getAnnualByDecade(annual, d.start);
+    const normed = normalizeToBase100(raw);
+    return {
+      name: d.name, type: 'line', data: normed, smooth: 0.25, connectNulls: false,
+      symbol: 'circle', symbolSize: 5,
+      lineStyle: { color: d.color, width: 2 },
+      itemStyle: { color: d.color },
+      markArea: si === 0 ? {
+        silent: true,
+        data: [
+          [{ xAxis: 'Y2', itemStyle: { color: 'rgba(150,150,150,0.07)' },
+             label: { show: true, position: 'insideTopLeft', color: tc, fontSize: 9, formatter: '早期\n低點' } },
+           { xAxis: 'Y3' }],
+          [{ xAxis: 'Y7', itemStyle: { color: 'rgba(255,140,0,0.07)' },
+             label: { show: true, position: 'insideTopLeft', color: tc, fontSize: 9, formatter: '末期\n震盪' } },
+           { xAxis: 'Y8' }],
+        ]
+      } : undefined,
+      markLine: d.name === '2020s' ? {
+        silent: true, symbol: 'none',
+        data: [{ xAxis: `Y${pos2020 + 1}`,
+          lineStyle: { color: '#a855f7', type: 'dashed', width: 1, opacity: 0.6 },
+          label: { show: true, formatter: '現在', color: '#a855f7', fontSize: 9 } }]
+      } : undefined
+    };
+  });
+
+  const narrow = window.innerWidth < 640;
+
+  chart.setOption({
+    backgroundColor: 'transparent',
+    grid: { left: narrow ? 48 : 64, right: 12, top: 20, bottom: 40 },
+    xAxis: {
+      type: 'category', data: YEAR_LABELS,
+      axisLabel: { color: tc, fontSize: narrow ? 10 : 11 },
+      axisLine: { lineStyle: { color: lc } },
+      splitLine: { lineStyle: { color: gc, type: 'dashed' } },
+    },
+    yAxis: {
+      type: decadeScale, logBase: 10,
+      name: decadeScale === 'log' ? '起始=100（對數）' : '起始=100',
+      nameTextStyle: { color: tc, fontSize: 10 },
+      axisLabel: { color: tc, fontSize: narrow ? 10 : 11, formatter: v => v >= 1000 ? (v/1000).toFixed(1)+'K' : v },
+      axisLine: { lineStyle: { color: lc } },
+      splitLine: { lineStyle: { color: gc } },
+      ...(decadeScale === 'log' ? { min: 50, max: 3000 } : { min: 0 }),
+    },
+    tooltip: {
+      trigger: 'axis', backgroundColor: '#1a2233', borderColor: '#334155',
+      textStyle: { color: '#e2e8f0', fontSize: 12 },
+      formatter: params => {
+        const yi = params[0].dataIndex;
+        let html = `<b>${YEAR_LABELS[yi]}</b><br/>`;
+        params.forEach(p => {
+          if (p.value == null) return;
+          const d = DECADES.find(x => x.name === p.seriesName);
+          const actualYear = d ? d.start + yi : '';
+          html += `<span style="color:${p.color}">●</span> ${p.seriesName} <span style="color:${tc};font-size:10px">(${actualYear})</span>: <b>${p.value}</b><br/>`;
+        });
+        return html;
+      }
+    },
+    legend: { textStyle: { color: '#94a3b8' }, top: 10, type: 'scroll' },
+    series
+  }, true);
+
+  document.getElementById('note').innerHTML = `
+    ▐ <span style="background:rgba(150,150,150,0.15);padding:0 4px;">灰底 Y2–Y3</span> 早期低點壓力區
+    &nbsp;&nbsp;
+    ▐ <span style="background:rgba(255,140,0,0.15);padding:0 4px;">橘底 Y7–Y8</span> 末期震盪區<br>
+    點擊圖例可顯示/隱藏各十年。虛線標記目前所在位置。
+  `;
+}
+
+window.addEventListener('resize', () => { if (chart) { chart.resize(); render(); } });
 init();
 </script>
+<script src="../js/chat.js"></script>
 </body>
 </html>

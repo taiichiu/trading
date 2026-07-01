@@ -33,8 +33,10 @@
 
 ```
 index.html                         首頁
-pages/decade.html                  十年週期疊加頁
-pages/yearly.html                  尾數年月度比較頁
+pages/kline.html                    K線走勢頁（日/週/月K，含天體、節日、四巫日標記）
+pages/pattern-analyzer.html        規律分析儀表板（事件窗口／全年月度／十年週期三種模式）
+pages/witching-analysis.html       四巫日區間分析頁
+pages/celestial.html               天體位置頁
 pages/rhymes.html                  韻腳規則頁
 pages/risk.html                    風險管理頁
 pages/philosophy.html              操盤哲學頁

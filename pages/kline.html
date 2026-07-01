@@ -25,6 +25,7 @@
   button.active { background: #1e3a5f; color: #60a5fa; border-color: #3b82f6; }
   button.overlay-btn.active { background: rgba(251,191,36,0.12); color: #fbbf24; border-color: #fbbf24; }
   button.calendar-btn.active { background: rgba(56,189,248,0.12); color: #38bdf8; border-color: #38bdf8; }
+  button.yearmark-btn.active { background: rgba(168,85,247,0.12); color: #c084fc; border-color: #a855f7; }
   button:hover:not(.active) { border-color: #64748b; color: #e2e8f0; }
   #chart { width: 100%; height: 560px; }
   @media (max-width: 640px) {
@@ -71,6 +72,14 @@
   <button class="calendar-btn" data-cal="festival">節日封關</button>
   <button class="calendar-btn" data-cal="witching">四巫日</button>
   <span style="font-size:0.72rem; color:#475569; margin-left:6px;">封關＝春節/端午/中秋前最後交易日；四巫＝3/6/9/12月第三個週五</span>
+</div>
+
+<div class="controls">
+  <label>年份標示：</label>
+  <button class="yearmark-btn" data-yearmark="election">大選年</button>
+  <button class="yearmark-btn" data-yearmark="midterm">期中選舉年</button>
+  <button class="yearmark-btn" data-yearmark="digit">同尾數年</button>
+  <span style="font-size:0.72rem; color:#475569; margin-left:6px;">在連續K線背景標示對應年份區間（可跟其他疊加層並存）</span>
 </div>
 
 <div class="celestial-row">
@@ -122,6 +131,9 @@ let overlayBuffett = false;
 const selectedPlanets = new Set();   // zh names: 火星, 金星, ...
 const visToggles = { arrows: true, labels: true, retro: true };
 const calendarToggles = { festival: false, witching: false };
+const yearMarkToggles = { election: false, midterm: false, digit: false };
+const YEARMARK_COLOR = { election: 'rgba(168,85,247,0.10)', midterm: 'rgba(56,189,248,0.10)', digit: 'rgba(251,191,36,0.10)' };
+const YEARMARK_LABEL = { election: '大選年', midterm: '期中選舉年', digit: '同尾數年' };
 
 // 春節/端午/中秋 Gregorian dates (lunar festivals). We mark the LAST TRADING DAY
 // BEFORE each — i.e. the market's 封關日 right before the holiday closure.
@@ -207,6 +219,7 @@ async function init() {
   bindOverlayButtons();
   bindCelestialButtons();
   bindCalendarButtons();
+  bindYearMarkButtons();
   renderChart();
 }
 
@@ -236,6 +249,17 @@ function bindCalendarButtons() {
     btn.addEventListener('click', () => {
       const k = btn.dataset.cal;
       calendarToggles[k] = !calendarToggles[k];
+      btn.classList.toggle('active');
+      renderChart();
+    });
+  });
+}
+
+function bindYearMarkButtons() {
+  document.querySelectorAll('.yearmark-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const k = btn.dataset.yearmark;
+      yearMarkToggles[k] = !yearMarkToggles[k];
       btn.classList.toggle('active');
       renderChart();
     });
@@ -344,6 +368,46 @@ function buildCalendarMarkLine(seriesDates) {
 
   if (!data.length) return undefined;
   return { silent: true, symbol: 'none', data };
+}
+
+// Background shading (markArea) for selected year cohorts (election/midterm/
+// same-last-digit), so recurring year-types can be visually spotted on the
+// continuous K-line without breaking chronological continuity.
+function buildYearMarkArea(seriesDates) {
+  if (!rawDaily.length) return undefined;
+  const active = Object.keys(yearMarkToggles).filter(k => yearMarkToggles[k]);
+  if (!active.length) return undefined;
+
+  const nearestIdx = makeDateIndexer(seriesDates);
+  const firstYr = +rawDaily[0].date.slice(0, 4);
+  const lastYr = +rawDaily[rawDaily.length - 1].date.slice(0, 4);
+  const data = [];
+
+  for (const kind of active) {
+    const color = YEARMARK_COLOR[kind];
+    const label = YEARMARK_LABEL[kind];
+    for (let y = firstYr; y <= lastYr; y++) {
+      let match;
+      if (kind === 'election') match = y % 4 === 0;
+      else if (kind === 'midterm') match = y % 4 === 2;
+      else if (kind === 'digit') match = y % 10 === (lastYr % 10);
+      if (!match) continue;
+
+      const startIdx = nearestIdx(`${y}-01-01`);
+      const endIdx = nearestIdx(`${y}-12-31`);
+      if (startIdx < 0 || endIdx < 0 || endIdx < startIdx) continue;
+
+      data.push([
+        { xAxis: startIdx, itemStyle: { color },
+          label: { show: true, formatter: label, position: 'insideTop',
+            color: '#94a3b8', fontSize: 9 } },
+        { xAxis: endIdx },
+      ]);
+    }
+  }
+
+  if (!data.length) return undefined;
+  return { silent: true, data };
 }
 
 // Build markPoint config to attach to the candlestick series.
@@ -678,6 +742,7 @@ function renderChart() {
         },
         markPoint: buildCelestialMarkPoint(dates, candles),
         markLine: buildCalendarMarkLine(dates),
+        markArea: buildYearMarkArea(dates),
       },
       {
         name: '成交量', type: 'bar',
