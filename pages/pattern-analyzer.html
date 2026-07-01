@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>規律分析儀表板｜市場韻腳資料庫</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #0f172a; color: #e2e8f0; min-height: 100vh; padding: 1.5rem; }
+  nav { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+  nav a { font-size: 0.85rem; color: #64748b; text-decoration: none; }
+  nav a:hover { color: #e2e8f0; }
+  nav span { color: #334155; }
+  h2 { font-size: 1.2rem; font-weight: 500; color: #f1f5f9; margin-bottom: 0.5rem; }
+  .sub { font-size: 0.82rem; color: #64748b; margin-bottom: 1.5rem; }
+  .controls { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+  .control-group { display: flex; flex-direction: column; gap: 0.3rem; }
+  .control-label { font-size: 0.75rem; color: #94a3b8; font-weight: 600; }
+  select, input { background: #1a2333; border: 0.5px solid #334155; color: #e2e8f0;
+    padding: 6px 8px; border-radius: 4px; font-size: 0.85rem; }
+  select:focus, input:focus { outline: none; border-color: #3b82f6; }
+  .slider-container { display: flex; gap: 0.5rem; align-items: center; }
+  input[type="range"] { flex: 1; }
+  .slider-value { font-size: 0.75rem; color: #64748b; min-width: 30px; text-align: right; }
+  #chart { width: 100%; height: 500px; margin-bottom: 2rem; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+  .stat-box { background: #1a2333; padding: 1rem; border-radius: 8px; border: 0.5px solid #334155; }
+  .stat-label { font-size: 0.75rem; color: #64748b; margin-bottom: 0.5rem; }
+  .stat-value { font-size: 1.3rem; font-weight: 600; color: #38bdf8; }
+  table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+  thead { background: #1a2333; }
+  th, td { padding: 10px 12px; text-align: right; border-bottom: 0.5px solid #334155; font-size: 0.85rem; }
+  th { font-weight: 600; color: #94a3b8; }
+  td:first-child, th:first-child { text-align: left; }
+  tr:hover { background: rgba(59,130,246,0.05); }
+  .up { color: #ef4444; font-weight: 600; }
+  .down { color: #10b981; font-weight: 600; }
+  .note { margin-top: 1rem; font-size: 0.78rem; color: #475569; line-height: 1.6; }
+  #lastUpdated { font-size: 0.75rem; color: #475569; margin-top: 1rem; }
+  @media (max-width: 1024px) {
+    .controls { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 640px) {
+    .controls { grid-template-columns: 1fr; }
+    #chart { height: 400px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../index.html">← 首頁</a>
+  <span>/</span>
+  <span style="color:#94a3b8">規律分析儀表板</span>
+</nav>
+
+<h2>規律分析儀表板</h2>
+<p class="sub">選擇時間型態，自動疊加歷史走勢，找出規律</p>
+
+<div class="controls">
+  <div class="control-group">
+    <label class="control-label">分析型態</label>
+    <select id="patternSelect">
+      <option value="independence">7/4 美國獨立日</option>
+      <option value="midterm">期中選舉年 (2014/18/22/26)</option>
+      <option value="election">大選年 (2016/20/24/28)</option>
+      <option value="custom">自訂日期</option>
+    </select>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label">前幾天</label>
+    <div class="slider-container">
+      <input type="range" id="daysBefore" min="0" max="30" value="5">
+      <span class="slider-value" id="beforeValue">5</span>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label">後幾天</label>
+    <div class="slider-container">
+      <input type="range" id="daysAfter" min="0" max="30" value="10">
+      <span class="slider-value" id="afterValue">10</span>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label">查詢年數</label>
+    <select id="yearRange">
+      <option value="10">近10年</option>
+      <option value="5">近5年</option>
+      <option value="all">全部</option>
+    </select>
+  </div>
+</div>
+
+<div id="chart"></div>
+
+<div class="stats" id="stats"></div>
+
+<table>
+  <thead>
+    <tr>
+      <th>年份</th>
+      <th>開盤</th>
+      <th>收盤</th>
+      <th>漲跌點</th>
+      <th>漲跌%</th>
+      <th>最高</th>
+      <th>最低</th>
+      <th>結果</th>
+    </tr>
+  </thead>
+  <tbody id="tableBody"></tbody>
+</table>
+
+<div class="note">
+  ※ 圖表顯示多年同期走勢（時間軸位移，以開始日期對齊）<br>
+  ※ 統計為該時間窗口內的開盤到收盤表現<br>
+  ※ 資料範圍：TAIEX 1997-2026
+</div>
+<div id="lastUpdated"></div>
+
+<script>
+let allDaily = [];
+let chart = null;
+
+// 預設日期範圍定義
+const patterns = {
+  independence: { dates: [], desc: '7/4 美國獨立日' },
+  midterm: { dates: [], desc: '期中選舉年' },
+  election: { dates: [], desc: '大選年' },
+};
+
+async function init() {
+  const res = await fetch('../data/indices.json?t=' + Date.now(), { cache: 'no-cache' });
+  const data = await res.json();
+  allDaily = (data.TAIEX && data.TAIEX.daily) || [];
+  document.getElementById('lastUpdated').textContent = '數據最後更新：' + data.lastUpdated;
+
+  if (!allDaily.length) {
+    document.getElementById('chart').innerHTML = '<div style="color:#64748b;padding:2rem;text-align:center;">無資料</div>';
+    return;
+  }
+
+  // 生成日期
+  const firstYear = +allDaily[0].date.slice(0, 4);
+  const lastYear = +allDaily[allDaily.length - 1].date.slice(0, 4);
+
+  // 獨立日：每年 7/4
+  for (let y = firstYear; y <= lastYear; y++) {
+    patterns.independence.dates.push(`${y}-07-04`);
+  }
+
+  // 期中選舉年：2014, 2018, 2022, 2026
+  patterns.midterm.dates = [2014, 2018, 2022, 2026]
+    .filter(y => y >= firstYear && y <= lastYear)
+    .map(y => `${y}-01-01`); // 用年初作為代表
+
+  // 大選年：2016, 2020, 2024, 2028
+  patterns.election.dates = [2016, 2020, 2024, 2028]
+    .filter(y => y >= firstYear && y <= lastYear)
+    .map(y => `${y}-01-01`);
+
+  bindControls();
+  render();
+}
+
+function bindControls() {
+  ['patternSelect', 'daysBefore', 'daysAfter', 'yearRange'].forEach(id => {
+    document.getElementById(id).addEventListener('change', () => {
+      if (id === 'daysBefore') {
+        document.getElementById('beforeValue').textContent = event.target.value;
+      } else if (id === 'daysAfter') {
+        document.getElementById('afterValue').textContent = event.target.value;
+      }
+      render();
+    });
+    // 滑塊即時更新顯示
+    if (id === 'daysBefore' || id === 'daysAfter') {
+      document.getElementById(id).addEventListener('input', (e) => {
+        if (id === 'daysBefore') document.getElementById('beforeValue').textContent = e.target.value;
+        else document.getElementById('afterValue').textContent = e.target.value;
+      });
+    }
+  });
+}
+
+function getChartData() {
+  const pattern = document.getElementById('patternSelect').value;
+  const daysBefore = +document.getElementById('daysBefore').value;
+  const daysAfter = +document.getElementById('daysAfter').value;
+  const yearRange = document.getElementById('yearRange').value;
+
+  const baseDates = patterns[pattern].dates || [];
+  if (!baseDates.length) return { series: [], dates: [], rows: [] };
+
+  const dayMap = new Map();
+  for (const d of allDaily) dayMap.set(d.date, d);
+
+  const rows = [];
+  const seriesMap = new Map(); // year → data points
+
+  for (const baseDate of baseDates) {
+    const baseTs = Date.parse(baseDate);
+    const year = +baseDate.slice(0, 4);
+
+    // 檢查年份範圍
+    const maxYear = +allDaily[allDaily.length - 1].date.slice(0, 4);
+    if (yearRange === '10' && year < maxYear - 10) continue;
+    if (yearRange === '5' && year < maxYear - 5) continue;
+
+    // 收集窗口內的資料
+    const windowData = [];
+    let windowOpen = null, windowClose = null, windowHigh = -Infinity, windowLow = Infinity;
+
+    for (let offset = -daysBefore; offset <= daysAfter; offset++) {
+      const ts = baseTs + offset * 86400000;
+      const dateStr = new Date(ts).toISOString().slice(0, 10);
+      const bar = dayMap.get(dateStr);
+
+      if (bar) {
+        if (offset === -daysBefore) windowOpen = bar.open || bar.close;
+        if (offset === daysAfter) windowClose = bar.close;
+        if (bar.high != null) windowHigh = Math.max(windowHigh, bar.high);
+        if (bar.low != null) windowLow = Math.min(windowLow, bar.low);
+        windowData.push({ offset, close: bar.close });
+      }
+    }
+
+    if (windowData.length > 0 && windowOpen && windowClose) {
+      const change = windowClose - windowOpen;
+      const changePct = (change / windowOpen * 100).toFixed(2);
+      rows.push({
+        year, windowOpen, windowClose, change, changePct,
+        high: windowHigh === -Infinity ? null : windowHigh,
+        low: windowLow === Infinity ? null : windowLow,
+        isUp: change >= 0,
+      });
+
+      // 為圖表積累資料
+      if (!seriesMap.has(year)) seriesMap.set(year, []);
+      windowData.forEach(d => {
+        seriesMap.get(year)[d.offset + daysBefore] = d.close;
+      });
+    }
+  }
+
+  rows.sort((a, b) => a.year - b.year);
+
+  // 構建圖表 series
+  const COLORS = ['#ef4444', '#f59e0b', '#3b82f6', '#10b981', '#a855f7', '#ec4899',
+                  '#14b8a6', '#f97316', '#06b6d4', '#84cc16'];
+  const xLabels = [];
+  for (let i = -daysBefore; i <= daysAfter; i++) {
+    xLabels.push(i === 0 ? '0' : (i < 0 ? i : '+' + i));
+  }
+
+  const series = Array.from(seriesMap.entries()).map(([year, data], idx) => ({
+    name: String(year),
+    type: 'line',
+    data: data,
+    smooth: 0.2,
+    symbol: 'circle', symbolSize: 4,
+    lineStyle: { color: COLORS[idx % COLORS.length], width: 2 },
+    itemStyle: { color: COLORS[idx % COLORS.length] },
+  }));
+
+  return { series, xLabels, rows };
+}
+
+function render() {
+  const { series, xLabels, rows } = getChartData();
+
+  // 渲染圖表
+  if (!chart) chart = echarts.init(document.getElementById('chart'), 'dark');
+  chart.setOption({
+    backgroundColor: 'transparent',
+    animation: false,
+    grid: { left: 60, right: 16, top: 20, bottom: 40 },
+    xAxis: {
+      type: 'category', data: xLabels,
+      axisLabel: { color: '#64748b', fontSize: 10 },
+      axisLine: { lineStyle: { color: '#2a3547' } },
+      splitLine: { lineStyle: { color: '#1e2533', type: 'dashed' } },
+    },
+    yAxis: {
+      scale: true,
+      axisLabel: { color: '#64748b', fontSize: 10,
+        formatter: v => v >= 10000 ? (v/1000).toFixed(1)+'K' : v },
+      axisLine: { lineStyle: { color: '#2a3547' } },
+      splitLine: { lineStyle: { color: '#1e2533' } },
+    },
+    tooltip: {
+      trigger: 'axis', backgroundColor: '#1a2233', borderColor: '#334155',
+      textStyle: { color: '#e2e8f0', fontSize: 11 },
+    },
+    legend: { textStyle: { color: '#94a3b8' }, top: 10 },
+    series,
+  }, true);
+
+  // 渲染統計框
+  if (rows.length > 0) {
+    const upCount = rows.filter(r => r.isUp).length;
+    const downCount = rows.length - upCount;
+    const upRate = (upCount / rows.length * 100).toFixed(1);
+    const avgChange = (rows.reduce((s, r) => s + r.change, 0) / rows.length).toFixed(0);
+    const avgPct = (rows.reduce((s, r) => s + parseFloat(r.changePct), 0) / rows.length).toFixed(2);
+
+    document.getElementById('stats').innerHTML = `
+      <div class="stat-box">
+        <div class="stat-label">上漲次數 / 勝率</div>
+        <div class="stat-value" style="color:#ef4444;">${upCount} / ${upRate}%</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">下跌次數</div>
+        <div class="stat-value" style="color:#10b981;">${downCount}</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">平均漲跌點</div>
+        <div class="stat-value" style="color:${avgChange>=0?'#ef4444':'#10b981'}">${avgChange>=0?'+':''}${avgChange}</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">平均漲跌%</div>
+        <div class="stat-value" style="color:${avgPct>=0?'#ef4444':'#10b981'}">${avgPct>=0?'+':''}${avgPct}%</div>
+      </div>
+    `;
+  }
+
+  // 渲染表格
+  const tbody = document.getElementById('tableBody');
+  tbody.innerHTML = rows.map(r => `
+    <tr>
+      <td><strong>${r.year}</strong></td>
+      <td>${r.windowOpen.toLocaleString(undefined, { maximumFractionDigits: 0 })}</td>
+      <td>${r.windowClose.toLocaleString(undefined, { maximumFractionDigits: 0 })}</td>
+      <td class="${r.isUp ? 'up' : 'down'}">${r.isUp ? '+' : ''}${r.change.toLocaleString(undefined, { maximumFractionDigits: 0 })}</td>
+      <td class="${r.isUp ? 'up' : 'down'}">${r.isUp ? '+' : ''}${r.changePct}%</td>
+      <td>${r.high?.toLocaleString(undefined, { maximumFractionDigits: 0 }) || '—'}</td>
+      <td>${r.low?.toLocaleString(undefined, { maximumFractionDigits: 0 }) || '—'}</td>
+      <td>${r.isUp ? '📈 上漲' : '📉 下跌'}</td>
+    </tr>
+  `).join('') || '<tr><td colspan="8" style="text-align:center;color:#64748b;">無符合資料</td></tr>';
+
+  window.addEventListener('resize', () => { if (chart) chart.resize(); });
+}
+
+init();
+</script>
+</body>
+</html>
