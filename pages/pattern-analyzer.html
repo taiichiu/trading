@@ -245,8 +245,11 @@ function getChartData() {
         const arr = new Array(daysBefore + daysAfter + 1);
         seriesMap.set(year, arr);
       }
+      // 計算相對開盤點的百分比漲幅
+      const basePrice = windowOpen;
       windowData.forEach(d => {
-        seriesMap.get(year)[d.offset + daysBefore] = d.close;
+        const pctChange = ((d.close - basePrice) / basePrice * 100);
+        seriesMap.get(year)[d.offset + daysBefore] = +pctChange.toFixed(2);
       });
     }
   }
@@ -265,10 +268,10 @@ function getChartData() {
     name: String(year),
     type: 'line',
     data: data,
-    smooth: 0.2,
+    smooth: false,
     connectNulls: true,
-    symbol: 'circle', symbolSize: 4,
-    lineStyle: { color: COLORS[idx % COLORS.length], width: 2 },
+    symbol: 'circle', symbolSize: 3,
+    lineStyle: { color: COLORS[idx % COLORS.length], width: 1.5 },
     itemStyle: { color: COLORS[idx % COLORS.length] },
   }));
 
@@ -292,8 +295,10 @@ function render() {
     },
     yAxis: {
       scale: true,
+      name: '相對開盤 (%)',
+      nameTextStyle: { color: '#64748b', fontSize: 10 },
       axisLabel: { color: '#64748b', fontSize: 10,
-        formatter: v => v >= 10000 ? (v/1000).toFixed(1)+'K' : v },
+        formatter: '{value}%' },
       axisLine: { lineStyle: { color: '#2a3547' } },
       splitLine: { lineStyle: { color: '#1e2533' } },
     },
