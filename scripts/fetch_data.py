@@ -89,12 +89,12 @@ def fetch_twse_daily(full_history=True):
     Uses MI_5MINS_HIST endpoint which returns daily OHLC for the TAIEX index.
 
     Args:
-        full_history: If True, fetch from 2015 onwards. If False, fetch only current month.
+        full_history: If True, fetch from 1990 onwards. If False, fetch only current month.
     """
     out = []
 
     if full_history:
-        start_date = datetime(2015, 1, 1)
+        start_date = datetime(1990, 1, 1)
     else:
         # For incremental update, only fetch current month
         start_date = datetime.now().replace(day=1, hour=0, minute=0, second=0, microsecond=0)
