@@ -229,22 +229,35 @@ function getChartData() {
     const year = +baseDate.slice(0, 4);
 
     // 年份篩選邏輯
-    if (yearRange === '10' && year < lastYear - 10) continue;
-    if (yearRange === '5' && year < lastYear - 5) continue;
+    if (yearRange === '10' && year < lastYear - 9) continue; // 近10年 = 當年 - 9年 前
+    if (yearRange === '5' && year < lastYear - 4) continue;  // 近5年 = 當年 - 4年 前
     if (yearRange === 'midterm' && ![2014, 2018, 2022, 2026].includes(year)) continue;
     if (yearRange === 'election' && ![2016, 2020, 2024, 2028].includes(year)) continue;
     if (yearRange === 'digit') {
-      // 同尾數年：以當年尾數為基準
       const currentDigit = lastYear % 10;
       if (year % 10 !== currentDigit) continue;
     }
 
-    // 收集窗口內的資料
+    // 找到基準交易日（節日當天或前一個交易日）
+    let realBaseDate = baseDate;
+    for (let lookBack = 0; lookBack <= 7; lookBack++) {
+      const testTs = baseTs - lookBack * 86400000;
+      const testDateStr = new Date(testTs).toISOString().slice(0, 10);
+      if (dayMap.get(testDateStr)) {
+        realBaseDate = testDateStr;
+        break;
+      }
+    }
+    if (!dayMap.get(realBaseDate)) continue; // 找不到交易日就跳過
+
+    const realBaseTs = Date.parse(realBaseDate);
+
+    // 收集窗口內的資料（0% 以實際交易日為基準）
     const windowData = [];
     let windowOpen = null, windowClose = null, windowHigh = -Infinity, windowLow = Infinity;
 
     for (let offset = -daysBefore; offset <= daysAfter; offset++) {
-      const ts = baseTs + offset * 86400000;
+      const ts = realBaseTs + offset * 86400000;
       const dateStr = new Date(ts).toISOString().slice(0, 10);
       const bar = dayMap.get(dateStr);
 
