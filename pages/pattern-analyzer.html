@@ -302,7 +302,11 @@ function getEventChartData() {
   if (!baseDates.length) return { series: [], xLabels: [], rows: [] };
 
   const dayMap = new Map();
-  for (const d of allDaily) dayMap.set(d.date, d);
+  const dateIndexMap = new Map();
+  for (let i = 0; i < allDaily.length; i++) {
+    dayMap.set(allDaily[i].date, allDaily[i]);
+    dateIndexMap.set(allDaily[i].date, i);
+  }
 
   const rows = [];
   const seriesMap = new Map(); // year → data points
@@ -321,25 +325,29 @@ function getEventChartData() {
     }
 
     // 找到基準交易日（節日當天或前一個交易日）
-    let realBaseDate = baseDate;
+    let realBaseDate = null;
     for (let lookBack = 0; lookBack <= 7; lookBack++) {
       const testDateStr = new Date(baseTs - lookBack * 86400000).toISOString().slice(0, 10);
       if (dayMap.get(testDateStr)) { realBaseDate = testDateStr; break; }
     }
-    if (!dayMap.get(realBaseDate)) continue;
+    if (!realBaseDate) continue;
 
-    const realBaseTs = Date.parse(realBaseDate);
+    const baseIdx = dateIndexMap.get(realBaseDate);
+    const basePrice = dayMap.get(realBaseDate).close;
+    if (!basePrice) continue;
+
+    // 用「交易日索引」位移，而非日曆天數位移：確保每一年都精確抓到
+    // daysBefore/daysAfter 個實際交易日，不因週末／連假落在固定天數
+    // 偏移上而產生缺口（節日在星期幾每年不同，日曆天數位移常剛好
+    // 卡到週末，導致線條頭尾缺漏）。只有資料集本身頭尾（最早年份
+    // 回溯不足、或事件尚未走完 daysAfter 個交易日）才會產生較短線段。
     const collected = [];
     for (let offset = -daysBefore; offset <= daysAfter; offset++) {
-      const dateStr = new Date(realBaseTs + offset * 86400000).toISOString().slice(0, 10);
-      const bar = dayMap.get(dateStr);
-      if (bar) collected.push({ offset, bar });
+      const i = baseIdx + offset;
+      if (i < 0 || i >= allDaily.length) continue;
+      collected.push({ offset, bar: allDaily[i] });
     }
-
-    // 基準點固定為「節日當天（offset=0）」的收盤價，確保 offset=0 必為 0%
-    const zeroPoint = collected.find(d => d.offset === 0);
-    if (!zeroPoint || !zeroPoint.bar.close) continue;
-    const basePrice = zeroPoint.bar.close;
+    if (!collected.length) continue;
 
     const lastPoint = collected[collected.length - 1];
     const windowClose = lastPoint.bar.close;
@@ -467,6 +475,8 @@ function renderEventMode() {
     ※ 圖表顯示多年同期走勢，以「節日當天」為 0% 基準點對齊（白色虛線標記）<br>
     ※ 每日百分比 ＝ 該日收盤價相對節日當天收盤價的漲跌幅<br>
     ※ 節日遇假日／非交易日時，自動往前找最近一個交易日作為基準<br>
+    ※ 前/後天數為「交易日」數，非日曆天數，故不受週末／連假影響，兩端資料完整對齊<br>
+    ※ 若某年線條較短，代表該年在資料集邊界（最早年份回溯不足，或事件尚未走完所選交易日數）<br>
     ※ 資料範圍：TAIEX ${firstYear}-${lastYear}
   `;
 }
