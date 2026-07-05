@@ -203,6 +203,31 @@ function buildDetail(p) {
     if (p.pattern.pending_verification)
       addKV(dl, '待驗證', p.pattern.pending_verification.join('、'));
     det.appendChild(dl);
+
+    if (p.pattern.windows && Array.isArray(p.pattern.windows)) {
+      const wrap = el('div');
+      wrap.style.overflowX = 'auto';
+      wrap.style.marginTop = '0.5rem';
+      wrap.appendChild(buildSqqqWindowsTable(p.pattern.windows));
+      det.appendChild(wrap);
+    }
+    if (p.pattern.premature_entry_tests && Array.isArray(p.pattern.premature_entry_tests)) {
+      det.appendChild(el('div', { cls: 'note', text: '反例：高點前2個月提前進場（橫盤磨損成本）' }));
+      const wrap = el('div');
+      wrap.style.overflowX = 'auto';
+      wrap.appendChild(buildPrematureEntryTable(p.pattern.premature_entry_tests));
+      det.appendChild(wrap);
+    }
+    added = true;
+  }
+
+  if (p.entry_rule || p.exit_rule || p.failure_mode || p.position_limit) {
+    const dl = el('dl', { cls: 'kv' });
+    if (p.entry_rule) addKV(dl, '進場規則', p.entry_rule);
+    if (p.exit_rule) addKV(dl, '出場規則', p.exit_rule);
+    if (p.failure_mode) addKV(dl, '失效情境', p.failure_mode);
+    if (p.position_limit) addKV(dl, '倉位限制', p.position_limit);
+    det.appendChild(dl);
     added = true;
   }
 
@@ -417,6 +442,54 @@ function buildBacktestTable(rows) {
     tr.innerHTML = `<td>${r.year}</td><td class="num">${r.entry}</td><td class="num">${r.exit}</td>`
       + `<td class="num ${cls}">${r.points > 0 ? '+' : ''}${r.points}</td>`
       + `<td>${r.note || ''}</td>`;
+    tb.appendChild(tr);
+  });
+  t.appendChild(tb);
+  return t;
+}
+
+function pctClass(v) { return v >= 0 ? 'pos' : 'neg'; }
+function pctText(v) { return v == null ? '' : (v > 0 ? '+' : '') + v + '%'; }
+
+function buildSqqqWindowsTable(rows) {
+  const t = el('table');
+  t.innerHTML = '<thead><tr>'
+    + '<th>年</th>'
+    + '<th>窗口</th>'
+    + '<th class="num">IXIC跌幅</th>'
+    + '<th class="num">SQQQ實際</th>'
+    + '<th class="num">理論-3x</th>'
+    + '<th class="num">衰耗差</th>'
+    + '<th class="num">最大回撤</th>'
+    + '</tr></thead>';
+  const tb = el('tbody');
+  rows.forEach(r => {
+    const tr = el('tr');
+    tr.innerHTML = `<td>${r.year}</td><td>${r.start} ~ ${r.end}</td>`
+      + `<td class="num ${pctClass(r.ixic_change_pct)}">${pctText(r.ixic_change_pct)}</td>`
+      + `<td class="num ${pctClass(r.sqqq_return_pct)}">${pctText(r.sqqq_return_pct)}</td>`
+      + `<td class="num ${pctClass(r.theoretical_3x_pct)}">${pctText(r.theoretical_3x_pct)}</td>`
+      + `<td class="num ${pctClass(r.decay_diff_pct)}">${pctText(r.decay_diff_pct)}</td>`
+      + `<td class="num ${pctClass(r.max_drawdown_pct)}">${pctText(r.max_drawdown_pct)}</td>`;
+    tb.appendChild(tr);
+  });
+  t.appendChild(tb);
+  return t;
+}
+
+function buildPrematureEntryTable(rows) {
+  const t = el('table');
+  t.innerHTML = '<thead><tr>'
+    + '<th>年</th>'
+    + '<th>提前進場日</th>'
+    + '<th>正式訊號日(高點)</th>'
+    + '<th class="num">SQQQ報酬(磨損)</th>'
+    + '</tr></thead>';
+  const tb = el('tbody');
+  rows.forEach(r => {
+    const tr = el('tr');
+    tr.innerHTML = `<td>${r.year}</td><td>${r.entry_date}</td><td>${r.exit_date}</td>`
+      + `<td class="num ${pctClass(r.sqqq_return_pct)}">${pctText(r.sqqq_return_pct)}</td>`;
     tb.appendChild(tr);
   });
   t.appendChild(tb);
