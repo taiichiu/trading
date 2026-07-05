@@ -523,6 +523,117 @@
       "notes": "2026為下一個期中選舉年，當下（4/23）台股創歷史新高後爆量收十字線，符合「高點附近」條件。",
       "next_occurrence": 2026,
       "updated_at": "2026-04-23"
+    },
+    {
+      "id": "midterm-sqqq-window",
+      "name": "期中年做空窗口（SQQQ）",
+      "scale": "季度",
+      "market": "NASDAQ",
+      "description": "期中選舉年高點多落於7月中-8月初（1990/1998/2022型）或年初（2022），低點多在選前9-10月（例外2018/12）。高低點間隔2-3個月，跌勢趨勢性強，SQQQ四次窗口全數大幅獲利。",
+      "pattern": {
+        "confirmed_years": [
+          2010,
+          2014,
+          2018,
+          2022
+        ],
+        "windows": [
+          {
+            "year": 2010,
+            "start": "2010-04-26",
+            "end": "2010-07-02",
+            "ixic_start": 2522.95,
+            "ixic_end": 2091.79,
+            "ixic_change_pct": -17.09,
+            "sqqq_start": 5987445.0,
+            "sqqq_end": 8917133.0,
+            "sqqq_return_pct": 48.93,
+            "theoretical_3x_pct": 51.27,
+            "decay_diff_pct": -2.34,
+            "max_drawdown_pct": -20.55
+          },
+          {
+            "year": 2014,
+            "start": "2014-09-19",
+            "end": "2014-10-15",
+            "ixic_start": 4579.79,
+            "ixic_end": 4215.32,
+            "ixic_change_pct": -7.96,
+            "sqqq_start": 265739.41,
+            "sqqq_end": 330687.75,
+            "sqqq_return_pct": 24.44,
+            "theoretical_3x_pct": 23.88,
+            "decay_diff_pct": 0.56,
+            "max_drawdown_pct": -5.79
+          },
+          {
+            "year": 2018,
+            "start": "2018-08-29",
+            "end": "2018-12-24",
+            "ixic_start": 8109.69,
+            "ixic_end": 6192.92,
+            "ixic_change_pct": -23.64,
+            "sqqq_start": 21256.46,
+            "sqqq_end": 41199.03,
+            "sqqq_return_pct": 93.82,
+            "theoretical_3x_pct": 70.92,
+            "decay_diff_pct": 22.9,
+            "max_drawdown_pct": -21.82
+          },
+          {
+            "year": 2022,
+            "start": "2022-08-15",
+            "end": "2022-10-14",
+            "ixic_start": 13128.05,
+            "ixic_end": 10321.39,
+            "ixic_change_pct": -21.38,
+            "sqqq_start": 663.76,
+            "sqqq_end": 1277.52,
+            "sqqq_return_pct": 92.47,
+            "theoretical_3x_pct": 64.14,
+            "decay_diff_pct": 28.33,
+            "max_drawdown_pct": -16.53
+          }
+        ],
+        "premature_entry_tests": [
+          {
+            "year": 2010,
+            "entry_date": "2010-02-26",
+            "exit_date": "2010-04-26",
+            "sqqq_return_pct": -30.91
+          },
+          {
+            "year": 2014,
+            "entry_date": "2014-07-21",
+            "exit_date": "2014-09-19",
+            "sqqq_return_pct": -13.07
+          },
+          {
+            "year": 2018,
+            "entry_date": "2018-06-29",
+            "exit_date": "2018-08-29",
+            "sqqq_return_pct": -23.0
+          },
+          {
+            "year": 2022,
+            "entry_date": "2022-06-15",
+            "exit_date": "2022-08-15",
+            "sqqq_return_pct": -43.47
+          }
+        ],
+        "pending_verification": [
+          2026
+        ]
+      },
+      "entry_rule": "IXIC跌破50日線確認破位後進場，勿在高點預佈局",
+      "exit_rule": "TAIEX -15%觸發器到位或10Y-swap spread噴出回落日獲利了結；進場6-8週未跌則時間停損",
+      "failure_mode": "2006型無修正年：方向損失+衰耗雙殺；橫盤3個月約-12.6%（σ=30%）",
+      "position_limit": "總資產3-5%",
+      "confidence": "high",
+      "source": "2026-07 SQQQ期中年回測（yfinance實際日線）",
+      "notes": "2026適用夏季高點型態，觀察窗：7月中-8月初見頂→8-10月修正",
+      "next_occurrence": 2026,
+      "updated_at": "2026-07-05"
     }
   ],
   "risk_management": {
