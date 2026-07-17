@@ -218,6 +218,23 @@ function buildDetail(p) {
       wrap.appendChild(buildPrematureEntryTable(p.pattern.premature_entry_tests));
       det.appendChild(wrap);
     }
+
+    if (p.pattern.legacy_windows && Array.isArray(p.pattern.legacy_windows) && p.pattern.legacy_windows.length) {
+      det.appendChild(el('div', { cls: 'note', text: '更早期中選舉年（SQQQ成立前，高低點由IXIC自動偵測；real=真實槓桿商品，simulated=理論模擬）' }));
+      const wrap = el('div');
+      wrap.style.overflowX = 'auto';
+      wrap.style.marginTop = '0.3rem';
+      wrap.appendChild(buildLegacyWindowsTable(p.pattern.legacy_windows));
+      det.appendChild(wrap);
+    }
+    if (p.pattern.legacy_premature_entry_tests && Array.isArray(p.pattern.legacy_premature_entry_tests) && p.pattern.legacy_premature_entry_tests.length) {
+      det.appendChild(el('div', { cls: 'note', text: '更早年份反例：高點前2個月提前進場' }));
+      const wrap = el('div');
+      wrap.style.overflowX = 'auto';
+      wrap.appendChild(buildLegacyPrematureTable(p.pattern.legacy_premature_entry_tests));
+      det.appendChild(wrap);
+    }
+    if (p.pattern.legacy_note) det.appendChild(el('div', { cls: 'note', text: p.pattern.legacy_note }));
     added = true;
   }
 
@@ -490,6 +507,64 @@ function buildPrematureEntryTable(rows) {
     const tr = el('tr');
     tr.innerHTML = `<td>${r.year}</td><td>${r.entry_date}</td><td>${r.exit_date}</td>`
       + `<td class="num ${pctClass(r.sqqq_return_pct)}">${pctText(r.sqqq_return_pct)}</td>`;
+    tb.appendChild(tr);
+  });
+  t.appendChild(tb);
+  return t;
+}
+
+function dataTypeBadge(dt) {
+  return dt === 'real'
+    ? '<span style="color:#34d399;">真實</span>'
+    : '<span style="color:#fbbf24;">模擬</span>';
+}
+
+function buildLegacyWindowsTable(rows) {
+  const t = el('table');
+  t.innerHTML = '<thead><tr>'
+    + '<th>年</th>'
+    + '<th>窗口(自動偵測)</th>'
+    + '<th>資料</th>'
+    + '<th>商品</th>'
+    + '<th class="num">IXIC跌幅</th>'
+    + '<th class="num">商品報酬</th>'
+    + '<th class="num">理論</th>'
+    + '<th class="num">衰耗差</th>'
+    + '<th class="num">最大回撤</th>'
+    + '</tr></thead>';
+  const tb = el('tbody');
+  rows.forEach(r => {
+    const product = r.product_ticker ? `${r.product_ticker} (${r.product_leverage}x)` : `模擬 (${r.product_leverage}x)`;
+    const tr = el('tr');
+    tr.innerHTML = `<td>${r.year}</td><td>${r.start} ~ ${r.end}</td>`
+      + `<td>${dataTypeBadge(r.data_type)}</td>`
+      + `<td>${product}</td>`
+      + `<td class="num ${pctClass(r.ixic_change_pct)}">${pctText(r.ixic_change_pct)}</td>`
+      + `<td class="num ${pctClass(r.product_return_pct)}">${pctText(r.product_return_pct)}</td>`
+      + `<td class="num ${pctClass(r.theoretical_pct)}">${pctText(r.theoretical_pct)}</td>`
+      + `<td class="num ${pctClass(r.decay_diff_pct)}">${pctText(r.decay_diff_pct)}</td>`
+      + `<td class="num ${pctClass(r.max_drawdown_pct)}">${pctText(r.max_drawdown_pct)}</td>`;
+    tb.appendChild(tr);
+  });
+  t.appendChild(tb);
+  return t;
+}
+
+function buildLegacyPrematureTable(rows) {
+  const t = el('table');
+  t.innerHTML = '<thead><tr>'
+    + '<th>年</th>'
+    + '<th>提前進場日</th>'
+    + '<th>正式訊號日(高點)</th>'
+    + '<th>資料</th>'
+    + '<th class="num">報酬(磨損)</th>'
+    + '</tr></thead>';
+  const tb = el('tbody');
+  rows.forEach(r => {
+    const tr = el('tr');
+    tr.innerHTML = `<td>${r.year}</td><td>${r.entry_date}</td><td>${r.exit_date}</td>`
+      + `<td>${dataTypeBadge(r.data_type)}</td>`
+      + `<td class="num ${pctClass(r.product_return_pct)}">${pctText(r.product_return_pct)}</td>`;
     tb.appendChild(tr);
   });
   t.appendChild(tb);
