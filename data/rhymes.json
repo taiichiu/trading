@@ -546,7 +546,7 @@
             "ixic_end": 2091.79,
             "ixic_change_pct": -17.09,
             "sqqq_start": 5987445.0,
-            "sqqq_end": 8917133.0,
+            "sqqq_end": 8917134.0,
             "sqqq_return_pct": 48.93,
             "theoretical_3x_pct": 51.27,
             "decay_diff_pct": -2.34,
@@ -559,7 +559,7 @@
             "ixic_start": 4579.79,
             "ixic_end": 4215.32,
             "ixic_change_pct": -7.96,
-            "sqqq_start": 265739.41,
+            "sqqq_start": 265739.44,
             "sqqq_end": 330687.75,
             "sqqq_return_pct": 24.44,
             "theoretical_3x_pct": 23.88,
@@ -573,8 +573,8 @@
             "ixic_start": 8109.69,
             "ixic_end": 6192.92,
             "ixic_change_pct": -23.64,
-            "sqqq_start": 21256.46,
-            "sqqq_end": 41199.03,
+            "sqqq_start": 21256.47,
+            "sqqq_end": 41199.02,
             "sqqq_return_pct": 93.82,
             "theoretical_3x_pct": 70.92,
             "decay_diff_pct": 22.9,
@@ -621,6 +621,113 @@
             "sqqq_return_pct": -43.47
           }
         ],
+        "legacy_years": [
+          1994,
+          1998,
+          2002,
+          2006
+        ],
+        "legacy_windows": [
+          {
+            "year": 1994,
+            "start": "1994-09-15",
+            "end": "1994-12-09",
+            "ixic_start": 778.66,
+            "ixic_end": 719.05,
+            "ixic_change_pct": -7.66,
+            "product_ticker": null,
+            "product_leverage": -3,
+            "product_start": 100.0,
+            "product_end": 124.68,
+            "product_return_pct": 24.68,
+            "theoretical_pct": 22.98,
+            "decay_diff_pct": 1.7,
+            "max_drawdown_pct": -12.63,
+            "data_type": "simulated"
+          },
+          {
+            "year": 1998,
+            "start": "1998-07-20",
+            "end": "1998-10-08",
+            "ixic_start": 2014.25,
+            "ixic_end": 1419.12,
+            "ixic_change_pct": -29.55,
+            "product_ticker": null,
+            "product_leverage": -3,
+            "product_start": 100.0,
+            "product_end": 230.57,
+            "product_return_pct": 130.57,
+            "theoretical_pct": 88.65,
+            "decay_diff_pct": 41.92,
+            "max_drawdown_pct": -42.55,
+            "data_type": "simulated"
+          },
+          {
+            "year": 2002,
+            "start": "2002-05-17",
+            "end": "2002-10-09",
+            "ixic_start": 1741.39,
+            "ixic_end": 1114.11,
+            "ixic_change_pct": -36.02,
+            "product_ticker": null,
+            "product_leverage": -3,
+            "product_start": 100.0,
+            "product_end": 272.5,
+            "product_return_pct": 172.5,
+            "theoretical_pct": 108.06,
+            "decay_diff_pct": 64.44,
+            "max_drawdown_pct": -42.78,
+            "data_type": "simulated"
+          },
+          {
+            "year": 2006,
+            "start": "2006-10-26",
+            "end": "2006-11-03",
+            "ixic_start": 2379.1,
+            "ixic_end": 2330.79,
+            "ixic_change_pct": -2.03,
+            "product_ticker": "QID",
+            "product_leverage": -2,
+            "product_start": 57156.0,
+            "product_end": 59633.4,
+            "product_return_pct": 4.33,
+            "theoretical_pct": 4.06,
+            "decay_diff_pct": 0.27,
+            "max_drawdown_pct": -1.38,
+            "data_type": "real"
+          }
+        ],
+        "legacy_premature_entry_tests": [
+          {
+            "year": 1994,
+            "entry_date": "1994-07-15",
+            "exit_date": "1994-09-15",
+            "product_return_pct": -21.12,
+            "data_type": "simulated"
+          },
+          {
+            "year": 1998,
+            "entry_date": "1998-05-20",
+            "exit_date": "1998-07-20",
+            "product_return_pct": -26.93,
+            "data_type": "simulated"
+          },
+          {
+            "year": 2002,
+            "entry_date": "2002-03-18",
+            "exit_date": "2002-05-17",
+            "product_return_pct": 10.68,
+            "data_type": "simulated"
+          },
+          {
+            "year": 2006,
+            "entry_date": "2006-08-28",
+            "exit_date": "2006-10-26",
+            "product_return_pct": -17.7,
+            "data_type": "real"
+          }
+        ],
+        "legacy_note": "1994/1998/2002/2006：SQQQ尚未成立，高低點由IXIC真實資料自動偵測；2006優先採真實QID(-2x)資料，其餘用理論模擬-3x複利（各筆見 data_type: real/simulated）。",
         "pending_verification": [
           2026
         ]
@@ -633,7 +740,7 @@
       "source": "2026-07 SQQQ期中年回測（yfinance實際日線）",
       "notes": "2026適用夏季高點型態，觀察窗：7月中-8月初見頂→8-10月修正",
       "next_occurrence": 2026,
-      "updated_at": "2026-07-05"
+      "updated_at": "2026-07-17"
     }
   ],
   "risk_management": {
