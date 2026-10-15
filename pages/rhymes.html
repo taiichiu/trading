@@ -377,6 +377,7 @@ function buildDetail(p) {
 }
 
 function buildCasesTable(cases) {
+  const hasPosition = cases.some(c => c.position_at_april);
   const t = el('table');
   t.innerHTML = '<thead><tr>'
     + '<th>年</th>'
@@ -384,7 +385,7 @@ function buildCasesTable(cases) {
     + '<th>低點</th>'
     + '<th class="num">跌幅</th>'
     + '<th>歷時</th>'
-    + '<th>4月位置</th>'
+    + (hasPosition ? '<th>4月位置</th>' : '')
     + '<th>結果</th>'
     + '<th>大週期背景</th>'
     + '</tr></thead>';
@@ -396,7 +397,10 @@ function buildCasesTable(cases) {
       : '';
     const highLvl = c.high != null ? c.high.toLocaleString() : '';
     const lowLvl = c.low != null ? c.low.toLocaleString() : '';
-    const highCell = (c.high_date || '') + (highLvl ? `<br><span style="color:#64748b;">${highLvl}</span>` : '');
+    const secondHigh = c.second_high_date
+      ? `<br><span style="color:#64748b;">次高 ${c.second_high_date}${c.second_high != null ? ' ' + c.second_high.toLocaleString() : ''}</span>`
+      : '';
+    const highCell = (c.high_date || '') + (highLvl ? `<br><span style="color:#64748b;">${highLvl}</span>` : '') + secondHigh;
     const lowCell = (c.low_date || '') + (lowLvl ? `<br><span style="color:#64748b;">${lowLvl}</span>` : '');
     const tr = el('tr');
     tr.innerHTML = `<td>${c.year}</td>`
@@ -404,7 +408,7 @@ function buildCasesTable(cases) {
       + `<td>${lowCell}</td>`
       + `<td class="num ${cls}">${dropText}</td>`
       + `<td>${c.duration ?? ''}</td>`
-      + `<td>${c.position_at_april ?? ''}</td>`
+      + (hasPosition ? `<td>${c.position_at_april ?? ''}</td>` : '')
       + `<td>${c.result ?? ''}</td>`
       + `<td>${c.macro_context ?? ''}</td>`;
     tb.appendChild(tr);
