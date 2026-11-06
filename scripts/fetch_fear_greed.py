@@ -22,10 +22,13 @@ from zoneinfo import ZoneInfo
 
 URL = "https://production.dataviz.cnn.io/index/fearandgreed/graphdata/{start}"
 OUT_PATH = "data/fear_greed.json"
-# CNN answers HTTP 500 for start dates before its history begins (~2020-09-19).
+# CNN answers HTTP 500 for start dates before ~2020-09-19, and what it serves
+# before 2021-01-22 is placeholder data: flat 50.0 blocks (2020-09-21..10-23,
+# 2020-11-04..2021-01-21) around an implausible week of 0.3-3.6. Keep only
+# the continuous real series.
+RELIABLE_FROM = "2021-01-22"
 FULL_HISTORY_STARTS = [
-    "2020-09-19",
-    "2021-01-04",
+    RELIABLE_FROM,
     (datetime.now(timezone.utc) - timedelta(days=360)).strftime("%Y-%m-%d"),
 ]
 INCREMENTAL_LOOKBACK_DAYS = 21
@@ -121,7 +124,7 @@ def main():
         print("WARNING: no Fear & Greed data fetched; leaving existing file unchanged.")
         return
 
-    merged = {**existing, **fetched}
+    merged = {d: r for d, r in {**existing, **fetched}.items() if d >= RELIABLE_FROM}
     rows = [merged[d] for d in sorted(merged)]
     out = {
         "meta": {
@@ -138,8 +141,7 @@ def main():
     os.makedirs(os.path.dirname(OUT_PATH), exist_ok=True)
     with open(OUT_PATH, "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=2)
-    print(f"Wrote {OUT_PATH}: {len(rows)} days, {rows[0]['date']} .. {rows[-1]['date']} "
-          f"(+{len(merged) - len(existing)} new)")
+    print(f"Wrote {OUT_PATH}: {len(rows)} days, {rows[0]['date']} .. {rows[-1]['date']}")
 
 
 if __name__ == "__main__":
