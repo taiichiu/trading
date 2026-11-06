@@ -22,7 +22,12 @@ from zoneinfo import ZoneInfo
 
 URL = "https://production.dataviz.cnn.io/index/fearandgreed/graphdata/{start}"
 OUT_PATH = "data/fear_greed.json"
-FULL_HISTORY_STARTS = ["2011-01-03", "2018-01-02", "2020-01-02"]
+# CNN answers HTTP 500 for start dates before its history begins (~2020-09-19).
+FULL_HISTORY_STARTS = [
+    "2020-09-19",
+    "2021-01-04",
+    (datetime.now(timezone.utc) - timedelta(days=360)).strftime("%Y-%m-%d"),
+]
 INCREMENTAL_LOOKBACK_DAYS = 21
 NY = ZoneInfo("America/New_York")
 HEADERS = {
@@ -105,7 +110,10 @@ def main():
         try:
             fetched = parse(fetch(start))
             break
-        except (HTTPError, URLError, TimeoutError, ValueError, KeyError) as exc:
+        except HTTPError as exc:
+            body = exc.read()[:200].decode("utf-8", "replace") if exc.fp else ""
+            print(f"  failed: HTTP {exc.code} {body!r}")
+        except (URLError, TimeoutError, ValueError, KeyError) as exc:
             print(f"  failed: {exc}")
 
     if not fetched:
