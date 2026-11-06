@@ -24,6 +24,8 @@
     border: 0.5px solid #334155; background: transparent; color: #94a3b8; transition: all 0.15s; }
   button.active { background: #1e3a5f; color: #60a5fa; border-color: #3b82f6; }
   button.overlay-btn.active { background: rgba(251,191,36,0.12); color: #fbbf24; border-color: #fbbf24; }
+  button.overlay-btn[data-overlay="feargreed"].active { background: rgba(34,211,238,0.12); color: #22d3ee; border-color: #22d3ee; }
+  button:disabled { opacity: 0.4; cursor: not-allowed; }
   button.calendar-btn.active { background: rgba(56,189,248,0.12); color: #38bdf8; border-color: #38bdf8; }
   button.yearmark-btn.active { background: rgba(168,85,247,0.12); color: #c084fc; border-color: #a855f7; }
   button:hover:not(.active) { border-color: #64748b; color: #e2e8f0; }
@@ -65,6 +67,7 @@
 <div class="controls">
   <label>疊加指標：</label>
   <button class="overlay-btn" data-overlay="buffett">巴菲特指標</button>
+  <button class="overlay-btn" data-overlay="feargreed">恐懼貪婪指數</button>
 </div>
 
 <div class="controls">
@@ -114,6 +117,10 @@
   <span style="color:#fbbf24;">⓵ 巴菲特指標</span>＝台股總市值 ÷ GDP × 100%。
   &gt;115% 高估、&gt;135% 顯著高估。
   目前資料為公開來源年度近似值，可在 <code style="color:#94a3b8">data/buffett.json</code> 編輯。
+  <br>
+  <span style="color:#22d3ee;">⓶ 恐懼貪婪指數</span>＝CNN Fear &amp; Greed Index（美股市場情緒，0 極度恐懼～100 極度貪婪，≤25／≥75 為極端區）。
+  每根K棒對齊「前一個美股交易日收盤值」，即台股收盤當下已知的數值；週K／月K取該期最後一個交易日。
+  資料由 GitHub Actions 每日更新至 <code style="color:#94a3b8">data/fear_greed.json</code>。
 </div>
 <div id="lastUpdated"></div>
 
@@ -124,10 +131,16 @@ const VOLUME_UP = '#7f1d1d';
 const VOLUME_DOWN = '#064e3b';
 
 const BUFFETT_COLOR = '#fbbf24';  // amber
+const FEARGREED_COLOR = '#22d3ee';  // cyan
+const FG_RATING_ZH = {
+  'extreme fear': '極度恐懼', 'fear': '恐懼', 'neutral': '中性',
+  'greed': '貪婪', 'extreme greed': '極度貪婪',
+};
+const FG_MAX_STALE_DAYS = 10;
 
-let chart, rawDaily = [], buffettData = null, celestial = null;
+let chart, rawDaily = [], buffettData = null, fearGreedData = null, celestial = null;
 let currentRange = '1y', currentTimeframe = 'daily';
-let overlayBuffett = false;
+let overlayBuffett = false, overlayFearGreed = false;
 const selectedPlanets = new Set();   // zh names: 火星, 金星, ...
 const visToggles = { arrows: true, labels: true, retro: true };
 const calendarToggles = { festival: false, witching: false };
@@ -197,9 +210,10 @@ function updateStatus() {
 }
 
 async function init() {
-  const [indicesRes, buffettRes, celestialRes] = await Promise.all([
+  const [indicesRes, buffettRes, fearGreedRes, celestialRes] = await Promise.all([
     fetch('../data/indices.json?t=' + Date.now(), { cache: 'no-cache' }).then(r => r.json()),
     fetch('../data/buffett.json?t=' + Date.now(), { cache: 'no-cache' }).then(r => r.ok ? r.json() : null).catch(() => null),
+    fetch('../data/fear_greed.json?t=' + Date.now(), { cache: 'no-cache' }).then(r => r.ok ? r.json() : null).catch(() => null),
     (window.Celestial ? Celestial.load() : Promise.resolve(null)).catch(err => {
       console.error('Celestial load failed:', err);
       return null;
@@ -207,12 +221,20 @@ async function init() {
   ]);
   rawDaily = (indicesRes.TAIEX && indicesRes.TAIEX.daily) || [];
   buffettData = buffettRes;
+  fearGreedData = (fearGreedRes && fearGreedRes.data && fearGreedRes.data.length) ? fearGreedRes : null;
   celestial = celestialRes;
 
   baseStatus = '數據最後更新：' + (indicesRes.lastUpdated || '—') +
     '　｜　日K筆數：' + rawDaily.length.toLocaleString() +
-    (celestial ? '　｜　天體事件：' + celestial.all.length : '　｜　天體未載入');
+    (celestial ? '　｜　天體事件：' + celestial.all.length : '　｜　天體未載入') +
+    (fearGreedData ? '　｜　恐懼貪婪：' + fearGreedData.data[0].date + ' 起' : '');
   updateStatus();
+
+  if (!fearGreedData) {
+    const fgBtn = document.querySelector('.overlay-btn[data-overlay="feargreed"]');
+    fgBtn.disabled = true;
+    fgBtn.title = '恐懼貪婪指數資料尚未產生（等 GitHub Actions 每日更新）';
+  }
 
   bindButtons('.tf-btn',    'tf',    v => { currentTimeframe = v; });
   bindButtons('.range-btn', 'range', v => { currentRange = v; });
@@ -478,16 +500,34 @@ function buildCelestialMarkPoint(seriesDates, candles) {
   return { silent: true, animation: false, data: points };
 }
 
-// Overlay buttons toggle (multi-select-able, currently just 巴菲特)
+// Overlay buttons toggle (multi-select-able)
 function bindOverlayButtons() {
   document.querySelectorAll('.overlay-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const k = btn.dataset.overlay;
       if (k === 'buffett') overlayBuffett = !overlayBuffett;
+      if (k === 'feargreed') overlayFearGreed = !overlayFearGreed;
       btn.classList.toggle('active');
       renderChart();
     });
   });
+}
+
+// For each K-bar, the latest Fear & Greed reading from a US session that closed
+// BEFORE the bar's (last) Taiwan trading day — what was known at Taiwan's close.
+// US sessions end after Taiwan's close, so the same calendar date would leak
+// information from the future into the bar.
+function alignFearGreed(rows) {
+  const pts = (fearGreedData && fearGreedData.data) || [];
+  const out = new Array(rows.length).fill(null);
+  let j = -1;
+  for (let i = 0; i < rows.length; i++) {
+    while (j + 1 < pts.length && pts[j + 1].date < rows[i].date) j++;
+    if (j < 0) continue;
+    const staleDays = (Date.parse(rows[i].date) - Date.parse(pts[j].date)) / 86400000;
+    if (staleDays <= FG_MAX_STALE_DAYS) out[i] = pts[j];
+  }
+  return out;
 }
 
 // Build a dense buffett series by linear-interpolating annual data points
@@ -615,14 +655,23 @@ function renderChart() {
 
   const zoom = computeDataZoom(series.length);
   const narrow = window.innerWidth < 640;
+  const fgAligned = overlayFearGreed ? alignFearGreed(series) : null;
+
+  // Each active overlay gets its own right-side axis, stacked outward.
+  const rightAxes = [];
+  if (overlayBuffett) rightAxes.push('buffett');
+  if (overlayFearGreed) rightAxes.push('feargreed');
+  const axisGap = narrow ? 40 : 48;
+  const gridRight = 16 + axisGap * rightAxes.length;
+  const axisOffset = key => Math.max(0, rightAxes.indexOf(key)) * axisGap;
 
   chart.setOption({
     backgroundColor: 'transparent',
     animation: false,
     axisPointer: { link: [{ xAxisIndex: 'all' }] },
     grid: [
-      { left: narrow ? 56 : 72, right: 16, top: 30, height: '62%' },
-      { left: narrow ? 56 : 72, right: 16, top: '76%', height: '14%' }
+      { left: narrow ? 56 : 72, right: gridRight, top: 30, height: '62%' },
+      { left: narrow ? 56 : 72, right: gridRight, top: '76%', height: '14%' }
     ],
     xAxis: [
       {
@@ -660,13 +709,24 @@ function renderChart() {
       },
       // [2] Buffett indicator (right-side %, on main grid)
       {
-        scale: true, gridIndex: 0, position: 'right',
+        scale: true, gridIndex: 0, position: 'right', offset: axisOffset('buffett'),
         name: overlayBuffett ? '巴菲特(%)' : '',
         nameTextStyle: { color: BUFFETT_COLOR, fontSize: 10 },
         axisLine: { show: overlayBuffett, lineStyle: { color: BUFFETT_COLOR } },
         axisTick: { show: overlayBuffett },
         axisLabel: { show: overlayBuffett, color: BUFFETT_COLOR, fontSize: 10,
           formatter: '{value}%' },
+        splitLine: { show: false },
+      },
+      // [3] CNN Fear & Greed (right-side 0-100, on main grid)
+      {
+        gridIndex: 0, position: 'right', offset: axisOffset('feargreed'),
+        min: 0, max: 100, interval: 25,
+        name: overlayFearGreed ? '恐懼貪婪' : '',
+        nameTextStyle: { color: FEARGREED_COLOR, fontSize: 10, align: 'left' },
+        axisLine: { show: overlayFearGreed, lineStyle: { color: FEARGREED_COLOR } },
+        axisTick: { show: overlayFearGreed },
+        axisLabel: { show: overlayFearGreed, color: FEARGREED_COLOR, fontSize: 10 },
         splitLine: { show: false },
       }
     ],
@@ -722,6 +782,12 @@ function renderChart() {
               `<b style="color:${BUFFETT_COLOR}">${bv}%</b> <span style="color:${tc};font-size:10px">(年度近似值)</span>`;
           }
         }
+        if (fgAligned && fgAligned[i]) {
+          const fg = fgAligned[i];
+          extra += `<br/><span style="color:${FEARGREED_COLOR}">恐懼貪婪</span> ` +
+            `<b style="color:${FEARGREED_COLOR}">${fg.value}</b> ${FG_RATING_ZH[fg.rating] || fg.rating || ''} ` +
+            `<span style="color:${tc};font-size:10px">(美股 ${fg.date} 收盤)</span>`;
+        }
 
         return `<b>${dateLabel}</b> <span style="color:${tc};font-size:10px">(${tfLabel})</span><br/>` +
           `<span style="color:${tc}">開</span> ${fmt(d.open)}　` +
@@ -761,6 +827,26 @@ function renderChart() {
         smooth: true,
         z: 6,
         tooltip: { valueFormatter: v => v + '%' },
+      }] : []),
+      ...(overlayFearGreed ? [{
+        name: '恐懼貪婪指數',
+        type: 'line',
+        yAxisIndex: 3,
+        data: fgAligned.map(p => (p ? p.value : null)),
+        showSymbol: false,
+        connectNulls: false,
+        lineStyle: { color: FEARGREED_COLOR, width: 1.5, opacity: 0.9 },
+        itemStyle: { color: FEARGREED_COLOR },
+        z: 5,
+        markLine: {
+          silent: true, symbol: 'none',
+          lineStyle: { color: FEARGREED_COLOR, type: 'dashed', width: 1, opacity: 0.4 },
+          label: { color: FEARGREED_COLOR, fontSize: 10, position: 'insideStartTop' },
+          data: [
+            { yAxis: 25, label: { formatter: '25 極度恐懼' } },
+            { yAxis: 75, label: { formatter: '75 極度貪婪' } },
+          ],
+        },
       }] : [])
     ]
   }, true);

@@ -4,6 +4,16 @@ on:
   schedule:
     - cron: '30 8 * * 2-6'
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/fetch_data.py'
+      - 'scripts/fetch_fear_greed.py'
+      - '.github/workflows/update_data.yml'
+
+concurrency:
+  group: update-data
+  cancel-in-progress: false
 
 jobs:
   update-data:
@@ -26,10 +36,14 @@ jobs:
       - name: Update indices data (incremental daily, full monthly)
         run: python scripts/fetch_data.py --incremental
 
+      - name: Update CNN Fear & Greed Index (backfills on first run)
+        run: python scripts/fetch_fear_greed.py --incremental
+
       - name: Commit and push if changed
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add data/indices.json
+          if [ -f data/fear_greed.json ]; then git add data/fear_greed.json; fi
           git diff --staged --quiet || git commit -m "chore: update indices data $(date +'%Y-%m-%d')"
           git push

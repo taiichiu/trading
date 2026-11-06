@@ -42,9 +42,11 @@ pages/risk.html                    風險管理頁
 pages/philosophy.html              操盤哲學頁
 js/charts.js                       共用資料載入與正規化函式
 data/indices.json                  指數資料（由 GitHub Actions 產生）
+data/fear_greed.json               CNN 恐懼貪婪指數（由 GitHub Actions 產生，K線頁疊加用）
 data/rhymes.json                   韻腳/風管/哲學資料（手動編輯）
 scripts/fetch_data.py              yfinance + stooq 抓取腳本
-.github/workflows/update_data.yml  每交易日台灣 16:30 自動更新
+scripts/fetch_fear_greed.py        CNN 恐懼貪婪指數抓取腳本（首次執行回補全部歷史）
+.github/workflows/update_data.yml  每交易日台灣 16:30 自動更新（抓取腳本變更時也會執行）
 requirements.txt                   Python 相依套件
 ```
 
