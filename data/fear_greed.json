@@ -6,7 +6,7 @@
     "first_date": "2021-01-22",
     "last_date": "2026-11-06",
     "count": 1455,
-    "last_updated": "2026-11-07 00:09 (TWT)"
+    "last_updated": "2026-11-07 23:01 (TWT)"
   },
   "data": [
     {
@@ -7281,7 +7281,7 @@
     },
     {
       "date": "2026-11-06",
-      "value": 23.2,
+      "value": 22.1,
       "rating": "extreme fear"
     }
   ]
