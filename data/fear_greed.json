@@ -4,9 +4,9 @@
     "url": "https://edition.cnn.com/markets/fear-and-greed",
     "scale": "0-100（0=極度恐懼，100=極度貪婪）",
     "first_date": "2021-01-22",
-    "last_date": "2026-11-06",
-    "count": 1455,
-    "last_updated": "2026-11-07 23:01 (TWT)"
+    "last_date": "2026-11-10",
+    "count": 1457,
+    "last_updated": "2026-11-11 00:33 (TWT)"
   },
   "data": [
     {
@@ -7281,8 +7281,18 @@
     },
     {
       "date": "2026-11-06",
-      "value": 22.1,
+      "value": 24.4,
       "rating": "extreme fear"
+    },
+    {
+      "date": "2026-11-09",
+      "value": 31.5,
+      "rating": "fear"
+    },
+    {
+      "date": "2026-11-10",
+      "value": 33.7,
+      "rating": "fear"
     }
   ]
 }
